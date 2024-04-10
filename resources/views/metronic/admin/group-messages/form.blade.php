@@ -15,7 +15,7 @@
                 </div>
 
                 <form id="my-form" method="post"
-                      action="@if(isset($record)){{ route('admin.complex-settings.floors.update', $record->id) }}@else{{ route('admin.complex-settings.floors.store') }}@endif"
+                      action="@if(isset($record)){{ route('admin.complex-settings.message-groups.update', $record->id) }}@else{{ route('admin.complex-settings.message-groups.store') }}@endif"
                       enctype="multipart/form-data">
                     @csrf
                     @method('POST')
@@ -23,12 +23,10 @@
 
                         <div class="col-xl-6">
                             <div class="form-group">
-                                <label class="col-form-label">شارژ پایه
+                                <label class="col-form-label">پیام
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input autocomplete="off" type="text" class="form-control" name="base_charge_amount"
-                                       placeholder="شارژ پایه را وارد کنید."
-                                       value="{{ @$record->base_charge_amount }}"/>
+                                <textarea class="form-control" name="message" rows="5">{{ @$record->message }}</textarea>
                             </div>
                         </div>
 
@@ -36,7 +34,7 @@
 
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary mr-2">ذخیره</button>
-                        <a href="{{ route('admin.complex-settings.floors.index') }}" class="btn btn-secondary">بازگشت</a>
+                        <a href="{{ route('admin.complex-settings.message-groups.index') }}" class="btn btn-secondary">بازگشت</a>
                     </div>
                 </form>
             </div>

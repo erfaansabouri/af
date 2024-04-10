@@ -14,13 +14,16 @@
     <link href="{{ asset('metronic-assets/css/themes/layout/header/menu/light.rtl.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('metronic-assets/css/themes/layout/brand/dark.rtl.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('metronic-assets/css/themes/layout/aside/dark.rtl.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('metronic-assets/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
     {{--fav ico--}}
     <link rel="shortcut icon" href="{{ asset('metronic-assets/media/minimal-logo.png') }}" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     <link href="{{ asset('metronic-assets/css/custom_style.css') }}" rel="stylesheet" type="text/css" />
-    <script src="{{ asset('gameato-assets/js/jquery.js') }}"></script>
+
+    <link type="text/css" rel="stylesheet" href="{{ asset('metronic-assets/css/jalalipicker.css') }}" />
+    <script type="text/javascript" src="{{ asset('metronic-assets/js/jalalipicker.js') }}"></script>
+    <link rel="stylesheet" href="https://unpkg.com/persian-datepicker@latest/dist/css/persian-datepicker.min.css"/>
 
     @stack('head')
 
