@@ -68,7 +68,12 @@
                             <tr>
                                 <th class="iransans-web">شناسه</th>
                                 <th class="iransans-web">پلاک</th>
-                                <th class="iransans-web">نام</th>
+                                <th class="iransans-web">طبقه</th>
+                                <th class="iransans-web">متراژ</th>
+                                <th class="iransans-web">نام غرفه</th>
+                                <th class="iransans-web">شماره تماس</th>
+                                <th class="iransans-web">نوع کاربری</th>
+                                <th class="iransans-web">شارژ ماهیانه</th>
                                 <th class="iransans-web">عملیات</th>
                             </tr>
                             </thead>
@@ -77,7 +82,12 @@
                                 <tr>
                                     <td class="iransans-web">{{ $record->id }}</td>
                                     <td class="iransans-web">{{ $record->plaque }}</td>
+                                    <td class="iransans-web">{{ $record->floor->floor_fa }}</td>
+                                    <td class="iransans-web">{{ $record->meters }}</td>
                                     <td class="iransans-web">{{ $record->name }}</td>
+                                    <td class="iransans-web">{{ $record->phone_number }}</td>
+                                    <td class="iransans-web">{{ $record->tenantType->type_fa }}</td>
+                                    <td class="iransans-web">{{ is_numeric($record->monthly_charge_amount) ? number_format($record->monthly_charge_amount) : "ندارد" }}</td>
                                     <td>
                                         <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
                                             <div class="btn-group" role="group" aria-label="First group">

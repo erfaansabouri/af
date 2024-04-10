@@ -13,8 +13,13 @@ return new class extends Migration
     {
         Schema::create('tenants', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('tenant_type_id')->nullable();
+            $table->unsignedBigInteger('floor_id')->nullable();
+            $table->string('monthly_charge_amount')->nullable();
+            $table->string('meters')->nullable();
             $table->string('plaque')->nullable();
             $table->string('name')->nullable();
+            $table->string('phone_number')->nullable();
             $table->string('owner_first_name')->nullable();
             $table->string('owner_last_name')->nullable();
             $table->string('username')->nullable();

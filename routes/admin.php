@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FloorController;
 use App\Http\Controllers\Admin\TenantController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,4 +24,12 @@ Route::middleware(['auth:admin'])->prefix('tenants')->group(function (){
     Route::get('/edit/{id}', [TenantController::class, 'edit'])->name('admin.tenants.edit');
     Route::post('/update/{id}', [TenantController::class, 'update'])->name('admin.tenants.update');
     Route::get('/destroy/{id}', [TenantController::class, 'destroy'])->name('admin.tenants.destroy');
+});
+#
+Route::middleware(['auth:admin'])->prefix('complex-settings')->group(function (){
+    Route::middleware([])->prefix('floors')->group(function (){
+        Route::get('/', [FloorController::class, 'index'])->name('admin.floors.index');
+        Route::get('/edit/{id}', [FloorController::class, 'edit'])->name('admin.floors.edit');
+        Route::post('/update/{id}', [FloorController::class, 'update'])->name('admin.floors.update');
+    });
 });

@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 class TenantController extends Controller {
     public function index ( Request $request ) {
         $records = Tenant::query()
+                         ->with([
+                                    'tenantType' ,
+                                    'floor',
+                                ])
                          ->when($request->get('search') , function ( Builder $query ) use ( $request ) {
                              $search = $request->get('search');
                              $query->where('id' , 'like' , '%' . $search . '%')
@@ -33,6 +37,13 @@ class TenantController extends Controller {
         $record = new Tenant();
         $this->save($record , $request);
 
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('رکورد با موفقیت ایجاد شد.' , 'تبریک!');
+
         return redirect()->route('admin.tenants.index');
     }
 
@@ -48,18 +59,34 @@ class TenantController extends Controller {
                         ->findOrFail($id);
         $this->save($record , $request);
 
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('رکورد با موفقیت بروز شد.' , 'تبریک!');
+
         return redirect()->route('admin.tenants.index');
     }
 
     public function save ( Tenant $record , Request $request ) {
         $request->validate([
                                'plaque' => [ 'required' ] ,
+                               'phone_number' => [ 'required' ] ,
+                               'floor_id' => [ 'required' ] ,
+                               'tenant_type_id' => [ 'required' ] ,
+                               'username' => [ 'required' ] ,
                            ]);
         $record->plaque = $request->get('plaque');
         $record->name = $request->get('name');
         $record->owner_first_name = $request->get('owner_first_name');
         $record->owner_last_name = $request->get('owner_last_name');
+        $record->phone_number = $request->get('phone_number');
+        $record->floor_id = $request->get('floor_id');
+        $record->tenant_type_id = $request->get('tenant_type_id');
         $record->username = $request->get('username');
+        $record->meters = $request->get('meters');
+        $record->monthly_charge_amount = $request->get('monthly_charge_amount');
         if ( $password = $request->get('password') ) {
             $record->password = bcrypt($password);
         }
