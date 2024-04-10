@@ -4,6 +4,7 @@ namespace App\Models;
 
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -31,5 +32,9 @@ class Tenant extends Authenticatable {
 
     public function floor (): BelongsTo {
         return $this->belongsTo(Floor::class);
+    }
+
+    public function messages (): HasMany {
+        return $this->hasMany(Message::class , 'tenant_id');
     }
 }

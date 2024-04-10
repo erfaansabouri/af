@@ -70,7 +70,9 @@
             @if(\Illuminate\Support\Facades\Auth::guard('admin')->check())
                 @include('metronic.partials.admin-sidebar')
             @endif
-
+            @if(\Illuminate\Support\Facades\Auth::guard('tenant')->check())
+                @include('metronic.partials.tenant-sidebar')
+            @endif
         </div>
         <!--end::Aside-->
         <!--begin::Wrapper-->

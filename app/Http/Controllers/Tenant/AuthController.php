@@ -35,8 +35,12 @@ class AuthController extends Controller
         ) {
             return redirect()->route('tenant.dashboard.dashboard');
         }
-        flash()->rtl(true)->addError('اطلاعات نامعتبر است!');
-        return redirect()->back();
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addError('اطلاعات صحیح نمیباشد' , 'خطا!');        return redirect()->back();
     }
 
 
