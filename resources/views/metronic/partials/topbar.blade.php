@@ -28,7 +28,7 @@
                             <!--end::Item-->
                             <!--begin::Item-->
                             <li class="navi-item">
-                                <a href="#" class="navi-link">
+                                <a href="@if(Auth::guard('admin')->check()) {{ route('admin.auth.logout') }} @else {{ route('tenant.auth.logout') }} @endif" class="navi-link">
                                     <span class="navi-text">خروج</span>
                                     <span class="symbol symbol-20 mr-3">
 														<i class="fa fa-sign-out-alt"></i>
