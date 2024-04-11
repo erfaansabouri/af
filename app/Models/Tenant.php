@@ -37,4 +37,8 @@ class Tenant extends Authenticatable {
     public function messages (): HasMany {
         return $this->hasMany(Message::class , 'tenant_id');
     }
+
+    public function monthlyCharges (): HasMany {
+        return $this->hasMany(MonthlyCharge::class , 'tenant_id');
+    }
 }

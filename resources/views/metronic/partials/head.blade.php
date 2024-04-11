@@ -1,7 +1,14 @@
 <head>
     <base href="">
     <meta charset="utf-8" />
-    <title>مدیریت {{ env('APP_NAME_FA') }} @yield('title')</title>
+    <title>
+        داشبورد
+        @if(Auth::guard('tenant')->check())
+            کاربران
+        @else
+            مدیریت
+        @endif
+    </title>
     <meta name="description" content="{{ env('APP_NAME') }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
