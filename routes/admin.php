@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FiscalYearController;
 use App\Http\Controllers\Admin\FloorController;
@@ -51,4 +52,10 @@ Route::middleware(['auth:admin'])->prefix('fiscal-years')->group(function (){
     Route::get('/edit/{id}', [FiscalYearController::class, 'edit'])->name('admin.fiscal-years.edit');
     Route::post('/update/{id}', [FiscalYearController::class, 'update'])->name('admin.fiscal-years.update');
     Route::get('/destroy/{id}', [FiscalYearController::class, 'destroy'])->name('admin.fiscal-years.destroy');
+});
+#
+Route::middleware(['auth:admin'])->prefix('coupons')->group(function (){
+    Route::get('/', [CouponController::class, 'index'])->name('admin.coupons.index');
+    Route::get('/edit/{id}', [CouponController::class, 'edit'])->name('admin.coupons.edit');
+    Route::post('/update/{id}', [CouponController::class, 'update'])->name('admin.coupons.update');
 });

@@ -18,6 +18,7 @@ return new class extends Migration {
                   ->nullable();
             $table->float('discount_percent')
                   ->nullable();
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
         Coupon::query()

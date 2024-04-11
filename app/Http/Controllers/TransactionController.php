@@ -21,7 +21,7 @@ class TransactionController extends Controller {
                                       ->create([
                                                    'tenant_id' => $monthly_charge->tenant_id ,
                                                    'monthly_charge_id' => $monthly_charge->id ,
-                                                   'amount' => $monthly_charge->original_amount ,
+                                                   'amount' => $monthly_charge->final_amount ,
                                                ]);
         }
         else {
