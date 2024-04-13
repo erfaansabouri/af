@@ -22,6 +22,8 @@ class AuthController extends Controller {
     }
 
     public function login ( Request $request ) {
+        Auth::guard('tenant')
+            ->logout();
 
         $this->validate($request , [
             'username' => 'required' ,
