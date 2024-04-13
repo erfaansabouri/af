@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MonthlyCharge;
 use App\Models\Transaction;
+use Auth;
 use Illuminate\Http\Request;
 use Shetabit\Multipay\Exceptions\InvalidPaymentException;
 use Shetabit\Multipay\Invoice;
@@ -57,7 +58,20 @@ class TransactionController extends Controller {
                 $monthly_charge->paid_amount = $transaction->amount;
                 $monthly_charge->save();
 
-                return redirect()->route('tenant.monthly-charges.index');
+                flash()
+                    ->options([
+                                  'timeout' => 3000 ,
+                                  'position' => 'top-left' ,
+                              ])
+                    ->addSuccess('پرداخت با موفقیت انجام شد.' , 'تبریک!');
+
+                if ( Auth::guard('tenant')
+                         ->check() ) {
+                    return redirect()->route('tenant.monthly-charges.index');
+                }
+                else {
+                    return redirect()->route('admin.tenants.monthly-charges' , $monthly_charge->tenant_id );
+                }
             }
         }
         catch ( InvalidPaymentException $exception ) {

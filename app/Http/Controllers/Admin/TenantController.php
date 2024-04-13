@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\MonthlyCharge;
 use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class TenantController extends Controller {
         $records = Tenant::query()
                          ->with([
                                     'tenantType' ,
-                                    'floor',
+                                    'floor' ,
                                 ])
                          ->when($request->get('search') , function ( Builder $query ) use ( $request ) {
                              $search = $request->get('search');
@@ -36,7 +37,6 @@ class TenantController extends Controller {
     public function store ( Request $request ) {
         $record = new Tenant();
         $this->save($record , $request);
-
         flash()
             ->options([
                           'timeout' => 3000 ,
@@ -58,7 +58,6 @@ class TenantController extends Controller {
         $record = Tenant::query()
                         ->findOrFail($id);
         $this->save($record , $request);
-
         flash()
             ->options([
                           'timeout' => 3000 ,
@@ -105,5 +104,21 @@ class TenantController extends Controller {
             ->addSuccess('رکورد با موفقیت حذف شد.' , 'تبریک!');
 
         return redirect()->route('admin.tenants.index');
+    }
+
+    public function monthlyCharges ( Request $request , $id ) {
+        $tenant = Tenant::query()
+                        ->findOrFail($id);
+        $records = MonthlyCharge::query()
+                                ->when($request->get('search') , function ( $query ) use ( $request ) {
+                                    $query->where(function ( $q ) use ( $request ) {
+                                        $q->where('id' , 'like' , '%' . $request->search . '%')
+                                          ->orWhere('month' , 'like' , '%' . $request->search . '%');
+                                    });
+                                })
+                                ->where('tenant_id' , $id)
+                                ->get();
+
+        return view('metronic.admin.tenants.monthly-charges.index' , compact('tenant' , 'records'));
     }
 }

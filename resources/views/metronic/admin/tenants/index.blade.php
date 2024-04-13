@@ -92,6 +92,7 @@
                                         <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
                                             <div class="btn-group" role="group" aria-label="First group">
                                                 <a href="{{ route('admin.tenants.edit', $record->id) }}" class="btn btn-primary  btn-icon"><i class="la la-edit"></i></a>
+                                                <a href="{{ route('admin.tenants.monthly-charges', $record->id) }}" class="btn btn-success btn-icon"><i class="la la-file-invoice"></i></a>
                                                 <a href="{{ route('admin.tenants.destroy', $record->id) }}" class="btn btn-danger btn-icon"><i class="la la-trash-alt"></i></a>
                                             </div>
                                         </div>
