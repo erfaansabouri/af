@@ -17,8 +17,10 @@ return new class extends Migration
             $table->string('ref_id')->nullable();
             $table->unsignedBigInteger('tenant_id')->nullable();
             $table->unsignedBigInteger('monthly_charge_id')->nullable();
+            $table->string('original_amount')->nullable();
             $table->string('amount')->nullable();
             $table->timestamp('paid_at')->nullable();
+            $table->timestamp('failed_at')->nullable();
             $table->timestamps();
         });
     }

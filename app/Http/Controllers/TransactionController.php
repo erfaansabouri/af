@@ -22,6 +22,7 @@ class TransactionController extends Controller {
                                       ->create([
                                                    'tenant_id' => $monthly_charge->tenant_id ,
                                                    'monthly_charge_id' => $monthly_charge->id ,
+                                                   'original_amount' => $monthly_charge->original_amount ,
                                                    'amount' => $monthly_charge->final_amount ,
                                                ]);
         }
@@ -57,25 +58,24 @@ class TransactionController extends Controller {
                 $monthly_charge->paid_at = now();
                 $monthly_charge->paid_amount = $transaction->amount;
                 $monthly_charge->save();
-
                 flash()
                     ->options([
                                   'timeout' => 3000 ,
                                   'position' => 'top-left' ,
                               ])
                     ->addSuccess('پرداخت با موفقیت انجام شد.' , 'تبریک!');
-
                 if ( Auth::guard('tenant')
                          ->check() ) {
                     return redirect()->route('tenant.monthly-charges.index');
                 }
                 else {
-                    return redirect()->route('admin.tenants.monthly-charges' , $monthly_charge->tenant_id );
+                    return redirect()->route('admin.tenants.monthly-charges' , $monthly_charge->tenant_id);
                 }
             }
         }
         catch ( InvalidPaymentException $exception ) {
-
+            $monthly_charge->failed_at = now();
+            $monthly_charge->save();
             echo $exception->getMessage();
         }
     }

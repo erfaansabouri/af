@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\FiscalYearController;
 use App\Http\Controllers\Admin\FloorController;
 use App\Http\Controllers\Admin\MessageGroupController;
 use App\Http\Controllers\Admin\TenantController;
+use App\Http\Controllers\Admin\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -59,4 +60,10 @@ Route::middleware(['auth:admin'])->prefix('coupons')->group(function (){
     Route::get('/', [CouponController::class, 'index'])->name('admin.coupons.index');
     Route::get('/edit/{id}', [CouponController::class, 'edit'])->name('admin.coupons.edit');
     Route::post('/update/{id}', [CouponController::class, 'update'])->name('admin.coupons.update');
+});
+#
+Route::middleware(['auth:admin'])->prefix('transactions')->group(function (){
+    Route::get('/', [TransactionController::class, 'index'])->name('admin.transactions.index');
+    Route::get('/export', [TransactionController::class, 'export'])->name('admin.transactions.export');
+    Route::get('/pdf/{id}', [TransactionController::class, 'pdf'])->name('admin.transactions.pdf');
 });
