@@ -44,6 +44,10 @@ class ProfileController extends Controller {
         if ( $password = $request->get('password') ) {
             $record->password = bcrypt($password);
         }
+        if ( $request->hasFile('image') ) {
+            $record->addMediaFromRequest('image')
+                   ->toMediaCollection('image');
+        }
         $record->save();
     }
 }

@@ -19,6 +19,29 @@
                     @csrf
                     @method('POST')
                     <div class="card-body">
+                        @php
+                            $image_url = '';
+							if (isset($record)){
+								$image_url = $record->getFirstMediaUrl('image');
+							}
+                        @endphp
+                        <div class="image-input image-input-empty image-input-outline" id="kt_image_5" style="background-image: url({{ $image_url }})">
+                            <div class="image-input-wrapper"></div>
+
+                            <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="تغییر">
+                                <i class="fa fa-pen icon-sm text-muted"></i>
+                                <input type="file" name="image" accept=".png, .jpg, .jpeg"/>
+                            </label>
+
+                            <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
+                                <i class="ki ki-bold-close icon-xs text-muted"></i>
+                            </span>
+
+                            <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="remove" data-toggle="tooltip" title="Remove avatar">
+                                <i class="ki ki-bold-close icon-xs text-muted"></i>
+                            </span>
+                        </div>
+
                         <div class="col-xl-6">
                             <div class="form-group">
                                 <label class="col-form-label">نام
@@ -120,5 +143,24 @@
                 observer: true,
             });
         });
+    </script>
+
+    <script>
+
+
+        var avatar5 = new KTImageInput('kt_image_5');
+
+
+        avatar5.on('remove', function(imageInput) {
+            swal.fire({
+                title: 'Image successfully removed !',
+                type: 'error',
+                buttonsStyling: false,
+                confirmButtonText: 'Got it!',
+                confirmButtonClass: 'btn btn-primary font-weight-bold'
+            });
+        });
+
+
     </script>
 @endpush

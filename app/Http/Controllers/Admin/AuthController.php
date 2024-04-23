@@ -34,7 +34,7 @@ class AuthController extends Controller {
                                'username' => $request->username ,
                                'password' => $request->password ,
                                'can_login' => 1,
-                           ]) ) {
+                           ], (boolean)$request->remember) ) {
             return redirect()->route('admin.dashboard.dashboard');
         }
         flash()

@@ -6,35 +6,34 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthController extends Controller
-{
-    public function __construct()
-    {
-        $this->middleware('guest:tenant')->except('logout');
+class AuthController extends Controller {
+    public function __construct () {
+        $this->middleware('guest:tenant')
+             ->except('logout');
     }
 
-    public function loginForm()
-    {
+    public function loginForm () {
         $page_info = [
-            'title' => 'ورود به سامانه کاربران',
-            'login_route' => route('tenant.auth.login')
+            'title' => 'ورود به سامانه کاربران' ,
+            'login_route' => route('tenant.auth.login'),
         ];
-        return view('metronic.auth.login', compact('page_info'));
+
+        return view('metronic.auth.login' , compact('page_info'));
     }
 
-    public function login(Request $request)
-    {
+    public function login ( Request $request ) {
         Auth::guard('admin')
             ->logout();
-
-        $this->validate($request, [
-            'username' => 'required',
-            'password' => 'required'
+        $this->validate($request , [
+            'username' => 'required' ,
+            'password' => 'required',
         ]);
-
-        if (Auth::guard('tenant')
-                ->attempt(['username' => $request->username, 'password' => $request->password , 'can_login' => 1])
-        ) {
+        if ( Auth::guard('tenant')
+                 ->attempt([
+                               'username' => $request->username ,
+                               'password' => $request->password ,
+                               'can_login' => 1,
+                           ] , (boolean)$request->remember) ) {
             return redirect()->route('tenant.dashboard.dashboard');
         }
         flash()
@@ -42,13 +41,15 @@ class AuthController extends Controller
                           'timeout' => 3000 ,
                           'position' => 'top-left' ,
                       ])
-            ->addError('اطلاعات صحیح نمیباشد' , 'خطا!');        return redirect()->back();
+            ->addError('اطلاعات صحیح نمیباشد' , 'خطا!');
+
+        return redirect()->back();
     }
 
+    public function logout () {
+        Auth::guard('tenant')
+            ->logout();
 
-    public function logout()
-    {
-        Auth::guard('tenant')->logout();
         return redirect()->route('tenant.auth.login-form');
     }
 }
