@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('username')->nullable();
             $table->string('password')->nullable();
             $table->boolean('can_login')->default(1);
+            $table->string('activity_type')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

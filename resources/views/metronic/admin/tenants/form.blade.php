@@ -143,6 +143,15 @@
                                        value="{{ @$record->monthly_charge_amount }}"/>
                             </div>
                         </div>
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label class="col-form-label">نوع فعالیت
+                                </label>
+                                <input autocomplete="off" type="text" class="form-control" name="activity_type"
+                                       placeholder="نوع فعالیت را وارد کنید."
+                                       value="{{ @$record->activity_type }}"/>
+                            </div>
+                        </div>
 
                         <div class="col-xl-6">
                             <div class="form-group">

@@ -41,6 +41,9 @@ class ProfileController extends Controller {
         $record->owner_first_name = $request->get('owner_first_name');
         $record->owner_last_name = $request->get('owner_last_name');
         $record->phone_number = $request->get('phone_number');
+        $record->activity_type = $request->get('activity_type');
+        $record->save();
+
         if ( $password = $request->get('password') ) {
             $record->password = bcrypt($password);
         }

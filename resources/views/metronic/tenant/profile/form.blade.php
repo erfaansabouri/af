@@ -88,12 +88,11 @@
 
                         <div class="col-xl-6">
                             <div class="form-group">
-                                <label class="col-form-label">نام کاربری جهت ورود به سامانه
-                                    <span class="text-danger">*</span>
+                                <label class="col-form-label">نوع فعالیت
                                 </label>
-                                <input autocomplete="off" type="text" class="form-control" name="username"
-                                       placeholder="نام کاربری را وارد کنید."
-                                       value="{{ @$record->username }}"/>
+                                <input autocomplete="off" type="text" class="form-control" name="activity_type"
+                                       placeholder="نوع فعالیت را وارد کنید."
+                                       value="{{ @$record->activity_type }}"/>
                             </div>
                         </div>
 

@@ -84,6 +84,9 @@ class TenantController extends Controller {
         $record->tenant_type_id = $request->get('tenant_type_id');
         $record->meters = $request->get('meters');
         $record->monthly_charge_amount = $request->get('monthly_charge_amount');
+        $record->activity_type = $request->get('activity_type');
+        $record->save();
+
         if ( $password = $request->get('password') ) {
             $record->password = bcrypt($password);
         }
