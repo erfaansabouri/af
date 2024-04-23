@@ -80,6 +80,29 @@
                         <!--end::Stats Widget 18-->
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-xl-12">
+
+
+                        <div class="accordion accordion-toggle-arrow" id="accordionExample1">
+                            @foreach($messages as $message)
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title" data-toggle="collapse" data-target="#collapse{{ $message->id }}">
+                                            پیام جدید {{ verta($message->created_at)->format('%d %B %Y') }}
+                                        </div>
+                                    </div>
+                                    <div id="collapse{{ $message->id }}" class="collapse" data-parent="#accordionExample1">
+                                        <div class="card-body">
+                                            {{ $message->message }}
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                    </div>
+                </div>
                 <!--End::Row-->
             </div>
             <!--end::Container-->

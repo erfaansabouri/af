@@ -60,7 +60,7 @@
                                 @foreach($records as $record)
                                     <tr>
                                         <td class="iransans-web">{{ $record->fiscalYear->year }}</td>
-                                        <td class="iransans-web">{{ $record->persian_month }}</td>
+                                        <td class="iransans-web">ماه {{ $record->month }}</td>
                                         <td class="iransans-web">{{ verta($record->due_date)->format('Y/m/d') }}</td>
                                         <td class="iransans-web">
                                             پایه: {{ number_format($record->original_amount) }} ریال

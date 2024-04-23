@@ -54,6 +54,10 @@ class MonthlyCharge extends Model {
             ->first();
         $is_due_date_today = Carbon::parse($this->due_date)->isToday();
 
+        if ($coupon_first_day && Carbon::parse($this->due_date)->isFuture()){
+            return ((100 - $coupon_first_day->discount_percent) / 100) * $this->original_amount;
+        }
+
         if ($coupon_first_day && $is_due_date_today){
             return ((100 - $coupon_first_day->discount_percent) / 100) * $this->original_amount;
         }
@@ -68,12 +72,11 @@ class MonthlyCharge extends Model {
         $due_date = Carbon::parse($this->due_date);
         $now = Carbon::now();
         $days_since_due = $due_date->diffInDays($now);
-        // Check if 2 to 5 days passed from due date then apply discount
+        // Check if 1 to 5 days passed from due date then apply discount
         if ($due_date->isPast() && $coupon_second_day_to_fifth_day && $days_since_due >= 1 && $days_since_due <= 5) {
-
             return ((100 - $coupon_second_day_to_fifth_day->discount_percent) / 100) * $this->original_amount;
         }
-       // Return original amount if no discounts apply
+        // Return original amount if no discounts apply
         return $this->original_amount;
 
     }

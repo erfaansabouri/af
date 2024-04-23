@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -47,5 +48,23 @@ class Tenant extends Authenticatable implements HasMedia {
 
     public function monthlyCharges (): HasMany {
         return $this->hasMany(MonthlyCharge::class , 'tenant_id');
+    }
+
+    public function generateMonthlyCharge ( FiscalYear $fiscal_year ) {
+        for ( $i = 1 ; $i <= 12 ; $i++ ) {
+            $due_date = verta(Carbon::parse($fiscal_year->started_at)
+                                    ->addMonths($i - 1))
+                ->startMonth()
+                ->toCarbon();
+            MonthlyCharge::query()
+                         ->firstOrCreate([
+                                             'fiscal_year_id' => $fiscal_year->id ,
+                                             'tenant_id' => $this->id ,
+                                             'month' => $i ,
+                                         ] , [
+                                             'original_amount' => $this->monthly_charge_amount ,
+                                             'due_date' => $due_date ,
+                                         ]);
+        }
     }
 }
