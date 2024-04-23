@@ -26,8 +26,8 @@ Route::middleware(['auth:admin'])->prefix('tenants')->group(function (){
     Route::post('/store', [TenantController::class, 'store'])->name('admin.tenants.store');
     Route::get('/edit/{id}', [TenantController::class, 'edit'])->name('admin.tenants.edit');
     Route::post('/update/{id}', [TenantController::class, 'update'])->name('admin.tenants.update');
-    Route::get('/destroy/{id}', [TenantController::class, 'destroy'])->name('admin.tenants.destroy');
     Route::get('/monthly-charges/{id}', [TenantController::class, 'monthlyCharges'])->name('admin.tenants.monthly-charges');
+    Route::get('/set-default-password/{id}', [TenantController::class, 'setDefaultPassword'])->name('admin.tenants.set-default-password');
 });
 #
 Route::middleware(['auth:admin'])->prefix('complex-settings')->group(function (){

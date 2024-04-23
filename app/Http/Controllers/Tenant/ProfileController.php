@@ -36,13 +36,11 @@ class ProfileController extends Controller {
                                'owner_first_name' => [ 'required' ] ,
                                'owner_last_name' => [ 'required' ] ,
                                'phone_number' => [ 'required' ] ,
-                               'username' => [ 'required' ] ,
                            ]);
         $record->name = $request->get('name');
         $record->owner_first_name = $request->get('owner_first_name');
         $record->owner_last_name = $request->get('owner_last_name');
         $record->phone_number = $request->get('phone_number');
-        $record->username = $request->get('username');
         if ( $password = $request->get('password') ) {
             $record->password = bcrypt($password);
         }

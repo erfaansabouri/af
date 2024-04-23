@@ -13,20 +13,26 @@ class TenantTypeSeeder extends Seeder {
     public function run (): void {
         TenantType::query()
                   ->firstOrCreate([
-                                      'type' => TenantType::TYPES[ 'GHORFEH_TEJARI' ] ,
-                                      'type_fa' => 'غرفه تجاری',
+                                      'type' => TenantType::TYPES[ 'VAHED_TEJARI' ] ,
+                                      'type_fa' => 'واحد تجاری',
                                   ]);
         #
         TenantType::query()
                   ->firstOrCreate([
-                                      'type' => TenantType::TYPES[ 'GHORFEH_EDARI' ] ,
-                                      'type_fa' => 'غرفه اداری',
+                                      'type' => TenantType::TYPES[ 'VAHED_EDARI' ] ,
+                                      'type_fa' => 'واحد اداری',
                                   ]);
         #
         TenantType::query()
                   ->firstOrCreate([
                                       'type' => TenantType::TYPES[ 'VITRIN' ] ,
                                       'type_fa' => 'ویترین',
+                                  ]);
+        #
+        TenantType::query()
+                  ->firstOrCreate([
+                                      'type' => TenantType::TYPES[ 'GHORFEH' ] ,
+                                      'type_fa' => 'غرفه',
                                   ]);
         #
         TenantType::query()

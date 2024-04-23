@@ -40,7 +40,7 @@
                                 </label>
                                 <select name="floor_id" class="form-control selectpicker">
                                     @foreach(Floor::all() as $floor)
-                                        <option @if(isset($record) && $record->floor_id == $floor->id) selected @endif value="{{ $floor->id }}">{{ $floor->floor_fa }} (شارژ پایه طبقه: {{ number_format($floor->base_charge_amount) }} تومان)</option>
+                                        <option @if(isset($record) && $record->floor_id == $floor->id) selected @endif value="{{ $floor->id }}">{{ $floor->floor_fa }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -72,7 +72,6 @@
                         <div class="col-xl-6">
                             <div class="form-group">
                                 <label class="col-form-label">نام
-                                    <span class="text-danger">*</span>
                                 </label>
                                 <input autocomplete="off" type="text" class="form-control" name="name"
                                        placeholder="نام را وارد کنید."
@@ -83,7 +82,6 @@
                         <div class="col-xl-6">
                             <div class="form-group">
                                 <label class="col-form-label">نام مالک
-                                    <span class="text-danger">*</span>
                                 </label>
                                 <input autocomplete="off" type="text" class="form-control" name="owner_first_name"
                                        placeholder="نام مالک را وارد کنید."
@@ -94,7 +92,6 @@
                         <div class="col-xl-6">
                             <div class="form-group">
                                 <label class="col-form-label">نام خانوادگی مالک
-                                    <span class="text-danger">*</span>
                                 </label>
                                 <input autocomplete="off" type="text" class="form-control" name="owner_last_name"
                                        placeholder="نام خانوادگی مالک را وارد کنید."
@@ -105,7 +102,6 @@
                         <div class="col-xl-6">
                             <div class="form-group">
                                 <label class="col-form-label">شماره تماس
-                                    <span class="text-danger">*</span>
                                 </label>
                                 <input autocomplete="off" type="text" class="form-control" name="phone_number"
                                        placeholder="شماره تماس را وارد کنید."
@@ -127,9 +123,8 @@
                         <div class="col-xl-6">
                             <div class="form-group">
                                 <label class="col-form-label">نام کاربری جهت ورود به سامانه
-                                    <span class="text-danger">*</span>
                                 </label>
-                                <input autocomplete="off" type="text" class="form-control" name="username"
+                                <input readonly autocomplete="off" type="text" class="form-control disabled form-control-solid"
                                        placeholder="نام کاربری را وارد کنید."
                                        value="{{ @$record->username }}"/>
                             </div>
@@ -143,6 +138,10 @@
                                 <input autocomplete="off" type="password" class="form-control" name="password"
                                        placeholder="رمز عبور را وارد کنید."
                                        value=""/>
+                                @if(@$record)
+                                    <br>
+                                    <a dir="ltr" href="{{ route('admin.tenants.set-default-password', $record->id) }}" class="btn btn-light-primary">بازگردانی به پسورد پیشفرض ({{ "1403@{$record->plaque}" }})</a>
+                                @endif
                             </div>
                         </div>
                     </div>

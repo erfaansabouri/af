@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('floor')->nullable();
             $table->string('floor_fa')->nullable();
-            $table->string('base_charge_amount')->nullable();
             $table->timestamps();
         });
     }

@@ -26,6 +26,7 @@
                 <div class="login-signin">
                     <div class="mb-20">
                         <h3 class="">{{ $page_info['title'] }}</h3>
+                        <p class="text-primary">امروز {{ verta()->format('%d %B %Y') }}</p>
                         <p class="">لطفا اطلاعات کاربری خود را وارد نمایید:</p>
                     </div>
                     <form method="post" action="{{ $page_info['login_route'] }}" class="form" id="kt_login_signin_form">

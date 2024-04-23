@@ -71,10 +71,9 @@ class TenantController extends Controller {
     public function save ( Tenant $record , Request $request ) {
         $request->validate([
                                'plaque' => [ 'required' ] ,
-                               'phone_number' => [ 'required' ] ,
                                'floor_id' => [ 'required' ] ,
                                'tenant_type_id' => [ 'required' ] ,
-                               'username' => [ 'required' ] ,
+                               'monthly_charge_amount' => [ 'required', 'numeric' ] ,
                            ]);
         $record->plaque = $request->get('plaque');
         $record->name = $request->get('name');
@@ -83,27 +82,12 @@ class TenantController extends Controller {
         $record->phone_number = $request->get('phone_number');
         $record->floor_id = $request->get('floor_id');
         $record->tenant_type_id = $request->get('tenant_type_id');
-        $record->username = $request->get('username');
         $record->meters = $request->get('meters');
         $record->monthly_charge_amount = $request->get('monthly_charge_amount');
         if ( $password = $request->get('password') ) {
             $record->password = bcrypt($password);
         }
         $record->save();
-    }
-
-    public function destroy ( $id ) {
-        $record = Tenant::query()
-                        ->findOrFail($id);
-        $record->delete();
-        flash()
-            ->options([
-                          'timeout' => 3000 ,
-                          'position' => 'top-left' ,
-                      ])
-            ->addSuccess('رکورد با موفقیت حذف شد.' , 'تبریک!');
-
-        return redirect()->route('admin.tenants.index');
     }
 
     public function monthlyCharges ( Request $request , $id ) {
@@ -120,5 +104,21 @@ class TenantController extends Controller {
                                 ->get();
 
         return view('metronic.admin.tenants.monthly-charges.index' , compact('tenant' , 'records'));
+    }
+
+    public function setDefaultPassword($id){
+        $tenant = Tenant::query()
+                        ->findOrFail($id);
+        $tenant->password = bcrypt($tenant->plaque . "@1403");
+        $tenant->save();
+
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('رکورد با موفقیت بروز رسانی شد.' , 'تبریک!');
+
+        return redirect()->route('admin.tenants.index');
     }
 }

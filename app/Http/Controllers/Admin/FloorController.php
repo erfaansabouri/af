@@ -46,11 +46,7 @@ class FloorController extends Controller {
     }
 
     public function save ( Floor $record , Request $request ) {
-        $request->validate([
-                               'base_charge_amount' => [ 'required' ] ,
-                           ]);
-        $record->base_charge_amount = $request->get('base_charge_amount');
-        $record->save();
+
     }
 
     public function destroy ( $id ) {

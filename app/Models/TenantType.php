@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class TenantType extends Model {
     const TYPES = [
-        'GHORFEH_TEJARI' => 'GHORFEH_TEJARI' ,
-        'GHORFEH_EDARI' => 'GHORFEH_EDARI' ,
+        'VAHED_TEJARI' => 'VAHED_TEJARI' ,
+        'VAHED_EDARI' => 'VAHED_EDARI' ,
         'VITRIN' => 'VITRIN' ,
+        'GHORFEH' => 'GHORFEH' ,
         'TABLIGHAT' => 'TABLIGHAT' ,
         'MOSHAAT' => 'MOSHAAT' ,
         'ANBAR' => 'ANBAR' ,
