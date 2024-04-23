@@ -16,8 +16,37 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <!--begin: Search Form-->
-                        <!--begin::Search Form-->
+
+                        @if(Auth::guard('tenant')->user()->debt_amount)
+                            <div class="mb-7">
+                                <div class="row align-items-center col-lg-3 col-xl-6">
+                                    <label for="">کاربر گرامی شما مبلغ {{ number_format(Auth::guard('tenant')->user()->debt_amount) }} ریال بدهکار هستید. لطفا مبلغ مورد نظر را وارد کرده و بدهی خود را تسویه کنید.</label>
+                                </div>
+                                <form action="{{ route('transaction.generate-url') }}" method="get">
+                                    <input type="hidden" name="tenant_id" value="{{ Auth::guard('tenant')->id() }}">
+                                    <div class="row align-items-center">
+                                        <div class="col-lg-3 col-xl-6">
+                                            <div class="row align-items-center">
+                                                <div class="col-lg-12 col-xl-12 my-2 my-md-0">
+                                                    <div class="input-icon">
+                                                        <input placeholder="مبلغ بدهی را وارد کنید" value="" type="text" name="debt_amount" required class="form-control started-at-datepicker" />
+                                                        <span>
+                                                            <i class="flaticon2-fast-back text-muted"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
+                                            <button class="btn btn-light-success px-6 font-weight-bold">پرداخت</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        @endif
+
+
                         <div class="mb-7">
                             <form action="#" method="get">
                                 <div class="row align-items-center">
@@ -81,13 +110,17 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if(!$record->paid_at)
-                                                <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-                                                    <div class="btn-group" role="group" aria-label="First group">
-                                                        <a href="{{ route('transaction.generate-url', ['monthly_charge_id' => $record->id]) }}" class="btn btn-primary">پرداخت</a>
-                                                    </div>
-                                                </div>
+                                            @if($record->tenant->debt_amount > 0)
+                                                ابتدا بدهی خود را تسویه نمایید
                                             @else
+                                                @if(!$record->paid_at)
+                                                    <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+                                                        <div class="btn-group" role="group" aria-label="First group">
+                                                            <a href="{{ route('transaction.generate-url', ['monthly_charge_id' => $record->id]) }}" class="btn btn-primary">پرداخت</a>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                @endif
                                             @endif
                                         </td>
 

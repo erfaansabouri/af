@@ -24,15 +24,6 @@ class Transaction extends Model {
         return $query->whereNull('paid_at');
     }
 
-    public function getSubjectAttribute () {
-        if ( $this->monthly_charge_id ) {
-            return "شارژ ماهیانه";
-        }
-        else {
-            return "متفرقه";
-        }
-    }
-
     public function getStatusAttribute () {
         if ( $this->paid_at ) {
             return "پرداخت موفق";

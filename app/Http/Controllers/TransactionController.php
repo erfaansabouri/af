@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MonthlyCharge;
+use App\Models\Tenant;
 use App\Models\Transaction;
 use Auth;
 use Illuminate\Http\Request;
@@ -13,17 +14,40 @@ use Shetabit\Payment\Facade\Payment;
 class TransactionController extends Controller {
     public function generateUrl ( Request $request ) {
         $transaction = null;
+        $tenant = Tenant::query()
+                        ->find($request->get('tenant_id'));
         if ( $monthly_charge_id = $request->get('monthly_charge_id') ) {
             $monthly_charge = MonthlyCharge::query()
                                            ->where('id' , $monthly_charge_id)
                                            ->whereNull('paid_at')
                                            ->firstOrFail();
+
             $transaction = Transaction::query()
                                       ->create([
                                                    'tenant_id' => $monthly_charge->tenant_id ,
                                                    'monthly_charge_id' => $monthly_charge->id ,
                                                    'original_amount' => $monthly_charge->original_amount ,
                                                    'amount' => $monthly_charge->final_amount ,
+                                                   'subject' => 'شارژ ماهیانه'
+                                               ]);
+        }
+
+        if ( $debt_amount = $request->get('debt_amount') ) {
+            if ($debt_amount > $tenant->debt_amount){
+                flash()
+                    ->options([
+                                  'timeout' => 3000 ,
+                                  'position' => 'top-left' ,
+                              ])
+                    ->addError('مبلغ بیش از حد مجاز' , 'خطا!');
+                return redirect()->back();
+            }
+            $transaction = Transaction::query()
+                                      ->create([
+                                                   'tenant_id' => $request->get('tenant_id') ,
+                                                   'original_amount' => $debt_amount ,
+                                                   'amount' => $debt_amount ,
+                                                   'subject' => 'بدهی'
                                                ]);
         }
         else {
@@ -70,6 +94,22 @@ class TransactionController extends Controller {
                 }
                 else {
                     return redirect()->route('admin.tenants.monthly-charges' , $monthly_charge->tenant_id);
+                }
+            }
+            if ($transaction->subject == 'بدهی'){
+                $transaction->tenant->decrement('debt_amount', $transaction->amount);
+                flash()
+                    ->options([
+                                  'timeout' => 3000 ,
+                                  'position' => 'top-left' ,
+                              ])
+                    ->addSuccess('پرداخت با موفقیت انجام شد.' , 'تبریک!');
+                if ( Auth::guard('tenant')
+                         ->check() ) {
+                    return redirect()->route('tenant.monthly-charges.index');
+                }
+                else {
+                    return redirect()->route('admin.tenants.monthly-charges' , $transaction->tenant_id);
                 }
             }
         }

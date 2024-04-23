@@ -16,8 +16,8 @@ class MonthlyCharge extends Model {
         return $this->belongsTo(FiscalYear::class);
     }
 
-    public function getPersianMonthAttribute() {
-        switch ($this->month) {
+    public function getPersianMonthAttribute () {
+        switch ( $this->month ) {
             case 1:
                 return "فروردین";
             case 2:
@@ -47,38 +47,37 @@ class MonthlyCharge extends Model {
         }
     }
 
-    public function getFinalAmountAttribute(){
+    public function getFinalAmountAttribute () {
+        if ( $this->tenant->debt_amount > 0 ) {
+            return $this->original_amount;
+        }
         $coupon_first_day = Coupon::query()
-            ->where('coupon', Coupon::COUPONS['FIRST_DAY'])
-            ->where('active', true)
-            ->first();
-        $is_due_date_today = Carbon::parse($this->due_date)->isToday();
-
-        if ($coupon_first_day && Carbon::parse($this->due_date)->isFuture()){
-            return ((100 - $coupon_first_day->discount_percent) / 100) * $this->original_amount;
+                                  ->where('coupon' , Coupon::COUPONS[ 'FIRST_DAY' ])
+                                  ->where('active' , true)
+                                  ->first();
+        $is_due_date_today = Carbon::parse($this->due_date)
+                                   ->isToday();
+        if ( $coupon_first_day && Carbon::parse($this->due_date)
+                                        ->isFuture() ) {
+            return ( ( 100 - $coupon_first_day->discount_percent ) / 100 ) * $this->original_amount;
         }
-
-        if ($coupon_first_day && $is_due_date_today){
-            return ((100 - $coupon_first_day->discount_percent) / 100) * $this->original_amount;
+        if ( $coupon_first_day && $is_due_date_today ) {
+            return ( ( 100 - $coupon_first_day->discount_percent ) / 100 ) * $this->original_amount;
         }
-
         ###
-
         $coupon_second_day_to_fifth_day = Coupon::query()
-                                   ->where('coupon', Coupon::COUPONS['SECOND_DAY_TO_FIFTH_DAY'])
-                                   ->where('active', true)
-                                   ->first();
-
+                                                ->where('coupon' , Coupon::COUPONS[ 'SECOND_DAY_TO_FIFTH_DAY' ])
+                                                ->where('active' , true)
+                                                ->first();
         $due_date = Carbon::parse($this->due_date);
         $now = Carbon::now();
         $days_since_due = $due_date->diffInDays($now);
         // Check if 1 to 5 days passed from due date then apply discount
-        if ($due_date->isPast() && $coupon_second_day_to_fifth_day && $days_since_due >= 1 && $days_since_due <= 5) {
-            return ((100 - $coupon_second_day_to_fifth_day->discount_percent) / 100) * $this->original_amount;
+        if ( $due_date->isPast() && $coupon_second_day_to_fifth_day && $days_since_due >= 1 && $days_since_due <= 5 ) {
+            return ( ( 100 - $coupon_second_day_to_fifth_day->discount_percent ) / 100 ) * $this->original_amount;
         }
+
         // Return original amount if no discounts apply
         return $this->original_amount;
-
     }
-
 }
