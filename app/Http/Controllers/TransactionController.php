@@ -32,7 +32,7 @@ class TransactionController extends Controller {
                                                ]);
         }
 
-        if ( $debt_amount = $request->get('debt_amount') ) {
+        else if ( $debt_amount = $request->get('debt_amount') ) {
             if ($debt_amount > $tenant->debt_amount){
                 flash()
                     ->options([

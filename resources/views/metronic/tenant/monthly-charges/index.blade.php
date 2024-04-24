@@ -93,9 +93,13 @@
                                         <td class="iransans-web">{{ verta($record->due_date)->format('Y/m/d') }}</td>
                                         <td class="iransans-web">
                                             پایه: {{ number_format($record->original_amount) }} ریال
-                                            @if(!$record->paid_at && $record->original_amount != $record->final_amount)
+                                            @if(!$record->paid_at && $record->original_amount > $record->final_amount)
                                                 <hr>
                                                 <span class="text-success">                                            پس از تخفیف: {{ number_format($record->final_amount) }} ریال</span>
+                                            @endif
+                                            @if(!$record->paid_at && $record->original_amount < $record->final_amount)
+                                                <hr>
+                                                <span class="text-danger">                                            با جریمه: {{ number_format($record->final_amount) }} ریال</span>
                                             @endif
                                             @if($record->paid_amount)
                                                 <hr>

@@ -46,6 +46,10 @@ class Tenant extends Authenticatable implements HasMedia {
         return $this->hasMany(Message::class , 'tenant_id');
     }
 
+    public function warnings (): HasMany {
+        return $this->hasMany(Warning::class , 'tenant_id');
+    }
+
     public function monthlyCharges (): HasMany {
         return $this->hasMany(MonthlyCharge::class , 'tenant_id');
     }

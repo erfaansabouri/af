@@ -48,6 +48,10 @@ class MonthlyCharge extends Model {
     }
 
     public function getFinalAmountAttribute () {
+        if ( $this->tenant->warnings()
+                          ->count() >= 5 ) {
+            return ( 110 / 100 ) * $this->original_amount;
+        }
         if ( $this->tenant->debt_amount > 0 ) {
             return $this->original_amount;
         }
