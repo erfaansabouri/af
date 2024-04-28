@@ -41,8 +41,19 @@ Route::middleware(['auth:admin'])->prefix('complex-settings')->group(function ()
     });
     Route::middleware([])->prefix('message-groups')->group(function (){
         Route::get('/', [MessageGroupController::class, 'index'])->name('admin.complex-settings.message-groups.index');
+        #
         Route::get('/create/send-to-all', [MessageGroupController::class, 'createSendToAll'])->name('admin.complex-settings.message-groups.create-send-to-all');
         Route::post('/submit/send-to-all', [MessageGroupController::class, 'submitSendToAll'])->name('admin.complex-settings.message-groups.submit-send-to-all');
+        #
+        Route::get('/create/floor', [MessageGroupController::class, 'createFloor'])->name('admin.complex-settings.message-groups.create-floor');
+        Route::post('/submit/floor', [MessageGroupController::class, 'submitFloor'])->name('admin.complex-settings.message-groups.submit-floor');
+        #
+        Route::get('/create/tenant-type', [MessageGroupController::class, 'createTenantType'])->name('admin.complex-settings.message-groups.create-tenant-type');
+        Route::post('/submit/tenant-type', [MessageGroupController::class, 'submitTenantType'])->name('admin.complex-settings.message-groups.submit-tenant-type');
+        #
+        Route::get('/create/single-tenant', [MessageGroupController::class, 'createSingleTenant'])->name('admin.complex-settings.message-groups.create-single-tenant');
+        Route::post('/submit/single-tenant', [MessageGroupController::class, 'submitSingleTenant'])->name('admin.complex-settings.message-groups.submit-single-tenant');
+        #
         Route::get('/edit/{id}', [MessageGroupController::class, 'edit'])->name('admin.complex-settings.message-groups.edit');
         Route::post('/update/{id}', [MessageGroupController::class, 'update'])->name('admin.complex-settings.message-groups.update');
         Route::get('/destroy/{id}', [MessageGroupController::class, 'destroy'])->name('admin.complex-settings.message-groups.destroy');

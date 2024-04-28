@@ -251,10 +251,20 @@
                                     <span></span></i>
                                 <span class="menu-text">ارسال اطلاعیه به همه</span>
                             </a>
-                            <a href="{{ route('admin.complex-settings.message-groups.create-send-to-all') }}" class="menu-link">
+                            <a href="{{ route('admin.complex-settings.message-groups.create-floor') }}" class="menu-link">
                                 <i class="menu-bullet menu-bullet-line">
                                     <span></span></i>
                                 <span class="menu-text">ارسال اطلاعیه به طبقه خاص</span>
+                            </a>
+                            <a href="{{ route('admin.complex-settings.message-groups.create-tenant-type') }}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-line">
+                                    <span></span></i>
+                                <span class="menu-text">ارسال اطلاعیه به گروه کاربری</span>
+                            </a>
+                            <a href="{{ route('admin.complex-settings.message-groups.create-single-tenant') }}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-line">
+                                    <span></span></i>
+                                <span class="menu-text">ارسال اطلاعیه به پلاک</span>
                             </a>
                         </li>
                     </ul>

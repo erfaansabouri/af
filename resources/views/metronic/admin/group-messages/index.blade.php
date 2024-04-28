@@ -1,7 +1,7 @@
 @extends('metronic.master')
 @section('content')
     @php
-        $model_name = 'پیام گروهی';
+        $model_name = 'اطلاعیه';
     @endphp
     <div>
         <div class="d-flex flex-column-fluid">
