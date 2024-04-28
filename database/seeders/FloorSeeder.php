@@ -12,32 +12,39 @@ class FloorSeeder extends Seeder {
     public function run (): void {
         Floor::query()
                   ->firstOrCreate([
-                                      'floor' => Floor::FLOORS[ 'UNDERGROUND' ] ,
+                                      'floor' => 'zirzamin' ,
                                       'floor_fa' => 'زیر زمین',
                                   ]);
         #
         Floor::query()
                   ->firstOrCreate([
-                                      'floor' => Floor::FLOORS[ 'GROUND' ] ,
+                                      'floor' => 'hamkaf' ,
                                       'floor_fa' => 'همکف',
                                   ]);
         #
         Floor::query()
                   ->firstOrCreate([
-                                      'floor' => Floor::FLOORS[ 'FIRST' ] ,
+                                      'floor' => '1' ,
                                       'floor_fa' => 'طبقه اول',
                                   ]);
         #
         Floor::query()
                   ->firstOrCreate([
-                                      'floor' => Floor::FLOORS[ 'SECOND' ] ,
-                                      'floor_fa' => 'طبقه دوم',
+                                      'floor' => '1-edari' ,
+                                      'floor_fa' => 'طبقه اول اداری',
                                   ]);
         #
         Floor::query()
              ->firstOrCreate([
-                                 'floor' => Floor::FLOORS[ 'THIRD' ] ,
-                                 'floor_fa' => 'طبقه سوم',
+                                 'floor' => '2-edari' ,
+                                 'floor_fa' => 'طبقه دوم اداری',
+                             ]);
+
+        #
+        Floor::query()
+             ->firstOrCreate([
+                                 'floor' => '3-edari' ,
+                                 'floor_fa' => 'طبقه سوم اداری',
                              ]);
     }
 }
