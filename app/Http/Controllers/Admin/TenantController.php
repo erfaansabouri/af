@@ -116,7 +116,7 @@ class TenantController extends Controller {
     public function setDefaultPassword($id){
         $tenant = Tenant::query()
                         ->findOrFail($id);
-        $tenant->password = bcrypt($tenant->plaque . "@1403");
+        $tenant->password = bcrypt($tenant->default_password);
         $tenant->save();
 
         flash()

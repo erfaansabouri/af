@@ -71,4 +71,8 @@ class Tenant extends Authenticatable implements HasMedia {
                                          ]);
         }
     }
+
+    public function getDefaultPasswordAttribute () {
+        return $this->plaque . "@1403";
+    }
 }

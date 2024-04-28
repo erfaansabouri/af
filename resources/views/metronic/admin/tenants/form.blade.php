@@ -145,10 +145,10 @@
                         </div>
                         <div class="col-xl-6">
                             <div class="form-group">
-                                <label class="col-form-label">نوع فعالیت
+                                <label class="col-form-label">نوع فعالیت یا صنف فروشگاه
                                 </label>
                                 <input autocomplete="off" type="text" class="form-control" name="activity_type"
-                                       placeholder="نوع فعالیت را وارد کنید."
+                                       placeholder="نوع فعالیت یا صنف فروشگاه را وارد کنید."
                                        value="{{ @$record->activity_type }}"/>
                             </div>
                         </div>
@@ -173,7 +173,7 @@
                                        value=""/>
                                 @if(@$record)
                                     <br>
-                                    <a dir="ltr" href="{{ route('admin.tenants.set-default-password', $record->id) }}" class="btn btn-light-primary">بازگردانی به پسورد پیشفرض ({{ "1403@{$record->plaque}" }})</a>
+                                    <a dir="ltr" href="{{ route('admin.tenants.set-default-password', $record->id) }}" class="btn btn-light-primary">بازگردانی به پسورد پیشفرض ({{ $record->default_password }})</a>
                                 @endif
                             </div>
                         </div>

@@ -88,10 +88,10 @@
 
                         <div class="col-xl-6">
                             <div class="form-group">
-                                <label class="col-form-label">نوع فعالیت
+                                <label class="col-form-label">نوع فعالیت یا صنف فروشگاه
                                 </label>
                                 <input autocomplete="off" type="text" class="form-control" name="activity_type"
-                                       placeholder="نوع فعالیت را وارد کنید."
+                                       placeholder="نوع فعالیت یا صنف فروشگاه را وارد کنید."
                                        value="{{ @$record->activity_type }}"/>
                             </div>
                         </div>
