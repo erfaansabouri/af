@@ -41,8 +41,8 @@ Route::middleware(['auth:admin'])->prefix('complex-settings')->group(function ()
     });
     Route::middleware([])->prefix('message-groups')->group(function (){
         Route::get('/', [MessageGroupController::class, 'index'])->name('admin.complex-settings.message-groups.index');
-        Route::get('/create', [MessageGroupController::class, 'create'])->name('admin.complex-settings.message-groups.create');
-        Route::post('/store', [MessageGroupController::class, 'store'])->name('admin.complex-settings.message-groups.store');
+        Route::get('/create/send-to-all', [MessageGroupController::class, 'createSendToAll'])->name('admin.complex-settings.message-groups.create-send-to-all');
+        Route::post('/submit/send-to-all', [MessageGroupController::class, 'submitSendToAll'])->name('admin.complex-settings.message-groups.submit-send-to-all');
         Route::get('/edit/{id}', [MessageGroupController::class, 'edit'])->name('admin.complex-settings.message-groups.edit');
         Route::post('/update/{id}', [MessageGroupController::class, 'update'])->name('admin.complex-settings.message-groups.update');
         Route::get('/destroy/{id}', [MessageGroupController::class, 'destroy'])->name('admin.complex-settings.message-groups.destroy');

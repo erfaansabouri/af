@@ -9,13 +9,13 @@
                         @if(isset($record))
                             ویرایش اطلاعات
                         @else
-                            ایجاد رکورد جدید
+                            ارسال پیام به همه پلاک ها
                         @endif
                     </h3>
                 </div>
 
                 <form id="my-form" method="post"
-                      action="@if(isset($record)){{ route('admin.complex-settings.message-groups.update', $record->id) }}@else{{ route('admin.complex-settings.message-groups.store') }}@endif"
+                      action="{{ route('admin.complex-settings.message-groups.submit-send-to-all') }}"
                       enctype="multipart/form-data">
                     @csrf
                     @method('POST')

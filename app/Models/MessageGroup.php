@@ -17,25 +17,5 @@ class MessageGroup extends Model {
             $message_group->messages()
                           ->delete();
         });
-        self::created(function ( MessageGroup $message_group ): void {
-            $items = [];
-            foreach ( Tenant::all() as $tenant ) {
-                $items[] = [
-                    'tenant_id' => $tenant->id ,
-                    'message_group_id' => $message_group->id ,
-                    'message' => $message_group->message ,
-                    'created_at' => now() ,
-                    'updated_at' => now() ,
-                ];
-            }
-            Message::query()
-                   ->insert($items);
-        });
-        self::updated(function ( MessageGroup $message_group ): void {
-            $message_group->messages()
-                          ->update([
-                                       'message' => $message_group->message ,
-                                   ]);
-        });
     }
 }

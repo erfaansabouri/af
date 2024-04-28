@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Message;
 use App\Models\MessageGroup;
+use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -22,52 +24,13 @@ class MessageGroupController extends Controller {
         return view('metronic.admin.group-messages.index' , compact('records'));
     }
 
-    public function create () {
-        return view('metronic.admin.group-messages.form');
-    }
-
-    public function store ( Request $request ) {
-        $record = new MessageGroup();
-        $this->save($record , $request);
-
-        flash()
-            ->options([
-                          'timeout' => 3000 ,
-                          'position' => 'top-left' ,
-                      ])
-            ->addSuccess('رکورد با موفقیت ایجاد شد.' , 'تبریک!');
-
-        return redirect()->route('admin.complex-settings.message-groups.index');
-    }
-
-    public function edit ( $id ) {
-        $record = MessageGroup::query()
-                        ->findOrFail($id);
-
-        return view('metronic.admin.group-messages.form' , compact('record'));
-    }
-
-    public function update ( Request $request , $id ) {
-        $record = MessageGroup::query()
-                        ->findOrFail($id);
-        $this->save($record , $request);
-
-        flash()
-            ->options([
-                          'timeout' => 3000 ,
-                          'position' => 'top-left' ,
-                      ])
-            ->addSuccess('رکورد با موفقیت بروز شد.' , 'تبریک!');
-
-        return redirect()->route('admin.complex-settings.message-groups.index');
-    }
-
     public function save ( MessageGroup $record , Request $request ) {
         $request->validate([
                                'message' => [ 'required' ] ,
                            ]);
         $record->message = $request->get('message');
         $record->save();
+        return $record;
     }
 
     public function destroy ( $id ) {
@@ -80,6 +43,35 @@ class MessageGroupController extends Controller {
                           'position' => 'top-left' ,
                       ])
             ->addSuccess('رکورد با موفقیت حذف شد.' , 'تبریک!');
+
+        return redirect()->route('admin.complex-settings.message-groups.index');
+    }
+
+    public function createSendToAll(){
+        return view('metronic.admin.group-messages.create-send-to-all');
+    }
+
+    public function submitSendToAll ( Request $request ) {
+        $record = new MessageGroup();
+        $message_group = $this->save($record , $request);
+        $items = [];
+        foreach ( Tenant::all() as $tenant ) {
+            $items[] = [
+                'tenant_id' => $tenant->id ,
+                'message_group_id' => $message_group->id ,
+                'message' => $message_group->message ,
+                'created_at' => now() ,
+                'updated_at' => now() ,
+            ];
+        }
+        Message::query()
+               ->insert($items);
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('رکورد با موفقیت ایجاد شد.' , 'تبریک!');
 
         return redirect()->route('admin.complex-settings.message-groups.index');
     }
