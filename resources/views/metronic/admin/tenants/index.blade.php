@@ -74,6 +74,7 @@
                                 <th class="iransans-web">شماره تماس</th>
                                 <th class="iransans-web">نوع کاربری</th>
                                 <th class="iransans-web">شارژ ماهیانه</th>
+                                <th class="iransans-web">تعداد اخطار ها</th>
                                 <th class="iransans-web">عملیات</th>
                             </tr>
                             </thead>
@@ -88,11 +89,13 @@
                                     <td class="iransans-web">{{ $record->phone_number }}</td>
                                     <td class="iransans-web">{{ $record->tenantType->type_fa }}</td>
                                     <td class="iransans-web">{{ is_numeric($record->monthly_charge_amount) ? number_format($record->monthly_charge_amount) : "ندارد" }}</td>
+                                    <td class="iransans-web">{{ $record->warnings_count }}</td>
                                     <td>
                                         <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
                                             <div class="btn-group" role="group" aria-label="First group">
                                                 <a href="{{ route('admin.tenants.edit', $record->id) }}" class="btn btn-primary  btn-icon"><i class="la la-edit"></i></a>
                                                 <a href="{{ route('admin.tenants.monthly-charges', $record->id) }}" class="btn btn-success btn-icon"><i class="la la-file-invoice"></i></a>
+                                                <a href="{{ route('admin.warnings.index', ['tenant_id' => $record->id]) }}" class="btn btn-danger btn-icon"><i class="la la-warning"></i></a>
                                             </div>
                                         </div>
                                     </td>

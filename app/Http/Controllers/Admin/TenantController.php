@@ -15,6 +15,7 @@ class TenantController extends Controller {
                                     'tenantType' ,
                                     'floor' ,
                                 ])
+                         ->withCount([ 'warnings' ])
                          ->when($request->get('search') , function ( Builder $query ) use ( $request ) {
                              $search = $request->get('search');
                              $query->where('id' , 'like' , '%' . $search . '%')
@@ -73,7 +74,10 @@ class TenantController extends Controller {
                                'plaque' => [ 'required' ] ,
                                'floor_id' => [ 'required' ] ,
                                'tenant_type_id' => [ 'required' ] ,
-                               'monthly_charge_amount' => [ 'required', 'numeric' ] ,
+                               'monthly_charge_amount' => [
+                                   'required' ,
+                                   'numeric',
+                               ] ,
                            ]);
         $record->plaque = $request->get('plaque');
         $record->name = $request->get('name');
@@ -85,8 +89,8 @@ class TenantController extends Controller {
         $record->meters = $request->get('meters');
         $record->monthly_charge_amount = $request->get('monthly_charge_amount');
         $record->activity_type = $request->get('activity_type');
+        $record->debt_amount = $request->get('debt_amount');
         $record->save();
-
         if ( $password = $request->get('password') ) {
             $record->password = bcrypt($password);
         }
@@ -113,12 +117,11 @@ class TenantController extends Controller {
         return view('metronic.admin.tenants.monthly-charges.index' , compact('tenant' , 'records'));
     }
 
-    public function setDefaultPassword($id){
+    public function setDefaultPassword ( $id ) {
         $tenant = Tenant::query()
                         ->findOrFail($id);
         $tenant->password = bcrypt($tenant->default_password);
         $tenant->save();
-
         flash()
             ->options([
                           'timeout' => 3000 ,

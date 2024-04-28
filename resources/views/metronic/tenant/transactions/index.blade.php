@@ -19,7 +19,7 @@
                         <!--begin: Search Form-->
                         <!--begin::Search Form-->
                         <div class="mb-7">
-                            <form action="{{ route('admin.transactions.index') }}" method="get">
+                            <form action="{{ route('tenant.transactions.index') }}" method="get">
                                 <div class="row align-items-center">
                                     <div class="col-lg-3 col-xl-3">
                                         <div class="row align-items-center">
@@ -43,7 +43,7 @@
                         </div>
 
                         <div class="mb-7">
-                            <form action="{{ route('admin.transactions.export') }}" method="get">
+                            <form action="{{ route('tenant.transactions.export') }}" method="get">
                                 <div class="row align-items-center">
                                     <div class="col-lg-3 col-xl-3">
                                         <div class="row align-items-center">

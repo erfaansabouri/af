@@ -5,7 +5,7 @@ use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\MessageController;
 use App\Http\Controllers\Tenant\MonthlyChargeController;
 use App\Http\Controllers\Tenant\ProfileController;
-use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\Tenant\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -36,4 +36,10 @@ Route::middleware(['auth:tenant'])->prefix('monthly-charges')->group(function ()
 Route::middleware([])->prefix('transactions')->group(function (){
     Route::get('/generate-url', [TransactionController::class, 'generateUrl'])->name('transaction.generate-url');
     Route::get('/verify', [TransactionController::class, 'verify'])->name('transaction.verify');
+});
+#
+#
+Route::middleware(['auth:tenant'])->prefix('transactions')->group(function (){
+    Route::get('/', [TransactionController::class, 'index'])->name('tenant.transactions.index');
+    Route::get('/export', [TransactionController::class, 'export'])->name('tenant.transactions.export');
 });

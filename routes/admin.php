@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\FloorController;
 use App\Http\Controllers\Admin\MessageGroupController;
 use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\Admin\TransactionController;
+use App\Http\Controllers\Admin\WarningController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -66,4 +67,9 @@ Route::middleware(['auth:admin'])->prefix('transactions')->group(function (){
     Route::get('/', [TransactionController::class, 'index'])->name('admin.transactions.index');
     Route::get('/export', [TransactionController::class, 'export'])->name('admin.transactions.export');
     Route::get('/pdf/{id}', [TransactionController::class, 'pdf'])->name('admin.transactions.pdf');
+});
+#
+Route::middleware(['auth:admin'])->prefix('warnings')->group(function (){
+    Route::get('/', [WarningController::class, 'index'])->name('admin.warnings.index');
+    Route::get('/destroy/{id}', [WarningController::class, 'destroy'])->name('admin.warnings.destroy');
 });

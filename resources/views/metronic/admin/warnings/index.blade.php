@@ -1,7 +1,7 @@
 @extends('metronic.master')
 @section('content')
     @php
-        $model_name = 'تراکنش';
+        $model_name = 'اخطار';
     @endphp
     <div>
         <div class="d-flex flex-column-fluid">
@@ -19,7 +19,7 @@
                         <!--begin: Search Form-->
                         <!--begin::Search Form-->
                         <div class="mb-7">
-                            <form action="{{ route('admin.transactions.index') }}" method="get">
+                            <form action="{{ route('admin.warnings.index') }}" method="get">
                                 <div class="row align-items-center">
                                     <div class="col-lg-3 col-xl-3">
                                         <div class="row align-items-center">
@@ -42,56 +42,14 @@
                             </form>
                         </div>
 
-                        <div class="mb-7">
-                            <form action="{{ route('admin.transactions.export') }}" method="get">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-3 col-xl-3">
-                                        <div class="row align-items-center">
-                                            <div class="col-lg-12 col-xl-12 my-2 my-md-0">
-                                                <div class="input-icon">
-                                                    <input value="" type="text" class="form-control started-at-datepicker" />
-                                                    <input  name="started_at" type="hidden" class="alt-started-at-datepicker" />
-                                                    <span>
-                                                        <i class="flaticon-calendar text-muted"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-3 col-xl-3">
-                                        <div class="row align-items-center">
-                                            <div class="col-lg-12 col-xl-12 my-2 my-md-0">
-                                                <div class="input-icon">
-                                                    <input value="" type="text" class="form-control ended-at-datepicker" />
-                                                    <input  name="ended_at" type="hidden" class="alt-ended-at-datepicker" />
-                                                    <span>
-                                                        <i class="flaticon-calendar text-muted"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
-                                        <button class="btn btn-light-primary px-6 font-weight-bold">دریافت خروجی اکسل</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
                         <table
                             class="table table-bordered table-striped">
                             <caption>{{$model_name}} ها</caption>
                             <thead class="thead-light iransans-web">
                             <tr>
                                 <th class="iransans-web">شناسه</th>
-                                <th class="iransans-web">شماره تراکنش</th>
-                                <th class="iransans-web">کد پیگیری</th>
                                 <th class="iransans-web">کاربر</th>
-                                <th class="iransans-web">موضوع پرداخت</th>
-                                <th class="iransans-web">مبلغ</th>
-                                <th class="iransans-web">وضعیت پرداخت</th>
+                                <th class="iransans-web">دلیل اخطار</th>
                                 <th class="iransans-web">تاریخ ایجاد</th>
                                 <th class="iransans-web">عملیات</th>
                             </tr>
@@ -100,17 +58,11 @@
                             @foreach($records as $record)
                                 <tr>
                                     <td class="iransans-web">{{ $record->id }}</td>
-                                    <td class="iransans-web">{{ $record->tx_id }}</td>
-                                    <td class="iransans-web">{{ $record->ref_id }}</td>
                                     <td class="iransans-web">{{ $record->tenant->full_name }}</td>
-                                    <td class="iransans-web">{{ $record->subject }}</td>
-                                    <td class="iransans-web">{{ number_format($record->amount) }} ریال</td>
-                                    <td class="iransans-web">{{ $record->status }}</td>
+                                    <td class="iransans-web">{{ $record->reason }}</td>
                                     <td class="iransans-web">{{ verta($record->created_at)->format('Y/m/d H:i:s') }}</td>
                                     <td class="iransans-web">
-                                        @if($record->paid_at)
-                                            <a href="{{ route('admin.transactions.pdf', $record->id) }}" class="btn btn-primary">PDF</a>
-                                        @endif
+                                        <a href="{{ route('admin.warnings.destroy', $record->id) }}" class="btn btn-danger">حذف اخطار</a>
                                     </td>
                                 </tr>
                             @endforeach
