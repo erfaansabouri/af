@@ -84,7 +84,9 @@
                                             @if(!$record->paid_at)
                                                 <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
                                                     <div class="btn-group" role="group" aria-label="First group">
-                                                        <a href="{{ route('transaction.generate-url', ['monthly_charge_id' => $record->id]) }}" class="btn btn-primary">پرداخت</a>
+                                                        <a href="{{ route('transaction.generate-url', ['monthly_charge_id' => $record->id]) }}" class="btn btn-primary">پرداخت درگاهی</a>
+                                                        <br>
+                                                        <a href="{{ route('admin.tenants.fake-pay.monthly-charges', ['id' => $record->id]) }}" class="btn btn-light-dark">پرداخت تصنعی</a>
                                                     </div>
                                                 </div>
                                             @else

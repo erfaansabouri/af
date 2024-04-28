@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\MonthlyCharge;
 use App\Models\Tenant;
+use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -76,7 +77,7 @@ class TenantController extends Controller {
                                'tenant_type_id' => [ 'required' ] ,
                                'monthly_charge_amount' => [
                                    'required' ,
-                                   'numeric',
+                                   'numeric' ,
                                ] ,
                            ]);
         $record->plaque = $request->get('plaque');
@@ -130,5 +131,37 @@ class TenantController extends Controller {
             ->addSuccess('رکورد با موفقیت بروز رسانی شد.' , 'تبریک!');
 
         return redirect()->route('admin.tenants.index');
+    }
+
+    public function fakePayMonthlyCharge ( $id ) {
+        $monthly_charge = MonthlyCharge::query()
+                                       ->findOrFail($id);
+
+        $transaction = Transaction::query()
+                                  ->create([
+                                               'tenant_id' => $monthly_charge->tenant_id ,
+                                               'monthly_charge_id' => $monthly_charge->id ,
+                                               'original_amount' => $monthly_charge->original_amount ,
+                                               'amount' => $monthly_charge->final_amount ,
+                                               'subject' => 'شارژ ماهیانه'
+                                           ]);
+
+        $transaction->paid_at = now();
+        $transaction->ref_id = 'ADMIN-PAY';
+        $transaction->save();
+
+        $monthly_charge = MonthlyCharge::query()
+                                       ->findOrFail($transaction->monthly_charge_id);
+        $monthly_charge->paid_at = now();
+        $monthly_charge->paid_amount = $transaction->amount;
+        $monthly_charge->save();
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('پرداخت با موفقیت انجام شد.' , 'تبریک!');
+        return redirect()->route('admin.tenants.monthly-charges' , $monthly_charge->tenant_id);
+
     }
 }
