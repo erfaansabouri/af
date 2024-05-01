@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('monthly_charge_id')->nullable();
             $table->string('original_amount')->nullable();
             $table->string('amount')->nullable();
+            $table->string('subject')->nullable();
             $table->timestamp('paid_at')->nullable();
             $table->timestamp('failed_at')->nullable();
             $table->timestamps();

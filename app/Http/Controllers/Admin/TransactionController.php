@@ -46,8 +46,4 @@ class TransactionController extends Controller {
         $pdf = PDF::loadView('pdf.transaction' , compact('transaction') , [] , [ 'format' => 'A5-L' ]);
         return $pdf->stream('t-' . $transaction->id . '.pdf');
     }
-
-    public function fakePay(Request $request, $id){
-
-    }
 }
