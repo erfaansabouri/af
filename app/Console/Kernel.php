@@ -13,6 +13,9 @@ class Kernel extends ConsoleKernel {
         $schedule->command('warning-cmd')
                  ->everyMinute()
                  ->withoutOverlapping();
+        $schedule->command('app:remove-warning-command')
+                 ->everyMinute()
+                 ->withoutOverlapping();
     }
 
     /**
