@@ -113,11 +113,11 @@
                             @foreach($warnings as $warning)
                                 <div class="card">
                                     <div class="card-header">
-                                        <div class="card-title" data-toggle="collapse" data-target="#collapseص{{ $warning->id }}">
-                                            اخطار{{ verta($warning->created_at)->format('%d %B %Y') }}
+                                        <div class="card-title" data-toggle="collapse" data-target="#collapsew{{ $warning->id }}">
+                                            اخطار {{ verta($warning->created_at)->format('%d %B %Y') }}
                                         </div>
                                     </div>
-                                    <div id="collapseص{{ $warning->id }}" class="collapse" data-parent="#accordionExample1">
+                                    <div id="collapsew{{ $warning->id }}" class="collapse" data-parent="#accordionExample1">
                                         <div class="card-body">
                                             {{ $warning->reason }}
                                         </div>
