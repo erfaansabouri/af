@@ -113,6 +113,7 @@
 
                                                                     <!-- Modal footer -->
                                                                     <div class="modal-footer">
+                                                                        <button type="submit" class="btn btn-success" data-dismiss="modal">ثبت</button>
                                                                         <button type="button" class="btn btn-danger" data-dismiss="modal">بستن</button>
                                                                     </div>
 
