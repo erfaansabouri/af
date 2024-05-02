@@ -159,9 +159,9 @@ class TenantController extends Controller {
         $monthly_charge->paid_amount = $transaction->amount;
         $monthly_charge->save();
 
-        if ($request->get('paid_amount') != $monthly_charge->paid_amount){
+        if ($request->get('paid_amount') != $monthly_charge->final_amount){
             $tenant = Tenant::find($monthly_charge->tenant_id);
-            $tenant->debt_amount = $tenant->debt_amount + ($monthly_charge->paid_amount - $request->get('paid_amount'));
+            $tenant->debt_amount = $tenant->debt_amount + ($monthly_charge->final_amount - $request->get('paid_amount'));
             $tenant->save();
         }
         flash()
