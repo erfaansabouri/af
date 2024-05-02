@@ -21,6 +21,14 @@ class MonthlyCharge extends Model {
         return $query->where('due_date' , '<' , now());
     }
 
+    public function scopePaid ( Builder $query ): Builder {
+        return $query->whereNotNull('paid_at');
+    }
+
+    public function scopeNotPaid ( Builder $query ): Builder {
+        return $query->whereNull('paid_at');
+    }
+
     public function getPersianMonthAttribute () {
         switch ( $this->month ) {
             case 1:
