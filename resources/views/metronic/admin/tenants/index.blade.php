@@ -1,7 +1,7 @@
 @extends('metronic.master')
 @section('content')
     @php
-        $model_name = 'غرفه';
+        $model_name = 'کاربر';
     @endphp
     <div>
         <div class="d-flex flex-column-fluid">
@@ -70,7 +70,7 @@
                                 <th class="iransans-web">پلاک</th>
                                 <th class="iransans-web">طبقه</th>
                                 <th class="iransans-web">متراژ</th>
-                                <th class="iransans-web">نام غرفه</th>
+                                <th class="iransans-web">نام کاربر</th>
                                 <th class="iransans-web">شماره تماس</th>
                                 <th class="iransans-web">نوع کاربری</th>
                                 <th class="iransans-web">شارژ ماهیانه</th>

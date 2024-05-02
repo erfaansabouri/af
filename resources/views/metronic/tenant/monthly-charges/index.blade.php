@@ -114,7 +114,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if($record->tenant->debt_amount > 0)
+                                            @if($record->tenant->debt_amount > 3000000)
                                                 ابتدا بدهی خود را تسویه نمایید
                                             @else
                                                 @if(!$record->paid_at)

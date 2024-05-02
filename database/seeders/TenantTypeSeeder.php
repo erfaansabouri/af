@@ -32,7 +32,7 @@ class TenantTypeSeeder extends Seeder {
         TenantType::query()
                   ->firstOrCreate([
                                       'type' => TenantType::TYPES[ 'GHORFEH' ] ,
-                                      'type_fa' => 'غرفه',
+                                      'type_fa' => 'کاربر',
                                   ]);
         #
         TenantType::query()
