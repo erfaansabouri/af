@@ -21,7 +21,7 @@ class DebtExport implements FromView {
                                ->dueDatePassed();
                          });
 
-        return view('exports.transactions' , [
+        return view('exports.debt' , [
             'tenants' => $tenants,
         ]);
     }

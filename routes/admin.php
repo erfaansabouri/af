@@ -88,5 +88,5 @@ Route::middleware(['auth:admin'])->prefix('warnings')->group(function (){
 });
 #
 Route::middleware(['auth:admin'])->prefix('exports')->group(function (){
-    Route::get('/debt', [ExportController::class, 'index'])->name('admin.exports.debt');
+    Route::get('/debt', [ExportController::class, 'debt'])->name('admin.exports.debt');
 });

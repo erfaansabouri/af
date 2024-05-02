@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ExportController extends Controller {
-    public function index ( Request $request ) {
+    public function debt ( Request $request ) {
         return Excel::download(new DebtExport() , 'debt.xlsx');
     }
 }
