@@ -32,10 +32,10 @@ class ProfileController extends Controller {
 
     public function save ( Tenant $record , Request $request ) {
         $request->validate([
-                               'name' => [ 'required' ] ,
-                               'owner_first_name' => [ 'required' ] ,
-                               'owner_last_name' => [ 'required' ] ,
-                               'phone_number' => [ 'required' ] ,
+                               'name' => [ 'nullable' ] ,
+                               'owner_first_name' => [ 'nullable' ] ,
+                               'owner_last_name' => [ 'nullable' ] ,
+                               'phone_number' => [ 'nullable' ] ,
                            ]);
         $record->name = $request->get('name');
         $record->owner_first_name = $request->get('owner_first_name');

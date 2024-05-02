@@ -49,6 +49,9 @@
                             </g>
                         </svg><!--end::Svg Icon--></span>
                     <span class="menu-text">اطلاعیه ها</span>
+                    @if($m = (Auth::guard('tenant')->user()->messages()->whereNull('seen_at')->count()))
+                        <span class="badge badge-danger">{{ $m }}</span>
+                    @endif
                 </a>
             </li>
             <li class="menu-item @if(Route::is('tenant.monthly-charges.*')) menu-item-active menu-item-open @endif" aria-haspopup="true">

@@ -126,7 +126,16 @@
     </tr>
     <tr>
         <th style="border-bottom: 1px solid #333;border-left: 1px solid #333" class="text-right dana-fa-number" colspan="6">مبلغ کل: {{ number_format($transaction->original_amount) }} ریال</th>
-        <th style="border-bottom: 1px solid #333;border-left: 1px solid #333" class="text-right dana-fa-number" colspan="7">مبلغ تخفیف: {{ number_format($transaction->discountAmount()) }} ریال</th>
+        <th style="border-bottom: 1px solid #333;border-left: 1px solid #333" class="text-right dana-fa-number" colspan="7">
+            @if($transaction->penaltyAmount())
+                مبلغ جریمه:
+                {{ number_format($transaction->penaltyAmount()) }} ریال
+            @endif
+            @if($transaction->discountAmount())
+                    مبلغ تخفیف:
+                {{ number_format($transaction->discountAmount()) }} ریال
+            @endif
+        </th>
     </tr>
     <tr>
         <th style="border-bottom: 1px solid #333;" colspan="13" class="dana-fa-number text-right">مبلغ نهایی: {{ number_format($transaction->amount) }} ریال</th>

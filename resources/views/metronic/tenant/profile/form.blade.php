@@ -45,7 +45,6 @@
                         <div class="col-xl-6">
                             <div class="form-group">
                                 <label class="col-form-label">نام
-                                    <span class="text-danger">*</span>
                                 </label>
                                 <input autocomplete="off" type="text" class="form-control" name="name"
                                        placeholder="نام را وارد کنید."
@@ -56,7 +55,6 @@
                         <div class="col-xl-6">
                             <div class="form-group">
                                 <label class="col-form-label">نام مالک
-                                    <span class="text-danger">*</span>
                                 </label>
                                 <input autocomplete="off" type="text" class="form-control" name="owner_first_name"
                                        placeholder="نام مالک را وارد کنید."
@@ -67,7 +65,6 @@
                         <div class="col-xl-6">
                             <div class="form-group">
                                 <label class="col-form-label">نام خانوادگی مالک
-                                    <span class="text-danger">*</span>
                                 </label>
                                 <input autocomplete="off" type="text" class="form-control" name="owner_last_name"
                                        placeholder="نام خانوادگی مالک را وارد کنید."
@@ -78,7 +75,6 @@
                         <div class="col-xl-6">
                             <div class="form-group">
                                 <label class="col-form-label">شماره تماس
-                                    <span class="text-danger">*</span>
                                 </label>
                                 <input autocomplete="off" type="text" class="form-control" name="phone_number"
                                        placeholder="شماره تماس را وارد کنید."
@@ -99,7 +95,6 @@
                         <div class="col-xl-6">
                             <div class="form-group">
                                 <label class="col-form-label">رمز عبور جهت ورود به سامانه
-                                    <span class="text-danger">*</span>
                                 </label>
                                 <input autocomplete="off" type="password" class="form-control" name="password"
                                        placeholder="رمز عبور را وارد کنید."

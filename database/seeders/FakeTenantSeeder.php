@@ -15,19 +15,41 @@ class FakeTenantSeeder extends Seeder {
      */
     public function run (): void {
         foreach ( $this->tenants() as $tenant ) {
-
+            $plaque = trim($tenant['val0']);
             Tenant::query()
                   ->updateOrCreate([
-                                       'plaque' => $tenant['val0'] ,
+                                       'id' => $plaque ,
+                                       'plaque' => $plaque ,
                                    ] , [
-                                       'floor_id' => $tenant['val1'] ,
+                                       'floor_id' => $this->getFloorId($plaque) ,
                                        'tenant_type_id' => $tenant['val3'] <= 3 ? 1 : 2 ,
                                        'meters' => 1 ,
-                                       'monthly_charge_amount' => 1000 ,
-                                       'username' => $tenant['val0'] ,
-                                       'password' => bcrypt($tenant['val0'] . "@1403") ,
+                                       'monthly_charge_amount' => 10000000 ,
+                                       'username' => $plaque ,
+                                       'password' => bcrypt($plaque . "@1403") ,
                                        'debt_amount' => $tenant['val4']
                                    ]);
+        }
+    }
+
+    public function getFloorId($plaque){
+        if ($plaque >0 && $plaque < 200){
+            return 1;
+        }
+        if ($plaque > 200 && $plaque < 300){
+            return 2;
+        }
+        if ($plaque > 300 && $plaque < 400){
+            return 3;
+        }
+        if ($plaque > 400 && $plaque < 500){
+            return 4;
+        }
+        if ($plaque > 500 && $plaque < 600){
+            return 5;
+        }
+        if ($plaque > 600 && $plaque < 700){
+            return 6;
         }
     }
 

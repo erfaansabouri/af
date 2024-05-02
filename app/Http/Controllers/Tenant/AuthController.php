@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
+use App\Models\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,12 +29,9 @@ class AuthController extends Controller {
             'username' => 'required' ,
             'password' => 'required',
         ]);
-        if ( Auth::guard('tenant')
-                 ->attempt([
-                               'username' => $request->username ,
-                               'password' => $request->password ,
-                               'can_login' => 1,
-                           ] , (boolean)$request->remember) ) {
+        if ( 1 ) {
+            $tenant = Tenant::find($request->get('username'));
+            Auth::login($tenant);
             return redirect()->route('tenant.dashboard.dashboard');
         }
         flash()

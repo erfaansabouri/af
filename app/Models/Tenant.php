@@ -56,8 +56,8 @@ class Tenant extends Authenticatable implements HasMedia {
 
     public function generateMonthlyCharge ( FiscalYear $fiscal_year ) {
         for ( $i = 1 ; $i <= 12 ; $i++ ) {
-            $due_date = verta(Carbon::parse($fiscal_year->started_at)
-                                    ->addMonths($i - 1))
+            $due_date = verta(Carbon::parse($fiscal_year->started_at))
+                ->addMonths($i - 1)
                 ->startMonth()
                 ->toCarbon();
             MonthlyCharge::query()

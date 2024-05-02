@@ -24,14 +24,14 @@ return new class extends Migration {
         Coupon::query()
                           ->create([
                                        'coupon' => Coupon::COUPONS[ 'FIRST_DAY' ],
-                                       'coupon_fa' => 'کوپن روز اول هر ماه',
+                                       'coupon_fa' => 'کوپن روز اول و دوم هر ماه',
                                        'discount_percent' => 10
                                    ]);
 
         Coupon::query()
               ->create([
                            'coupon' => Coupon::COUPONS[ 'SECOND_DAY_TO_FIFTH_DAY' ],
-                           'coupon_fa' => 'کوپن روز دوم تا پنجم هر ماه',
+                           'coupon_fa' => 'کوپن روز سوم تا پنجم هر ماه',
                            'discount_percent' => 5
                        ]);
     }
