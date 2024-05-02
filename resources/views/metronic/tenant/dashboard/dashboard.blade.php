@@ -103,6 +103,32 @@
 
                     </div>
                 </div>
+
+                <hr>
+                <div class="row">
+                    <div class="col-xl-12">
+
+
+                        <div class="accordion accordion-toggle-arrow" id="accordionExample1">
+                            @foreach($warnings as $warning)
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title" data-toggle="collapse" data-target="#collapseص{{ $warning->id }}">
+                                            اخطار{{ verta($warning->created_at)->format('%d %B %Y') }}
+                                        </div>
+                                    </div>
+                                    <div id="collapseص{{ $warning->id }}" class="collapse" data-parent="#accordionExample1">
+                                        <div class="card-body">
+                                            {{ $warning->reason }}
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                    </div>
+                </div>
+
                 <!--End::Row-->
             </div>
             <!--end::Container-->
