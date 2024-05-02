@@ -31,7 +31,7 @@ class Tenant extends Authenticatable implements HasMedia {
     }
 
     public function getFullNameAttribute () {
-        return $this->owner_first_name . " " . $this->owner_last_name;
+        return $this->owner_first_name . " " . $this->owner_last_name . " " . $this->plaque;
     }
 
     public function tenantType (): BelongsTo {

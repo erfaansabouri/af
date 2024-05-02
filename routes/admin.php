@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\FiscalYearController;
 use App\Http\Controllers\Admin\FloorController;
 use App\Http\Controllers\Admin\MessageGroupController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\WarningController;
@@ -39,6 +40,11 @@ Route::middleware(['auth:admin'])->prefix('complex-settings')->group(function ()
         Route::get('/', [FloorController::class, 'index'])->name('admin.complex-settings.floors.index');
         Route::get('/edit/{id}', [FloorController::class, 'edit'])->name('admin.complex-settings.floors.edit');
         Route::post('/update/{id}', [FloorController::class, 'update'])->name('admin.complex-settings.floors.update');
+    });
+    Route::middleware([])->prefix('settings')->group(function (){
+        Route::get('/', [SettingController::class, 'index'])->name('admin.complex-settings.settings.index');
+        Route::get('/edit/{id}', [SettingController::class, 'edit'])->name('admin.complex-settings.settings.edit');
+        Route::post('/update/{id}', [SettingController::class, 'update'])->name('admin.complex-settings.settings.update');
     });
     Route::middleware([])->prefix('message-groups')->group(function (){
         Route::get('/', [MessageGroupController::class, 'index'])->name('admin.complex-settings.message-groups.index');

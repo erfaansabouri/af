@@ -1,3 +1,4 @@
+@php use App\Models\Setting; @endphp
 @extends('metronic.master')
 @section('content')
     @php
@@ -29,7 +30,7 @@
                                             <div class="row align-items-center">
                                                 <div class="col-lg-12 col-xl-12 my-2 my-md-0">
                                                     <div class="input-icon">
-                                                        <input placeholder="مبلغ بدهی را وارد کنید" value="" type="text" name="debt_amount" required class="form-control started-at-datepicker" />
+                                                        <input placeholder="مبلغ بدهی را وارد کنید" value="" type="text" name="debt_amount" required class="form-control started-at-datepicker"/>
                                                         <span>
                                                             <i class="flaticon2-fast-back text-muted"></i>
                                                         </span>
@@ -45,7 +46,6 @@
                                 </form>
                             </div>
                         @endif
-
 
                         <div class="mb-7">
                             <form action="#" method="get">
@@ -95,15 +95,15 @@
                                             پایه: {{ number_format($record->original_amount) }} ریال
                                             @if(!$record->paid_at && $record->original_amount > $record->final_amount)
                                                 <hr>
-                                                <span class="text-success">                                            پس از تخفیف: {{ number_format($record->final_amount) }} ریال</span>
+                                                <span class="text-success"> پس از تخفیف: {{ number_format($record->final_amount) }} ریال</span>
                                             @endif
                                             @if(!$record->paid_at && $record->original_amount < $record->final_amount)
                                                 <hr>
-                                                <span class="text-danger">                                            با جریمه: {{ number_format($record->final_amount) }} ریال</span>
+                                                <span class="text-danger"> با جریمه: {{ number_format($record->final_amount) }} ریال</span>
                                             @endif
                                             @if($record->paid_amount)
                                                 <hr>
-                                                پرداختی شما: {{ number_format($record->paid_amount) }} ریال
+                                            پرداختی شما: {{ number_format($record->paid_amount) }} ریال
                                             @endif
                                         </td>
                                         <td class="iransans-web">
@@ -114,7 +114,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if($record->tenant->debt_amount > 3000000)
+                                            @if($record->tenant->debt_amount > Setting::getMinDebtAmount())
                                                 ابتدا بدهی خود را تسویه نمایید
                                             @else
                                                 @if(!$record->paid_at)

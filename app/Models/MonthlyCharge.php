@@ -62,10 +62,11 @@ class MonthlyCharge extends Model {
 
     public function getFinalAmountAttribute () {
         if ( $this->tenant->warnings()
-                          ->count() >= 5 ) {
-            return ( 110 / 100 ) * $this->original_amount;
+                          ->count() >= Setting::getMaxWarningThreshold() ) {
+            $penalty = 100 + Setting::getPenaltyPercent();
+            return ( $penalty / 100 ) * $this->original_amount;
         }
-        if ( $this->tenant->debt_amount > 3000000 ) {
+        if ( $this->tenant->debt_amount > Setting::getMinDebtAmount() ) {
             return $this->original_amount;
         }
         $coupon_first_day = Coupon::query()
