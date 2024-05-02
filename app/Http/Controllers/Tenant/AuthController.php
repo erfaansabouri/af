@@ -29,9 +29,12 @@ class AuthController extends Controller {
             'username' => 'required' ,
             'password' => 'required',
         ]);
-        if ( 1 ) {
-            $tenant = Tenant::find($request->get('username'));
-            Auth::login($tenant);
+        if ( Auth::guard('tenant')
+                 ->attempt([
+                               'username' => $request->username ,
+                               'password' => $request->password ,
+                               'can_login' => 1,
+                           ] , (boolean)$request->remember) ) {
             return redirect()->route('tenant.dashboard.dashboard');
         }
         flash()
