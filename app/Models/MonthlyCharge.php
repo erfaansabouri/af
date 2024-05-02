@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,10 @@ class MonthlyCharge extends Model {
 
     public function fiscalYear (): BelongsTo {
         return $this->belongsTo(FiscalYear::class);
+    }
+
+    public function scopeDueDatePassed ( Builder $query ): Builder {
+        return $query->where('due_date' , '<' , now());
     }
 
     public function getPersianMonthAttribute () {
@@ -59,17 +64,15 @@ class MonthlyCharge extends Model {
                                   ->where('coupon' , Coupon::COUPONS[ 'FIRST_DAY' ])
                                   ->where('active' , true)
                                   ->first();
-
         $is_due_date_today = Carbon::parse($this->due_date)
                                    ->isToday();
-
         $is_due_date_yesterday = Carbon::parse($this->due_date)
-                                   ->isYesterday();
+                                       ->isYesterday();
         if ( $coupon_first_day && Carbon::parse($this->due_date)
                                         ->isFuture() ) {
             return ( ( 100 - $coupon_first_day->discount_percent ) / 100 ) * $this->original_amount;
         }
-        if ( $coupon_first_day && ($is_due_date_today || $is_due_date_yesterday)) {
+        if ( $coupon_first_day && ( $is_due_date_today || $is_due_date_yesterday ) ) {
             return ( ( 100 - $coupon_first_day->discount_percent ) / 100 ) * $this->original_amount;
         }
         ###

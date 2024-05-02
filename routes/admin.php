@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\FiscalYearController;
 use App\Http\Controllers\Admin\FloorController;
 use App\Http\Controllers\Admin\MessageGroupController;
@@ -84,4 +85,8 @@ Route::middleware(['auth:admin'])->prefix('transactions')->group(function (){
 Route::middleware(['auth:admin'])->prefix('warnings')->group(function (){
     Route::get('/', [WarningController::class, 'index'])->name('admin.warnings.index');
     Route::get('/destroy/{id}', [WarningController::class, 'destroy'])->name('admin.warnings.destroy');
+});
+#
+Route::middleware(['auth:admin'])->prefix('exports')->group(function (){
+    Route::get('/debt', [ExportController::class, 'index'])->name('admin.exports.debt');
 });
