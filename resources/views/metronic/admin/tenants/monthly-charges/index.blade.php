@@ -89,7 +89,8 @@
 
                                                         <button data-toggle="modal" data-target="#fake-pay-{{ $record->id }}" class="btn btn-light-dark">پرداخت مجازی توسط مدیر</button>
                                                         <div class="modal" id="fake-pay-{{ $record->id }}">
-                                                            <div class="modal-dialog">
+                                                            <form action="{{ route('admin.tenants.fake-pay.monthly-charges', ['id' => $record->id]) }}" method="POST" class="modal-dialog">
+                                                                @csrf
                                                                 <div class="modal-content">
 
                                                                     <!-- Modal Header -->
@@ -100,13 +101,9 @@
 
                                                                     <!-- Modal body -->
                                                                     <div class="modal-body">
-                                                                        مبلغ پرداختی را وارد نمایید
-                                                                        {{-- {{ route('admin.tenants.fake-pay.monthly-charges', ['id' => $record->id]) }} --}}
+                                                                        مبلغ پرداختی را وارد نمایید.
                                                                         <div class="col-xl-6">
                                                                             <div class="form-group">
-                                                                                <label class="col-form-label">مبلغ
-                                                                                    <span class="text-danger">*</span>
-                                                                                </label>
                                                                                 <input autocomplete="off" type="text" class="form-control" name="paid_amount"
                                                                                        placeholder="مبلغ را وارد کنید."
                                                                                        value=""/>
@@ -116,11 +113,11 @@
 
                                                                     <!-- Modal footer -->
                                                                     <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">بستن</button>
                                                                     </div>
 
                                                                 </div>
-                                                            </div>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
