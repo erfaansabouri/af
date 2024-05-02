@@ -19,10 +19,10 @@ class DebtExport implements FromView {
                          ->orWhereHas('monthlyCharges' , function ( $q ) {
                              $q->notPaid()
                                ->dueDatePassed();
-                         });
+                         })->get();
 
         return view('exports.debt' , [
-            'tenants' => $tenants,
+            'tenants' => $tenants ,
         ]);
     }
 }
