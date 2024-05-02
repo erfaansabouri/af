@@ -48,7 +48,7 @@
                             <thead class="thead-light iransans-web">
                             <tr>
                                 <th class="iransans-web">شناسه</th>
-                                <th class="iransans-web">کاربر</th>
+                                <th class="iransans-web">پلاک</th>
                                 <th class="iransans-web">دلیل اخطار</th>
                                 <th class="iransans-web">تاریخ ایجاد</th>
                                 <th class="iransans-web">عملیات</th>
@@ -58,7 +58,7 @@
                             @foreach($records as $record)
                                 <tr>
                                     <td class="iransans-web">{{ $record->id }}</td>
-                                    <td class="iransans-web">{{ $record->tenant->full_name }}</td>
+                                    <td class="iransans-web">{{ $record->tenant->plaque }}</td>
                                     <td class="iransans-web">{{ $record->reason }}</td>
                                     <td class="iransans-web">{{ verta($record->created_at)->format('Y/m/d H:i:s') }}</td>
                                     <td class="iransans-web">

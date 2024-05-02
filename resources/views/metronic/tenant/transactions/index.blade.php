@@ -102,7 +102,7 @@
                                     <td class="iransans-web">{{ $record->id }}</td>
                                     <td class="iransans-web">{{ $record->tx_id }}</td>
                                     <td class="iransans-web">{{ $record->ref_id }}</td>
-                                    <td class="iransans-web">{{ $record->tenant->full_name }}</td>
+                                    <td class="iransans-web">{{ $record->tenant->plaque }}</td>
                                     <td class="iransans-web">{{ $record->subject }}</td>
                                     <td class="iransans-web">{{ number_format($record->amount) }} ریال</td>
                                     <td class="iransans-web">{{ $record->status }}</td>

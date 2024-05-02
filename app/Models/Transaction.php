@@ -25,7 +25,7 @@ class Transaction extends Model {
     }
 
     public function getStatusAttribute () {
-        if ( $this->paid_at ) {
+        if ( $this->paid_at ) {x``
             return "پرداخت موفق";
         }
         if ( $this->failed_at ) {
