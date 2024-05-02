@@ -133,35 +133,44 @@ class TenantController extends Controller {
         return redirect()->route('admin.tenants.index');
     }
 
-    public function fakePayMonthlyCharge ( $id ) {
+    public function fakePayMonthlyCharge ( Request $request , $id ) {
+        $request->validate([
+                               'paid_amount' => [
+                                   'required' ,
+                                   'integer',
+                               ],
+                           ]);
         $monthly_charge = MonthlyCharge::query()
                                        ->findOrFail($id);
-
         $transaction = Transaction::query()
                                   ->create([
                                                'tenant_id' => $monthly_charge->tenant_id ,
                                                'monthly_charge_id' => $monthly_charge->id ,
                                                'original_amount' => $monthly_charge->original_amount ,
                                                'amount' => $monthly_charge->final_amount ,
-                                               'subject' => 'شارژ ماهیانه'
+                                               'subject' => 'شارژ ماهیانه',
                                            ]);
-
         $transaction->paid_at = now();
-        $transaction->ref_id = 'ADMIN-PAY';
+        $transaction->ref_id = 'ADMIN-PAY' . rand();
         $transaction->save();
-
         $monthly_charge = MonthlyCharge::query()
                                        ->findOrFail($transaction->monthly_charge_id);
         $monthly_charge->paid_at = now();
         $monthly_charge->paid_amount = $transaction->amount;
         $monthly_charge->save();
+
+        if ($request->get('paid_amount') != $monthly_charge->paid_amount){
+            $tenant = Tenant::find($monthly_charge->tenant_id);
+            $tenant->debt_amount = $tenant->debt_amount + ($monthly_charge->paid_amount - $request->get('paid_amount'));
+            $tenant->save();
+        }
         flash()
             ->options([
                           'timeout' => 3000 ,
                           'position' => 'top-left' ,
                       ])
             ->addSuccess('پرداخت با موفقیت انجام شد.' , 'تبریک!');
-        return redirect()->route('admin.tenants.monthly-charges' , $monthly_charge->tenant_id);
 
+        return redirect()->route('admin.tenants.monthly-charges' , $monthly_charge->tenant_id);
     }
 }
