@@ -73,6 +73,13 @@
                                 <span class="menu-text">لیست طبقه ها</span>
                             </a>
                         </li>
+                        <li class="menu-item @if(Route::is('admin.complex-settings.settings.index')) menu-item-active @endif" aria-haspopup="true">
+                            <a href="{{ route('admin.complex-settings.settings.index') }}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-line">
+                                    <span></span></i>
+                                <span class="menu-text">بدهی ها</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
