@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Setting;
 use App\Models\Warning;
 use Illuminate\Console\Command;
 
@@ -28,7 +29,9 @@ class RemoveWarningCommand extends Command
     {
         $warnings = Warning::whereNotNull('monthly_charge_id')->get();
         foreach ($warnings as $warning){
-            if ($warning->monthlyCharge->paid_at){
+            $tenant_warnings_count = $warning->tenant->warnings()->count();
+
+            if ($warning->monthlyCharge->paid_at && $tenant_warnings_count < Setting::getMaxWarningThreshold()){
                 $warning->delete();
             }
         }
