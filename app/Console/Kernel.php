@@ -16,6 +16,9 @@ class Kernel extends ConsoleKernel {
         $schedule->command('app:remove-warning-command')
                  ->everyMinute()
                  ->withoutOverlapping();
+        $schedule->command('app:debt-reminder-sms-command')
+                 ->daily()
+                 ->withoutOverlapping();
     }
 
     /**

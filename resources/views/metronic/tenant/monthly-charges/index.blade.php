@@ -18,7 +18,7 @@
                     </div>
                     <div class="card-body">
 
-                        @if(Auth::guard('tenant')->user()->debt_amount)
+                        @if(Auth::guard('tenant')->user()->debt_amount > 0)
                             <div class="mb-7">
                                 <div class="row align-items-center col-lg-3 col-xl-6">
                                     <label for="">کاربر گرامی شما مبلغ {{ number_format(Auth::guard('tenant')->user()->debt_amount) }} ریال بدهکار هستید. لطفا مبلغ مورد نظر را وارد کرده و بدهی خود را تسویه کنید.</label>

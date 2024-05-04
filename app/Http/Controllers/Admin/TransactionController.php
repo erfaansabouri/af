@@ -37,8 +37,9 @@ class TransactionController extends Controller {
                             ->startOfDay();
         $ended_at = Carbon::createFromTimestamp($request->get('ended_at'))
                           ->endOfDay();
+        $tenant_type_id = $request->get('tenant_type_id');
 
-        return Excel::download(new TransactionExport($started_at , $ended_at) , 'transactions.xlsx');
+        return Excel::download(new TransactionExport($started_at , $ended_at, $tenant_type_id) , 'transactions.xlsx');
     }
 
     public function pdf ( $id ) {

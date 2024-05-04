@@ -73,7 +73,20 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
+                                    <div class="col-lg-3 col-xl-3">
+                                        <div class="row align-items-center">
+                                            <div class="col-lg-12 col-xl-12 my-2 my-md-0">
+                                                <select name="tenant_type_id" class="form-control selectpicker">
+                                                    <option value="">نوع واحد</option>
+                                                    @foreach(\App\Models\TenantType::all() as $tenant_type)
+                                                        <option value="{{ $tenant_type->id }}">{{ $tenant_type->type_fa }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-2 col-xl-2 mt-5 mt-lg-0">
                                         <button class="btn btn-light-primary px-6 font-weight-bold">دریافت خروجی اکسل</button>
                                     </div>
                                 </div>

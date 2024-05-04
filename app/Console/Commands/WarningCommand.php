@@ -38,6 +38,10 @@ class WarningCommand extends Command {
                                    ]);
         }
         $tenants = Tenant::query()
+                         ->whereIn('tenant_type_id' , [
+                             1 ,
+                             2,
+                         ])
                          ->where('debt_amount' , '>' , 0)
                          ->get();
         foreach ( $tenants as $tenant ) {
