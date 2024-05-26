@@ -86,5 +86,6 @@
 @include('metronic.partials.scrolltop')
 @include('metronic.partials.scripts')
 @stack('scripts')
+<a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=494324&Code=B37eubN2jNq4RJWPfvZ5q3jsR83vP4b4'><img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=494324&Code=B37eubN2jNq4RJWPfvZ5q3jsR83vP4b4' alt='' style='cursor:pointer' code='B37eubN2jNq4RJWPfvZ5q3jsR83vP4b4'></a>
 </body>
 </html>
