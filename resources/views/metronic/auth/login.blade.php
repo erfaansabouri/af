@@ -61,6 +61,7 @@
             </div>
         </div>
     </div>
+    <a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=494324&Code=B37eubN2jNq4RJWPfvZ5q3jsR83vP4b4'><img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=494324&Code=B37eubN2jNq4RJWPfvZ5q3jsR83vP4b4' alt='' style='cursor:pointer' code='B37eubN2jNq4RJWPfvZ5q3jsR83vP4b4'></a>
 </div>
 <script>var KTAppSettings = {
         "breakpoints": {"sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1400},
@@ -117,7 +118,6 @@
 <script src="{{ asset('metronic-assets/plugins/global/plugins.bundle.js') }}"></script>
 <script src="{{ asset('metronic-assets/plugins/custom/prismjs/prismjs.bundle.js') }}"></script>
 <script src="{{ asset('metronic-assets/js/scripts.bundle.js') }}"></script>
-<a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=494324&Code=B37eubN2jNq4RJWPfvZ5q3jsR83vP4b4'><img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=494324&Code=B37eubN2jNq4RJWPfvZ5q3jsR83vP4b4' alt='' style='cursor:pointer' code='B37eubN2jNq4RJWPfvZ5q3jsR83vP4b4'></a>
 @include('metronic.partials.toastr')
 </body>
 </html>
