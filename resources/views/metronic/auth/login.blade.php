@@ -22,6 +22,7 @@
                     <a target="_blank" href="{{ env('APP_URL') }}">
                         <img src="{{ asset('metronic-assets/media/logo.png') }}" class="max-h-75px" alt="وبسایت"/>
                     </a>
+                    <a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=494324&Code=B37eubN2jNq4RJWPfvZ5q3jsR83vP4b4'><img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=494324&Code=B37eubN2jNq4RJWPfvZ5q3jsR83vP4b4' alt='' style='cursor:pointer' code='B37eubN2jNq4RJWPfvZ5q3jsR83vP4b4'></a>
                 </div>
                 <div class="login-signin">
                     <div class="mb-20">
@@ -61,7 +62,6 @@
             </div>
         </div>
     </div>
-    <a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=494324&Code=B37eubN2jNq4RJWPfvZ5q3jsR83vP4b4'><img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=494324&Code=B37eubN2jNq4RJWPfvZ5q3jsR83vP4b4' alt='' style='cursor:pointer' code='B37eubN2jNq4RJWPfvZ5q3jsR83vP4b4'></a>
 </div>
 <script>var KTAppSettings = {
         "breakpoints": {"sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1400},
