@@ -54,7 +54,6 @@ class TransactionController extends Controller {
             dd("ERROR");
         }
         $invoice = ( new Invoice )->amount($transaction->amount / 10);
-        dd(route('transaction.verify'));
         return Payment::callbackUrl(route('transaction.verify'))
                       ->purchase($invoice , function ( $driver , $transactionId ) use ( $transaction ) {
                           $transaction->tx_id = $transactionId;
