@@ -69,7 +69,7 @@ return [
             'terminalId' => '7017509',
             'username' => '7017509',
             'password' => '78384568',
-            'callbackUrl' => route('transaction.verify'),
+            'callbackUrl' => 'https://aftabfars.com/tenant/transactions/verify',
             'description' => 'payment using behpardakht',
             'currency' => 'R', //Can be R, T (Rial, Toman)
             'cumulativeDynamicPayStatus' => false,
