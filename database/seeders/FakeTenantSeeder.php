@@ -39,7 +39,7 @@ class FakeTenantSeeder extends Seeder {
                                        'plaque' => $plaque ,
                                    ] , [
                                        'floor_id' => $this->getFloorId($plaque) ,
-                                       'tenant_type_id' => 1 ,
+                                       'tenant_type_id' => 2 ,
                                        'meters' => 1 ,
                                        'monthly_charge_amount' => str_replace(',', '',$tenant['val1']) ,
                                        'username' => $plaque ,
