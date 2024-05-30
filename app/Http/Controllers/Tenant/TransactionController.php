@@ -98,8 +98,6 @@ class TransactionController extends Controller {
         $transaction = Transaction::query()
                                   ->where('tx_id' , $tx_id)
                                   ->firstOrFail();
-        $monthly_charge = MonthlyCharge::query()
-                                       ->find($transaction->monthly_charge_id);
         try {
             $receipt = Payment::amount($transaction->amount / 10)
                               ->transactionId($tx_id)
@@ -109,6 +107,8 @@ class TransactionController extends Controller {
             $transaction->ref_id = $request->get('RefId');
             $transaction->save();
             if ( $transaction->monthly_charge_id ) {
+                $monthly_charge = MonthlyCharge::query()
+                                               ->find($transaction->monthly_charge_id);
                 $monthly_charge->paid_at = now();
                 $monthly_charge->paid_amount = $transaction->amount;
                 $monthly_charge->save();
