@@ -145,7 +145,16 @@ class TransactionController extends Controller {
         catch ( InvalidPaymentException $exception ) {
             $transaction->failed_at = now();
             $transaction->save();
-            echo $exception->getMessage();
+            if ( Auth::guard('tenant')
+                     ->check() ) {
+                flash()
+                    ->options([
+                                  'timeout' => 3000 ,
+                                  'position' => 'top-left' ,
+                              ])
+                    ->addError($exception->getMessage() , 'خطا!');
+                return redirect()->route('tenant.monthly-charges.index');
+            }
         }
     }
 
