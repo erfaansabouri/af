@@ -71,7 +71,7 @@ return [
             'password' => '78384568',
             'callbackUrl' => 'https://aftabfars.com/tenant/transactions/verify',
             'description' => 'payment using behpardakht',
-            'currency' => 'R', //Can be R, T (Rial, Toman)
+            'currency' => 'T', //Can be R, T (Rial, Toman)
             'cumulativeDynamicPayStatus' => false,
         ],
         'digipay' => [
