@@ -94,6 +94,7 @@ class TransactionController extends Controller {
     }
 
     public function verify ( Request $request ) {
+        dd('222');
         $tx_id = $request->get('RefId');
         $transaction = Transaction::query()
                                   ->where('tx_id' , $tx_id)
