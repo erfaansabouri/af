@@ -154,6 +154,8 @@ class TransactionController extends Controller {
                               ])
                     ->addError($exception->getMessage() , 'خطا!');
                 return redirect()->route('tenant.monthly-charges.index');
+            }else {
+                return redirect()->route('admin.tenants.monthly-charges' , $transaction->tenant_id);
             }
         }
     }
