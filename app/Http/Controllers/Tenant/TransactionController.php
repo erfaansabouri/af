@@ -94,7 +94,7 @@ class TransactionController extends Controller {
     }
 
     public function verify ( Request $request ) {
-        $tx_id = $request->get('Authority');
+        $tx_id = $request->get('SaleOrderId');
         $transaction = Transaction::query()
                                   ->where('tx_id' , $tx_id)
                                   ->firstOrFail();
@@ -105,7 +105,7 @@ class TransactionController extends Controller {
                               ->transactionId($tx_id)
                               ->verify();
             $transaction->paid_at = now();
-            $transaction->ref_id = $receipt->getReferenceId();
+            $transaction->ref_id = $request->get('RefId');
             $transaction->save();
             if ( $transaction->monthly_charge_id ) {
                 $monthly_charge->paid_at = now();
