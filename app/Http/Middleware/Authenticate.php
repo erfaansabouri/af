@@ -16,7 +16,7 @@ class Authenticate extends Middleware
         if (Route::is('admin.*')){
             return $request->expectsJson() ? null : route('admin.auth.login-form');
         }
-        else{
+        if (Route::is('tenant.*')){
             return $request->expectsJson() ? null : route('tenant.auth.login-form');
         }
     }

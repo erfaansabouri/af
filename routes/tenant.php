@@ -34,8 +34,8 @@ Route::middleware(['auth:tenant'])->prefix('monthly-charges')->group(function ()
 });
 #
 Route::middleware(['auth:tenant'])->prefix('transactions')->group(function (){
-    Route::get('/generate-url', [TransactionController::class, 'generateUrl'])->name('transaction.generate-url');
-    Route::any('/verify', [TransactionController::class, 'verify'])->name('transaction.verify');
+    Route::get('/generate-url', [TransactionController::class, 'generateUrl'])->name('tenant.transaction.generate-url');
+    Route::any('/verify', [TransactionController::class, 'verify'])->name('tenant.transaction.verify');
 });
 #
 #
