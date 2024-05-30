@@ -116,12 +116,6 @@ class TransactionController extends Controller {
             }
             if ( $transaction->subject == 'بدهی' ) {
                 $transaction->tenant->decrement('debt_amount' , $transaction->amount);
-                flash()
-                    ->options([
-                                  'timeout' => 3000 ,
-                                  'position' => 'top-left' ,
-                              ])
-                    ->addSuccess('پرداخت با موفقیت انجام شد.' , 'تبریک!');
                 return view('payment.redirect', ['success' => true , 'code' => $tx_id]);
 
             }
