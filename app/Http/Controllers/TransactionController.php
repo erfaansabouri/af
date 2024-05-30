@@ -113,8 +113,8 @@ class TransactionController extends Controller {
             }
         }
         catch ( InvalidPaymentException $exception ) {
-            $monthly_charge->failed_at = now();
-            $monthly_charge->save();
+            $monthly_charge->transaction->failed_at = now();
+            $monthly_charge->transaction->save();
             echo $exception->getMessage();
         }
     }
