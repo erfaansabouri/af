@@ -84,7 +84,7 @@ class TransactionController extends Controller {
             dd("ERROR");
         }
         $invoice = ( new Invoice )->amount($transaction->amount / 10);
-        return Payment::callbackUrl(route('tenant.transaction.verify'))
+        return Payment::callbackUrl(route('web.verify'))
                       ->purchase($invoice , function ( $driver , $transactionId ) use ( $transaction ) {
                           $transaction->tx_id = $transactionId;
                           $transaction->save();
@@ -94,8 +94,6 @@ class TransactionController extends Controller {
     }
 
     public function verify ( Request $request ) {
-        return view('payment.redirect', ['failed' => true]);
-
         $tx_id = $request->get('RefId');
         $transaction = Transaction::query()
                                   ->where('tx_id' , $tx_id)
