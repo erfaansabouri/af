@@ -101,10 +101,11 @@ class TransactionController extends Controller {
         $monthly_charge = MonthlyCharge::query()
                                        ->find($transaction->monthly_charge_id);
         try {
+            dd(Auth::user(), $request);
+
             $receipt = Payment::amount($transaction->amount / 10)
                               ->transactionId($tx_id)
                               ->verify();
-            dd('recipt', $receipt);
 
             $transaction->paid_at = now();
             $transaction->ref_id = $request->get('RefId');
