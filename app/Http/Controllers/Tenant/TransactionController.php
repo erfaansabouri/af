@@ -112,7 +112,7 @@ class TransactionController extends Controller {
                 $monthly_charge->paid_at = now();
                 $monthly_charge->paid_amount = $transaction->amount;
                 $monthly_charge->save();
-                return view('payment.redirect', ['success' => true]);
+                return view('payment.redirect', ['success' => true , 'code' => $tx_id]);
             }
             if ( $transaction->subject == 'بدهی' ) {
                 $transaction->tenant->decrement('debt_amount' , $transaction->amount);
@@ -122,7 +122,7 @@ class TransactionController extends Controller {
                                   'position' => 'top-left' ,
                               ])
                     ->addSuccess('پرداخت با موفقیت انجام شد.' , 'تبریک!');
-                return view('payment.redirect', ['success' => true]);
+                return view('payment.redirect', ['success' => true , 'code' => $tx_id]);
 
             }
         }
