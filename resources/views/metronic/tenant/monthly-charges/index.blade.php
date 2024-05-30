@@ -23,7 +23,7 @@
                                 <div class="row align-items-center col-lg-3 col-xl-6">
                                     <label for="">کاربر گرامی شما مبلغ {{ number_format(Auth::guard('tenant')->user()->debt_amount) }} ریال بدهکار هستید. لطفا مبلغ مورد نظر را وارد کرده و بدهی خود را تسویه کنید.</label>
                                 </div>
-                                <form action="{{ route('transaction.generate-url') }}" method="get">
+                                <form action="{{ route('tenant.transaction.generate-url') }}" method="get">
                                     <input type="hidden" name="tenant_id" value="{{ Auth::guard('tenant')->id() }}">
                                     <div class="row align-items-center">
                                         <div class="col-lg-3 col-xl-6">
@@ -120,7 +120,7 @@
                                                 @if(!$record->paid_at)
                                                     <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
                                                         <div class="btn-group" role="group" aria-label="First group">
-                                                            <a href="{{ route('transaction.generate-url', ['monthly_charge_id' => $record->id]) }}" class="btn btn-primary">پرداخت</a>
+                                                            <a href="{{ route('tenant.transaction.generate-url', ['monthly_charge_id' => $record->id]) }}" class="btn btn-primary">پرداخت</a>
                                                         </div>
                                                     </div>
                                                 @else
