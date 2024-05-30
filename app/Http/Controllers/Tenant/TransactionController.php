@@ -111,19 +111,7 @@ class TransactionController extends Controller {
                 $monthly_charge->paid_at = now();
                 $monthly_charge->paid_amount = $transaction->amount;
                 $monthly_charge->save();
-                flash()
-                    ->options([
-                                  'timeout' => 3000 ,
-                                  'position' => 'top-left' ,
-                              ])
-                    ->addSuccess('پرداخت با موفقیت انجام شد.' , 'تبریک!');
-                if ( Auth::guard('tenant')
-                         ->check() ) {
-                    return redirect()->route('tenant.monthly-charges.index');
-                }
-                else {
-                    return redirect()->route('admin.tenants.monthly-charges' , $monthly_charge->tenant_id);
-                }
+                return view('payment.redirect', ['success' => true]);
             }
             if ( $transaction->subject == 'بدهی' ) {
                 $transaction->tenant->decrement('debt_amount' , $transaction->amount);
@@ -133,26 +121,15 @@ class TransactionController extends Controller {
                                   'position' => 'top-left' ,
                               ])
                     ->addSuccess('پرداخت با موفقیت انجام شد.' , 'تبریک!');
-                if ( Auth::guard('tenant')
-                         ->check() ) {
-                    return redirect()->route('tenant.monthly-charges.index');
-                }
-                else {
-                    return redirect()->route('admin.tenants.monthly-charges' , $transaction->tenant_id);
-                }
+                return view('payment.redirect', ['success' => true]);
+
             }
         }
         catch ( InvalidPaymentException $exception ) {
             $transaction->failed_at = now();
             $transaction->save();
-            dd($request, Auth::user());
-            //flash()
-            //    ->options([
-            //                  'timeout' => 3000 ,
-            //                  'position' => 'top-left' ,
-            //              ])
-            //    ->addError($exception->getMessage() , 'خطا!');
-            //return redirect()->route('tenant.monthly-charges.index');
+            return view('payment.redirect', ['failed' => true]);
+
         }
     }
 
