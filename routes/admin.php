@@ -96,3 +96,7 @@ Route::middleware(['auth:admin'])->prefix('warnings')->group(function (){
 Route::middleware(['auth:admin'])->prefix('exports')->group(function (){
     Route::get('/debt', [ExportController::class, 'debt'])->name('admin.exports.debt');
 });
+#
+Route::middleware(['auth:admin'])->prefix('transactions')->group(function (){
+    Route::get('/generate-url', [TransactionController::class, 'generateUrl'])->name('admin.transaction.generate-url');
+});
