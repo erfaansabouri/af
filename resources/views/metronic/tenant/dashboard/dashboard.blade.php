@@ -164,7 +164,7 @@
                                         </div>
                                         <div class="m-portlet__foot m-portlet__foot--fit">
                                             <div class="m-form__actions">
-                                                <button type="reset" class="btn btn-primary">ثبت</button>
+                                                <button type="submit" class="btn btn-primary">ثبت</button>
                                             </div>
                                         </div>
                                     </form>
