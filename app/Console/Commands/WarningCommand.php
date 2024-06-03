@@ -29,27 +29,28 @@ class WarningCommand extends Command {
                                         ->where('due_date' , '<' , now()->subDays(30))
                                         ->get();
         foreach ( $monthly_charges as $monthly_charge ) {
+            $month_of_charge = $monthly_charge->month;
             Warning::query()
                    ->firstOrCreate([
                                        'tenant_id' => $monthly_charge->tenant_id ,
                                        'monthly_charge_id' => $monthly_charge->id ,
                                    ] , [
-                                       'reason' => 'شارژ پرداخت نشده' ,
+                                       'reason' => "بابت شارژ پرداخت نشده ماه $month_of_charge ام" ,
                                    ]);
         }
-        $tenants = Tenant::query()
-                         ->whereIn('tenant_type_id' , [
-                             1 ,
-                             2,
-                         ])
-                         ->where('debt_amount' , '>' , 0)
-                         ->get();
-        foreach ( $tenants as $tenant ) {
-            Warning::query()
-                   ->firstOrCreate([
-                                       'tenant_id' => $tenant->id ,
-                                       'reason' => 'بدهی' ,
-                                   ]);
-        }
+        //$tenants = Tenant::query()
+        //                 ->whereIn('tenant_type_id' , [
+        //                     1 ,
+        //                     2,
+        //                 ])
+        //                 ->where('debt_amount' , '>' , 0)
+        //                 ->get();
+        //foreach ( $tenants as $tenant ) {
+        //    Warning::query()
+        //           ->firstOrCreate([
+        //                               'tenant_id' => $tenant->id ,
+        //                               'reason' => 'بدهی' ,
+        //                           ]);
+        //}
     }
 }
