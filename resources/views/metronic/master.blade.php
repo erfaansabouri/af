@@ -46,7 +46,7 @@
             <div class="brand flex-column-auto" id="kt_brand">
                 <!--begin::Logo-->
                 <a href="#" class="brand-logo">
-                    <img style="height: 25px" alt="{{ env('APP_NAME') }}" src="{{ asset('metronic-assets/media/minimal-logo.png') }}"/>
+                    <img style="height: 25px" alt="{{ env('APP_NAME') }}" src="@if(\Illuminate\Support\Facades\Auth::guard('tenant')->user()->hasMedia('image')) {{ \Illuminate\Support\Facades\Auth::guard('tenant')->user()->getFirstMediaUrl('image') }} @else{{ asset('metronic-assets/media/minimal-logo.png') }} @endif"/>
                 </a>
                 <!--end::Logo-->
                 <!--begin::Toggle-->
