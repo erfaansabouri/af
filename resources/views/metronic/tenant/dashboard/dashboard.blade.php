@@ -159,7 +159,7 @@
                                             </div>
                                             <div class="form-group m-form__group">
                                                 <label for="exampleInputEmail1">شماره همراه</label>
-                                                <input value="09" type="text" class="form-control m-input" id="phone" aria-describedby="phone" placeholder="09...">
+                                                <input dir="ltr" style="direction: ltr" value="09" type="text" class="form-control m-input" id="phone" aria-describedby="phone" placeholder="09...">
                                             </div>
                                         </div>
                                         <div class="m-portlet__foot m-portlet__foot--fit">
