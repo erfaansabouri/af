@@ -18,6 +18,11 @@ use Shetabit\Payment\Facade\Payment;
 
 class TransactionController extends Controller {
     public function index ( Request $request ) {
+        $started_at = Carbon::createFromTimestamp($request->get('started_at'))
+                            ->startOfDay();
+        $ended_at = Carbon::createFromTimestamp($request->get('ended_at'))
+                          ->endOfDay();
+        $tenant_type_id = $request->get('tenant_type_id');
         $records = Transaction::query()
                               ->when($request->get('search') , function ( Builder $query ) use ( $request ) {
                                   $search = $request->get('search');
@@ -25,6 +30,17 @@ class TransactionController extends Controller {
                                         ->orWhere('ref_id' , 'like' , '%' . $search . '%')
                                         ->orWhere('tx_id' , 'like' , '%' . $search . '%')
                                         ->orWhere('tenant_id' , 'like' , '%' . $search . '%');
+                              })
+                              ->when($request->get('started_at') , function ( Builder $query ) use ( $started_at ) {
+                                  $query->where('created_at' , '>' , $started_at);
+                              })
+                              ->when($request->get('ended_at') , function ( Builder $query ) use ( $ended_at ) {
+                                  $query->where('created_at' , '<' , $ended_at);
+                              })
+                              ->when($request->get('tenant_type_id') , function ( Builder $query ) use ( $tenant_type_id ) {
+                                  $query->whereHas('tenant' , function ( $q ) use ( $tenant_type_id ) {
+                                      $q->where('tenant_type_id' , $tenant_type_id);
+                                  });
                               })
                               ->orderByDesc('id')
                               ->get();
@@ -43,12 +59,13 @@ class TransactionController extends Controller {
                           ->endOfDay();
         $tenant_type_id = $request->get('tenant_type_id');
 
-        return Excel::download(new TransactionExport($started_at , $ended_at, $tenant_type_id) , 'transactions.xlsx');
+        return Excel::download(new TransactionExport($started_at , $ended_at , $tenant_type_id) , 'transactions.xlsx');
     }
 
     public function pdf ( $id ) {
         $transaction = Transaction::findOrFail($id);
         $pdf = PDF::loadView('pdf.transaction' , compact('transaction') , [] , [ 'format' => 'A5-L' ]);
+
         return $pdf->stream('t-' . $transaction->id . '.pdf');
     }
 
@@ -67,7 +84,7 @@ class TransactionController extends Controller {
                                                    'monthly_charge_id' => $monthly_charge->id ,
                                                    'original_amount' => $monthly_charge->original_amount ,
                                                    'amount' => $monthly_charge->final_amount ,
-                                                   'subject' => 'شارژ ماهیانه',
+                                                   'subject' => 'شارژ ماهیانه' ,
                                                ]);
         }
         else if ( $debt_amount = $request->get('debt_amount') ) {
@@ -86,13 +103,14 @@ class TransactionController extends Controller {
                                                    'tenant_id' => $request->get('tenant_id') ,
                                                    'original_amount' => $debt_amount ,
                                                    'amount' => $debt_amount ,
-                                                   'subject' => 'بدهی',
+                                                   'subject' => 'بدهی' ,
                                                ]);
         }
         else {
             dd("ERROR");
         }
         $invoice = ( new Invoice )->amount($transaction->amount / 10);
+
         return Payment::callbackUrl(route('web.verify'))
                       ->purchase($invoice , function ( $driver , $transactionId ) use ( $transaction ) {
                           $transaction->tx_id = $transactionId;
@@ -101,5 +119,4 @@ class TransactionController extends Controller {
                       ->pay()
                       ->render();
     }
-
 }
