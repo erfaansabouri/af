@@ -22,6 +22,7 @@ Route::middleware(['auth:tenant'])->prefix('dashboard')->group(function (){
 Route::middleware(['auth:tenant'])->prefix('profile')->group(function (){
     Route::get('/edit', [ProfileController::class, 'edit'])->name('tenant.profile.edit');
     Route::post('/update', [ProfileController::class, 'update'])->name('tenant.profile.update');
+    Route::post('/update-phone-number', [ProfileController::class, 'updatePhoneNumber'])->name('tenant.profile.update-phone-number');
 });
 #
 Route::middleware(['auth:tenant'])->prefix('messages')->group(function (){

@@ -30,6 +30,20 @@ class ProfileController extends Controller {
         return redirect()->route('tenant.profile.edit');
     }
 
+    public function updatePhoneNumber ( Request $request ) {
+        $record = Auth::guard('tenant')
+                      ->user();
+        $record->phone_number = $request->get('phone_number');
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('شماره با موفقیت بروز شد.' , 'تبریک!');
+
+        return redirect()->route('tenant.dashboard.dashboard');
+    }
+
     public function save ( Tenant $record , Request $request ) {
         $request->validate([
                                'name' => [ 'nullable' ] ,
