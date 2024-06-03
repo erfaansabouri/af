@@ -307,6 +307,13 @@
                                 <span class="menu-text">خروجی بدهی ها</span>
                             </a>
                         </li>
+                        <li class="menu-item @if(Route::is('admin.exports.*')) menu-item-active @endif" aria-haspopup="true">
+                            <a href="{{ route('admin.exports.power-outage') }}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-line">
+                                    <span></span></i>
+                                <span class="menu-text">خروجی قطع برق</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>

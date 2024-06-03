@@ -54,6 +54,15 @@ class Tenant extends Authenticatable implements HasMedia {
         return $this->hasMany(MonthlyCharge::class , 'tenant_id');
     }
 
+    public function scopeWithUnpaidChargesCount ( $query ) {
+        return $query->withCount([
+                                     'monthlyCharges as unpaid_charges_count' => function ( $q ) {
+                                         $q->notPaid()
+                                           ->dueDatePassed();
+                                     },
+                                 ]);
+    }
+
     public function generateMonthlyCharge ( FiscalYear $fiscal_year ) {
         for ( $i = 1 ; $i <= 12 ; $i++ ) {
             $due_date = verta(Carbon::parse($fiscal_year->started_at))
@@ -76,15 +85,15 @@ class Tenant extends Authenticatable implements HasMedia {
         return $this->plaque . "@1403";
     }
 
-    public function getPassedDueDateAmountAttribute(){
+    public function getPassedDueDateAmountAttribute () {
         $monthly_charges = $this->monthlyCharges()
-            ->dueDatePassed()
-            ->get();
-
+                                ->dueDatePassed()
+                                ->get();
         $total = 0;
-        foreach ($monthly_charges as $monthly_charge){
+        foreach ( $monthly_charges as $monthly_charge ) {
             $total += $monthly_charge->final_amount;
         }
+
         return $total;
     }
 }
