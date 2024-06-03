@@ -63,7 +63,7 @@
                                     </div>
 
                                     <div class="col-lg-2 col-xl-2 mt-5 mt-lg-0">
-                                        <button class="btn btn-light-primary px-6 font-weight-bold">دریافت خروجی اکسل</button>
+                                        <button class="btn btn-light-primary px-6 font-weight-bold">جستجو</button>
                                     </div>
                                 </div>
 
