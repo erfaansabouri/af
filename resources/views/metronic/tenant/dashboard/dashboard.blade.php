@@ -72,7 +72,7 @@
                                         </g>
                                     </svg><!--end::Svg Icon-->
                                 </span>
-                                <div class="text-inverse-dark font-weight-bolder font-size-h5 mb-2 mt-5">مبلغ باقی مانده از شارژ امسال</div>
+                                <div class="text-inverse-dark font-weight-bolder font-size-h5 mb-2 mt-5">مبلغ باقی مانده از شارژ تا پایان اردیبهشت 1404</div>
                                 <div class="font-weight-bold text-inverse-dark font-size-sm">{{ number_format(Auth::guard('tenant')->user()->monthlyCharges()->whereNull('paid_at')->sum('original_amount')) }} ریال </div>
                             </div>
                             <!--end::Body-->
