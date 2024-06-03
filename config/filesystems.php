@@ -58,7 +58,7 @@ return [
         'parswebserver' => [
             'driver' => 'local',
             'root' => '/home2/aftabfar/public_html/public',
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL').'/public',
             'visibility' => 'public',
         ],
 
