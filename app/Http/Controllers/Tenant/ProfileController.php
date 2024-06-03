@@ -31,6 +31,7 @@ class ProfileController extends Controller {
     }
 
     public function updatePhoneNumber ( Request $request ) {
+        dd($request->all());
         $record = Auth::guard('tenant')
                       ->user();
         $record->phone_number = $request->get('phone_number');
