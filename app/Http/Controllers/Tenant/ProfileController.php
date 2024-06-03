@@ -34,6 +34,7 @@ class ProfileController extends Controller {
         $record = Auth::guard('tenant')
                       ->user();
         $record->phone_number = $request->get('phone_number');
+        $record->save();
         flash()
             ->options([
                           'timeout' => 3000 ,
