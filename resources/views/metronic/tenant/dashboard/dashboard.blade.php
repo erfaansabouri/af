@@ -131,43 +131,48 @@
                 <hr>
                 @if(Auth::guard('tenant')->user()->phone_number == null)
                     <div class="row">
-                        <div class="m-portlet m-portlet--tab">
-                            <div class="m-portlet__head">
-                                <div class="m-portlet__head-caption">
-                                    <div class="m-portlet__head-title">
-                                        <span class="m-portlet__head-icon m--hide">
-                                            <i class="la la-gear"></i>
-                                        </span>
-                                        <h3 class="m-portlet__head-text">
-                                            وارد کردن شماره همراه
-                                        </h3>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!--begin::Form-->
-                            <form class="m-form m-form--fit m-form--label-align-right" method="post" action="{{ route('tenant.profile.update-phone-number') }}">
-                                @csrf
-                                @method('POST')
-                                <div class="m-portlet__body">
-                                    <div class="form-group m-form__group m--margin-top-10">
-                                        <div class="alert m-alert m-alert--default" role="alert">
-                                            لطفا جهت استفاده از سیستم و دریافت پیامک شماره همراه خود را وارد نمایید.
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="m-portlet m-portlet--tab">
+                                    <div class="m-portlet__head">
+                                        <div class="m-portlet__head-caption">
+                                            <div class="m-portlet__head-title">
+                                                <span class="m-portlet__head-icon m--hide">
+                                                    <i class="la la-gear"></i>
+                                                </span>
+                                                <h3 class="m-portlet__head-text">
+                                                    وارد کردن شماره همراه
+                                                </h3>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="form-group m-form__group">
-                                        <label for="exampleInputEmail1">شماره همراه</label>
-                                        <input value="09" type="text" class="form-control m-input" id="phone" aria-describedby="phone" placeholder="09...">
-                                    </div>
-                                </div>
-                                <div class="m-portlet__foot m-portlet__foot--fit">
-                                    <div class="m-form__actions">
-                                        <button type="reset" class="btn btn-primary">ثبت</button>
-                                    </div>
-                                </div>
-                            </form>
 
-                            <!--end::Form-->
+                                    <!--begin::Form-->
+                                    <form class="m-form m-form--fit m-form--label-align-right" method="post" action="{{ route('tenant.profile.update-phone-number') }}">
+                                        @csrf
+                                        @method('POST')
+                                        <div class="m-portlet__body">
+                                            <div class="form-group m-form__group m--margin-top-10">
+                                                <div class="alert m-alert m-alert--default" role="alert">
+                                                    لطفا جهت استفاده از سیستم و دریافت پیامک شماره همراه خود را وارد نمایید.
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-form__group">
+                                                <label for="exampleInputEmail1">شماره همراه</label>
+                                                <input value="09" type="text" class="form-control m-input" id="phone" aria-describedby="phone" placeholder="09...">
+                                            </div>
+                                        </div>
+                                        <div class="m-portlet__foot m-portlet__foot--fit">
+                                            <div class="m-form__actions">
+                                                <button type="reset" class="btn btn-primary">ثبت</button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <!--end::Form-->
+                                </div>
+
+                            </div>
                         </div>
                     </div>
 
