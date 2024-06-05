@@ -8,7 +8,7 @@
 <div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
     <!--begin::Logo-->
     <a href="#">
-        <img style="height: 25px" alt="Logo" src="@if(\Illuminate\Support\Facades\Auth::guard('tenant')->user()->hasMedia('image')) {{ \Illuminate\Support\Facades\Auth::guard('tenant')->user()->getFirstMediaUrl('image') }} @else{{ asset('metronic-assets/media/minimal-logo.png') }} @endif"/>
+        <img style="height: 25px" alt="Logo" src="{{ asset('metronic-assets/media/minimal-logo.png') }}"/>
     </a>
     <!--end::Logo-->
     <!--begin::Toolbar-->
@@ -46,7 +46,7 @@
             <div class="brand flex-column-auto" id="kt_brand">
                 <!--begin::Logo-->
                 <a href="#" class="brand-logo">
-                    <img style="height: 25px" alt="{{ env('APP_NAME') }}" src="@if(\Illuminate\Support\Facades\Auth::guard('tenant')->user()->hasMedia('image')) {{ \Illuminate\Support\Facades\Auth::guard('tenant')->user()->getFirstMediaUrl('image') }} @else{{ asset('metronic-assets/media/minimal-logo.png') }} @endif"/>
+                    <img style="height: 25px" alt="{{ env('APP_NAME') }}" src="{{ asset('metronic-assets/media/minimal-logo.png') }}"/>
                 </a>
                 <!--end::Logo-->
                 <!--begin::Toggle-->
