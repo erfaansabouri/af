@@ -19,6 +19,9 @@ class Kernel extends ConsoleKernel {
         $schedule->command('app:debt-reminder-sms-command')
                  ->daily()
                  ->withoutOverlapping();
+        $schedule->command('expire-transactions')
+                 ->everyMinute()
+                 ->withoutOverlapping();
     }
 
     /**
