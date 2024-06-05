@@ -26,10 +26,7 @@ class ExpireTransactionCommand extends Command
      */
     public function handle()
     {
-        Transaction::query()
-            ->where('created_at', '>', now()->subMinutes(10))
-            ->whereNull('failed_at')
-            ->whereNull('paid_at')
+        Transaction::query()->where('created_at', '<', now()->subMinutes(10))->whereNull('failed_at')->whereNull('paid_at')
             ->update(['failed_at' => now()]);
     }
 }
