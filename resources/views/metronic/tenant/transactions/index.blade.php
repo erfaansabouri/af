@@ -80,42 +80,45 @@
                             </form>
                         </div>
 
-                        <table
-                            class="table table-bordered table-striped">
-                            <caption>{{$model_name}} ها</caption>
-                            <thead class="thead-light iransans-web">
-                            <tr>
-                                <th class="iransans-web">شناسه</th>
-                                <th class="iransans-web">شماره تراکنش</th>
-                                <th class="iransans-web">کد پیگیری</th>
-                                <th class="iransans-web">کاربر</th>
-                                <th class="iransans-web">موضوع پرداخت</th>
-                                <th class="iransans-web">مبلغ</th>
-                                <th class="iransans-web">وضعیت پرداخت</th>
-                                <th class="iransans-web">تاریخ ایجاد</th>
-                                <th class="iransans-web">عملیات</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($records as $record)
+                        <div class="table-responsive">
+                            <table
+                                class="table table-bordered table-striped">
+                                <caption>{{$model_name}} ها</caption>
+                                <thead class="thead-light iransans-web">
                                 <tr>
-                                    <td class="iransans-web">{{ $record->id }}</td>
-                                    <td class="iransans-web">{{ $record->tx_id }}</td>
-                                    <td class="iransans-web">{{ $record->ref_id }}</td>
-                                    <td class="iransans-web">{{ $record->tenant->plaque }}</td>
-                                    <td class="iransans-web">{{ $record->subject }}</td>
-                                    <td class="iransans-web">{{ number_format($record->amount) }} ریال</td>
-                                    <td class="iransans-web">{{ $record->status }}</td>
-                                    <td class="iransans-web">{{ verta($record->created_at)->format('Y/m/d H:i:s') }}</td>
-                                    <td class="iransans-web">
-                                        @if($record->paid_at)
-                                            <a href="{{ route('tenant.transactions.pdf', $record->id) }}" class="btn btn-primary">PDF</a>
-                                        @endif
-                                    </td>
+                                    <th class="iransans-web">شناسه</th>
+                                    <th class="iransans-web">شماره تراکنش</th>
+                                    <th class="iransans-web">کد پیگیری</th>
+                                    <th class="iransans-web">کاربر</th>
+                                    <th class="iransans-web">موضوع پرداخت</th>
+                                    <th class="iransans-web">مبلغ</th>
+                                    <th class="iransans-web">وضعیت پرداخت</th>
+                                    <th class="iransans-web">تاریخ ایجاد</th>
+                                    <th class="iransans-web">عملیات</th>
                                 </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                @foreach($records as $record)
+                                    <tr>
+                                        <td class="iransans-web">{{ $record->id }}</td>
+                                        <td class="iransans-web">{{ $record->tx_id }}</td>
+                                        <td class="iransans-web">{{ $record->ref_id }}</td>
+                                        <td class="iransans-web">{{ $record->tenant->plaque }}</td>
+                                        <td class="iransans-web">{{ $record->subject }}</td>
+                                        <td class="iransans-web">{{ number_format($record->amount) }} ریال</td>
+                                        <td class="iransans-web">{{ $record->status }}</td>
+                                        <td class="iransans-web">{{ verta($record->created_at)->format('Y/m/d H:i:s') }}</td>
+                                        <td class="iransans-web">
+                                            @if($record->paid_at)
+                                                <a href="{{ route('tenant.transactions.pdf', $record->id) }}" class="btn btn-primary">PDF</a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
 
                         <!--end: Datatable-->
                     </div>
