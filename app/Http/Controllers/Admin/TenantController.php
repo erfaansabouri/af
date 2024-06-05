@@ -147,10 +147,11 @@ class TenantController extends Controller {
                                                'tenant_id' => $monthly_charge->tenant_id ,
                                                'monthly_charge_id' => $monthly_charge->id ,
                                                'original_amount' => $monthly_charge->original_amount ,
-                                               'amount' => $monthly_charge->final_amount ,
+                                               'amount' => $monthly_charge->original_amount ,
                                                'subject' => 'شارژ ماهیانه',
                                            ]);
         $transaction->paid_at = now();
+        $transaction->is_fake = true;
         $transaction->ref_id = 'ADMIN-PAY' . rand();
         $transaction->save();
         $monthly_charge = MonthlyCharge::query()
@@ -159,9 +160,9 @@ class TenantController extends Controller {
         $monthly_charge->paid_amount = $transaction->amount;
         $monthly_charge->save();
 
-        if ($request->get('paid_amount') != $monthly_charge->final_amount){
+        if ($request->get('paid_amount') != $monthly_charge->original_amount){
             $tenant = Tenant::find($monthly_charge->tenant_id);
-            $tenant->debt_amount = $tenant->debt_amount + ($monthly_charge->final_amount - $request->get('paid_amount'));
+            $tenant->debt_amount = $tenant->debt_amount + ($monthly_charge->original_amount - $request->get('paid_amount'));
             $tenant->save();
         }
         flash()

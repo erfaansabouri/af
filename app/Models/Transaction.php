@@ -64,6 +64,7 @@ class Transaction extends Model {
         if ( $this->hasPenalty() ) {
             return ( $this->penaltyAmount() / $this->original_amount ) * 100;
         }
+
         return 0;
     }
 
@@ -71,6 +72,16 @@ class Transaction extends Model {
         if ( $this->hasDiscount() ) {
             return ( $this->discountAmount() / $this->original_amount ) * 100;
         }
+
         return 0;
+    }
+
+    public function getFakeTextAttribute () {
+        if ( $this->is_fake ) {
+            return "مجازی توسط مدیریت";
+        }
+        else {
+            return "به پرداخت";
+        }
     }
 }
