@@ -148,7 +148,25 @@
                                     <td class="iransans-web">{{ $record->tenant->plaque }}</td>
                                     <td class="iransans-web">{{ $record->subject }}</td>
                                     <td class="iransans-web">{{ number_format($record->amount) }} ریال</td>
-                                    <td class="iransans-web">{{ $record->status }}</td>
+                                    <td class="iransans-web">
+                                        @if($record->status == 'پرداخت موفق')
+                                            <div class="badge badge-success">
+                                                {{ $record->status }}
+                                            </div>
+                                        @endif
+
+                                        @if($record->status == 'پرداخت ناموفق')
+                                            <div class="badge badge-danger">
+                                                {{ $record->status }}
+                                            </div>
+                                        @endif
+
+                                            @if($record->status == 'در حال پرداخت')
+                                                <div class="badge badge-warning">
+                                                    {{ $record->status }}
+                                                </div>
+                                            @endif
+                                    </td>
                                     <td class="iransans-web">{{ verta($record->created_at)->format('Y/m/d H:i:s') }}</td>
                                     <td class="iransans-web">
                                         @if($record->paid_at)
