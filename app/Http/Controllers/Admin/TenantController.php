@@ -167,6 +167,7 @@ class TenantController extends Controller {
             if ($monthly_charge){
                 $monthly_charge->paid_amount = $paid_amount;
                 $monthly_charge->paid_at = now();
+                $monthly_charge->save();
                 $transaction->subject = 'شارژ ماهیانه';
                 $transaction->monthly_charge_id = $monthly_charge->id;
                 $transaction->save();
