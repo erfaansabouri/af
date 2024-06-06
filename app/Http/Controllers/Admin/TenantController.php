@@ -133,7 +133,7 @@ class TenantController extends Controller {
         return redirect()->route('admin.tenants.index');
     }
 
-    public function fakeTransaction ( Request $request , $id ) {
+    public function fakeTransaction ( Request $request ) {
         $request->validate([
                                'paid_amount' => [
                                    'required' ,
