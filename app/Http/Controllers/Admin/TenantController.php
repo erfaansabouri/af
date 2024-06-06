@@ -137,8 +137,8 @@ class TenantController extends Controller {
         $request->validate([
                                'paid_amount' => [
                                    'required' ,
-                                   'integer',
-                               ],
+                                   'integer' ,
+                               ] ,
                            ]);
         $monthly_charge = MonthlyCharge::query()
                                        ->findOrFail($id);
@@ -148,7 +148,7 @@ class TenantController extends Controller {
                                                'monthly_charge_id' => $monthly_charge->id ,
                                                'original_amount' => $monthly_charge->original_amount ,
                                                'amount' => $monthly_charge->original_amount ,
-                                               'subject' => 'شارژ ماهیانه',
+                                               'subject' => 'شارژ ماهیانه' ,
                                            ]);
         $transaction->paid_at = now();
         $transaction->is_fake = true;
@@ -159,12 +159,44 @@ class TenantController extends Controller {
         $monthly_charge->paid_at = now();
         $monthly_charge->paid_amount = $transaction->amount;
         $monthly_charge->save();
-
-        if ($request->get('paid_amount') != $monthly_charge->original_amount){
+        if ( $request->get('paid_amount') != $monthly_charge->original_amount ) {
+            $debt_diff_amount = $monthly_charge->original_amount - $request->get('paid_amount');
             $tenant = Tenant::find($monthly_charge->tenant_id);
-            $tenant->debt_amount = $tenant->debt_amount + ($monthly_charge->original_amount - $request->get('paid_amount'));
+            $tenant->debt_amount = $tenant->debt_amount + $debt_diff_amount ;
+            $tenant->save();
+
+            $transaction->debt_diff_amount = $debt_diff_amount;
+            $transaction->save();
+        }
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('پرداخت با موفقیت انجام شد.' , 'تبریک!');
+
+        return redirect()->route('admin.tenants.monthly-charges' , $monthly_charge->tenant_id);
+    }
+
+    public function revertFakePayMonthlyCharge ( Request $request , $id ) {
+        $monthly_charge = MonthlyCharge::query()
+                                       ->findOrFail($id);
+        $transaction = Transaction::query()
+                                  ->where('is_fake' , true)
+                                  ->where('monthly_charge_id' , $monthly_charge->id)
+                                  ->firstOrFail();
+
+        if ( $transaction->debt_diff_amount > 0 ) {
+            $tenant = Tenant::find($monthly_charge->tenant_id);
+            $tenant->debt_amount = $tenant->debt_amount - $transaction->debt_diff_amount;
             $tenant->save();
         }
+
+        $monthly_charge->paid_at = null;
+        $monthly_charge->paid_amount = null;
+        $monthly_charge->save();
+
+        $transaction->delete();
         flash()
             ->options([
                           'timeout' => 3000 ,

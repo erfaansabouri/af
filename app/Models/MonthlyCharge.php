@@ -61,10 +61,11 @@ class MonthlyCharge extends Model {
     }
 
     public function getFinalAmountAttribute () {
-        if ($this->tenant->tenant_type_id == 1 || $this->tenant->tenant_type_id == 2){
+        if ( $this->tenant->tenant_type_id == 1 || $this->tenant->tenant_type_id == 2 ) {
             if ( $this->tenant->warnings()
                               ->count() >= Setting::getMaxWarningThreshold() ) {
                 $penalty = 100 + Setting::getPenaltyPercent();
+
                 return ( $penalty / 100 ) * $this->original_amount;
             }
             if ( $this->tenant->debt_amount > Setting::getMinDebtAmount() ) {
@@ -100,9 +101,14 @@ class MonthlyCharge extends Model {
 
             // Return original amount if no discounts apply
             return $this->original_amount;
-        }else{
+        }
+        else {
             return $this->original_amount;
         }
+    }
 
+    public function fakeTransaction () {
+        return $this->hasOne(Transaction::class)
+                    ->where('is_fake' , true);
     }
 }
