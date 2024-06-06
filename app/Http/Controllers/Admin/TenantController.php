@@ -139,10 +139,11 @@ class TenantController extends Controller {
                                    'required' ,
                                    'integer' ,
                                ] ,
+                               'tenant_id' => ['required']
                            ]);
         $paid_amount = $request->get('paid_amount');
         $tenant = Tenant::query()
-                        ->findOrFail($id);
+                        ->findOrFail($request->get('tenant_id'));
         $transaction = Transaction::query()
                                   ->create([
                                                'tenant_id' => $tenant->id ,

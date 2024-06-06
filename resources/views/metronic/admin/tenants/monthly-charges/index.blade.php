@@ -21,7 +21,7 @@
 
                         <button data-toggle="modal" data-target="#fake-transaction" class="btn btn-light-dark">ثبت تراکنش توسط مدیریت</button>
                         <div class="modal" id="fake-transaction">
-                            <form action="{{ route('admin.tenants.fake-transaction', ['id' => $tenant->id]) }}" method="POST" class="modal-dialog">
+                            <form action="{{ route('admin.tenants.fake-transaction') }}" method="POST" class="modal-dialog">
                                 @csrf
                                 <div class="modal-content">
 
@@ -36,6 +36,7 @@
                                         مبلغ پرداختی را وارد نمایید.
                                         <div class="col-xl-6">
                                             <div class="form-group">
+                                                <input type="hidden" name="tenant_id" value="{{ $tenant->id }}">
                                                 <input autocomplete="off" type="text" class="form-control" name="paid_amount"
                                                        placeholder="مبلغ را وارد کنید."
                                                        value=""/>
