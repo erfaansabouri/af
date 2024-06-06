@@ -125,7 +125,7 @@
                                             @elseif($record->fakeTransaction)
                                                 <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
                                                     <div class="btn-group" role="group" aria-label="First group">
-                                                        <a href="{{ route('admin.tenants.revert-fake-pay.monthly-charges', ['monthly_charge_id' => $record->id]) }}" class="btn btn-primary">بازگردانی پرداخت مجازی</a>
+                                                        <a href="{{ route('admin.tenants.revert-fake-pay.monthly-charges', ['id' => $record->id]) }}" class="btn btn-primary">بازگردانی پرداخت مجازی</a>
                                                     </div>
                                                 </div>
 
