@@ -47,7 +47,7 @@
                                     </svg><!--end::Svg Icon-->
                                 </span>
                                 <div class="text-inverse-info font-weight-bolder font-size-h5 mb-2 mt-5">مجموع پرداختی من</div>
-                                <div class="font-weight-bold text-inverse-info font-size-sm">{{ number_format(Auth::guard('tenant')->user()->monthlyCharges()->whereNotNull('paid_at')->sum('paid_amount')) }} ریال</div>
+                                <div class="font-weight-bold text-inverse-info font-size-sm">{{ number_format(Auth::guard('tenant')->user()->transactions()->whereNotNull('paid_at')->sum('amount')) }} ریال</div>
                             </div>
                             <!--end::Body-->
                         </a>
