@@ -53,6 +53,8 @@
                             </form>
                         </div>
 
+                        <hr>
+
                         <div class="mb-7">
                             <form action="#" method="get">
                                 <div class="row align-items-center">
