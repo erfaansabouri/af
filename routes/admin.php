@@ -31,8 +31,7 @@ Route::middleware(['auth:admin'])->prefix('tenants')->group(function (){
     Route::get('/edit/{id}', [TenantController::class, 'edit'])->name('admin.tenants.edit');
     Route::post('/update/{id}', [TenantController::class, 'update'])->name('admin.tenants.update');
     Route::get('/monthly-charges/{id}', [TenantController::class, 'monthlyCharges'])->name('admin.tenants.monthly-charges');
-    Route::any('/monthly-charges/{id}/fake-pay', [TenantController::class, 'fakePayMonthlyCharge'])->name('admin.tenants.fake-pay.monthly-charges');
-    Route::any('/monthly-charges/{id}/revert-fake-pay', [TenantController::class, 'revertFakePayMonthlyCharge'])->name('admin.tenants.revert-fake-pay.monthly-charges');
+    Route::any('/fake-transaction', [TenantController::class, 'fakeTransaction'])->name('admin.tenants.fake-transaction');
     Route::get('/set-default-password/{id}', [TenantController::class, 'setDefaultPassword'])->name('admin.tenants.set-default-password');
 });
 #

@@ -18,6 +18,41 @@
                     <div class="card-body">
                         <!--begin: Search Form-->
                         <!--begin::Search Form-->
+
+                        <button data-toggle="modal" data-target="#fake-transaction" class="btn btn-light-dark">ثبت تراکنش توسط مدیریت</button>
+                        <div class="modal" id="fake-transaction">
+                            <form action="{{ route('admin.tenants.fake-transaction', ['id' => $tenant->id]) }}" method="POST" class="modal-dialog">
+                                @csrf
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">مبلغ</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        مبلغ پرداختی را وارد نمایید.
+                                        <div class="col-xl-6">
+                                            <div class="form-group">
+                                                <input autocomplete="off" type="text" class="form-control" name="paid_amount"
+                                                       placeholder="مبلغ را وارد کنید."
+                                                       value=""/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success">ثبت</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">بستن</button>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+
                         <div class="mb-7">
                             <form action="#" method="get">
                                 <div class="row align-items-center">
@@ -87,48 +122,10 @@
                                                         <a href="{{ route('admin.transaction.generate-url', ['monthly_charge_id' => $record->id]) }}" class="btn btn-primary">پرداخت درگاهی</a>
                                                         <br>
 
-                                                        <button data-toggle="modal" data-target="#fake-pay-{{ $record->id }}" class="btn btn-light-dark">پرداخت مجازی توسط مدیر</button>
-                                                        <div class="modal" id="fake-pay-{{ $record->id }}">
-                                                            <form action="{{ route('admin.tenants.fake-pay.monthly-charges', ['id' => $record->id]) }}" method="POST" class="modal-dialog">
-                                                                @csrf
-                                                                <div class="modal-content">
 
-                                                                    <!-- Modal Header -->
-                                                                    <div class="modal-header">
-                                                                        <h4 class="modal-title">مبلغ</h4>
-                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                    </div>
-
-                                                                    <!-- Modal body -->
-                                                                    <div class="modal-body">
-                                                                        مبلغ پرداختی را وارد نمایید.
-                                                                        <div class="col-xl-6">
-                                                                            <div class="form-group">
-                                                                                <input autocomplete="off" type="text" class="form-control" name="paid_amount"
-                                                                                       placeholder="مبلغ را وارد کنید."
-                                                                                       value=""/>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <!-- Modal footer -->
-                                                                    <div class="modal-footer">
-                                                                        <button type="submit" class="btn btn-success">ثبت</button>
-                                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">بستن</button>
-                                                                    </div>
-
-                                                                </div>
-                                                            </form>
-                                                        </div>
                                                     </div>
                                                 </div>
-                                            @elseif($record->fakeTransaction)
-                                                <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-                                                    <div class="btn-group" role="group" aria-label="First group">
-                                                        <a href="{{ route('admin.tenants.revert-fake-pay.monthly-charges', ['id' => $record->id]) }}" class="btn btn-primary">بازگردانی پرداخت مجازی</a>
-                                                    </div>
-                                                </div>
-
+                                            @else
                                             @endif
                                         </td>
 
