@@ -147,3 +147,31 @@
     </div>
 
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const numberInput = document.getElementById('numberInput');
+
+            const persianToEnglish = (str) => {
+                const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+                const englishNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+                return str.replace(/[\u06F0-\u06F9]/g, (match) => {
+                    return englishNumbers[persianNumbers.indexOf(match)];
+                }).replace(/[\u0660-\u0669]/g, (match) => {
+                    return englishNumbers[match.charCodeAt(0) - 0x0660];
+                });
+            };
+
+            numberInput.addEventListener('input', (event) => {
+                let value = event.target.value;
+                value = persianToEnglish(value);
+                value = value.replace(/,/g, '');
+                if (!isNaN(value)) {
+                    event.target.value = Number(value).toLocaleString();
+                }
+            });
+        });
+
+    </script>
+@endpush

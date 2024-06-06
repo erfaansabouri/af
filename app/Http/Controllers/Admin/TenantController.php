@@ -137,11 +137,10 @@ class TenantController extends Controller {
         $request->validate([
                                'paid_amount' => [
                                    'required' ,
-                                   'integer' ,
                                ] ,
                                'tenant_id' => ['required']
                            ]);
-        $paid_amount = $request->get('paid_amount');
+        $paid_amount = str_replace(',', '', $request->get('paid_amount'));
         $tenant = Tenant::query()
                         ->findOrFail($request->get('tenant_id'));
         $transaction = Transaction::query()
