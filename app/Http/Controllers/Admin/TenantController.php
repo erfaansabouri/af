@@ -156,6 +156,23 @@ class TenantController extends Controller {
         $transaction->is_fake = true;
         $transaction->ref_id = 'ADMIN-PAY' . rand();
         $transaction->save();
+
+        # اگر بیشتر از یک شارژ پایه بود ، یک شارژ رو پرداخت کن
+        if ($paid_amount >= $tenant->monthly_charge_amount){
+            $monthly_charge = MonthlyCharge::query()
+                ->whereNull('paid_amount')
+                ->orderBy('month')
+                ->first();
+
+            if ($monthly_charge){
+                $monthly_charge->paid_amount = $paid_amount;
+                $monthly_charge->paid_at = now();
+                $transaction->subject = 'شارژ ماهیانه';
+                $transaction->monthly_charge_id = $monthly_charge->id;
+                $transaction->save();
+            }
+        }
+
         flash()
             ->options([
                           'timeout' => 3000 ,
