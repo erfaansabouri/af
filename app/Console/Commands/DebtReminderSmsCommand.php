@@ -37,7 +37,8 @@ class DebtReminderSmsCommand extends Command {
                              ->get();
             foreach ( $tenants as $tenant ) {
                 $total = number_format($tenant->debt_amount + $tenant->passed_due_date_amount);
-                Kavenegar::send($tenant->phone_number, 'debtreminder', $tenant->plaque, $total);
+                $warnings = $tenant->warnings()->count();
+                Kavenegar::send($tenant->phone_number, 'debtreminder', $tenant->plaque, $total, $warnings);
             }
         }
     }
