@@ -37,7 +37,7 @@
                                         <div class="col-xl-6">
                                             <div class="form-group">
                                                 <input type="hidden" name="tenant_id" value="{{ $tenant->id }}">
-                                                <input autocomplete="off" type="text" class="form-control" name="paid_amount"
+                                                <input id="numberInput" autocomplete="off" type="text" class="form-control" name="paid_amount"
                                                        placeholder="مبلغ را وارد کنید."
                                                        value=""/>
                                             </div>
