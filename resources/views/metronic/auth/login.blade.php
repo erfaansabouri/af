@@ -38,9 +38,17 @@
                                    type="text" placeholder="نام کاربری" name="username" autocomplete="off"/>
                         </div>
                         <div class="form-group">
-                            <input class="form-control h-auto text-white bg-white-o-5 rounded-pill border-0 py-4 px-8"
-                                   type="password" placeholder="رمز عبور" name="password"/>
+                            <div class="input-group">
+                                <input class="form-control h-auto text-white bg-white-o-5 rounded-pill border-0 py-4 px-8"
+                                       type="password" placeholder="رمز عبور" name="password" id="password"/>
+                                <div class="input-group-append">
+                                    <span class="input-group-text" onclick="revealIt()">
+                                        <i class="fas fa-eye" id="togglePasswordIcon"></i>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="form-group d-flex flex-wrap justify-content-between align-items-center mt-3">
                             <div class="checkbox-inline">
                                 <label class="checkbox checkbox-outline m-0 text-muted">
@@ -63,6 +71,16 @@
         </div>
     </div>
 </div>
+<script>
+    function revealIt() {
+        var passwordField = document.getElementById("password");
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+        } else {
+            passwordField.type = "password";
+        }
+    }
+</script>
 <script>var KTAppSettings = {
         "breakpoints": {"sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1400},
         "colors": {
@@ -119,5 +137,7 @@
 <script src="{{ asset('metronic-assets/plugins/custom/prismjs/prismjs.bundle.js') }}"></script>
 <script src="{{ asset('metronic-assets/js/scripts.bundle.js') }}"></script>
 @include('metronic.partials.toastr')
+
+
 </body>
 </html>
