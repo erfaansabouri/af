@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html dir="rtl" lang="fa-IR">
 <head>
-    <title>به‌فروش</title>
+    <title>مجتمع آفتاب فارس</title>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,7 @@
     <meta name="keywords" content=""/>
     <meta name="description" content="">
 
-    <meta property="og:site_name" content="به‌فروش">
+    <meta property="og:site_name" content="مجتمع آفتاب فارس">
     <meta property="og:locale" content="fa_IR">
     <meta property="og:title" content="">
     <meta property="og:description" content="">
