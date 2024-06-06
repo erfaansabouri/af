@@ -160,6 +160,7 @@ class TenantController extends Controller {
         # اگر بیشتر از یک شارژ پایه بود ، یک شارژ رو پرداخت کن
         if ($paid_amount >= $tenant->monthly_charge_amount){
             $monthly_charge = MonthlyCharge::query()
+                ->where('tenant_id', $tenant->id)
                 ->whereNull('paid_amount')
                 ->orderBy('month')
                 ->first();
