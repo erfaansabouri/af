@@ -2,7 +2,6 @@
     <thead>
     <tr>
         <th>شناسه سیستم</th>
-        <th>نحوه پرداخت</th>
         <th>موضوع</th>
         <th>پلاک</th>
         <th>موبایل</th>
@@ -22,7 +21,6 @@
     @foreach($transactions as $transaction)
         <tr>
             <td>{{ $transaction->id }}</td>
-            <td>{{ $transaction->fake_text }}</td>
             <td>{{ $transaction->subject }}</td>
             <td>{{ $transaction->tenant->plaque }}</td>
             <td>{{ $transaction->tenant->phone_number }}</td>

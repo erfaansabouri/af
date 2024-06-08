@@ -127,7 +127,6 @@
                             <thead class="thead-light iransans-web">
                             <tr>
                                 <th class="iransans-web">شناسه</th>
-                                <th class="iransans-web">نحوه پرداخت</th>
                                 <th class="iransans-web">شماره تراکنش</th>
                                 <th class="iransans-web">کد پیگیری</th>
                                 <th class="iransans-web">پلاک</th>
@@ -142,7 +141,6 @@
                             @foreach($records as $record)
                                 <tr>
                                     <td class="iransans-web">{{ $record->id }}</td>
-                                    <td class="iransans-web">{{ $record->fake_text }}</td>
                                     <td class="iransans-web">{{ $record->tx_id }}</td>
                                     <td class="iransans-web">{{ $record->ref_id }}</td>
                                     <td class="iransans-web">{{ $record->tenant->plaque }}</td>

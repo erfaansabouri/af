@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->boolean('can_login')->default(1);
             $table->string('activity_type')->nullable();
-            $table->string('debt_amount')->default("0");
+            $table->unsignedBigInteger('debt_amount')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

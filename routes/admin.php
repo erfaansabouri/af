@@ -33,6 +33,9 @@ Route::middleware(['auth:admin'])->prefix('tenants')->group(function (){
     Route::get('/monthly-charges/{id}', [TenantController::class, 'monthlyCharges'])->name('admin.tenants.monthly-charges');
     Route::any('/fake-transaction', [TenantController::class, 'fakeTransaction'])->name('admin.tenants.fake-transaction');
     Route::get('/set-default-password/{id}', [TenantController::class, 'setDefaultPassword'])->name('admin.tenants.set-default-password');
+    Route::any('/submit-bestankari', [TenantController::class, 'submitBestankari'])->name('admin.tenants.submit-bestankari');
+    Route::any('/submit-bedehkari', [TenantController::class, 'submitBedehkari'])->name('admin.tenants.submit-bedehkari');
+    Route::any('/remove-bedehkari/{id}', [TenantController::class, 'removeBedehkari'])->name('admin.tenants.remove-bedehkari');
 });
 #
 Route::middleware(['auth:admin'])->prefix('complex-settings')->group(function (){

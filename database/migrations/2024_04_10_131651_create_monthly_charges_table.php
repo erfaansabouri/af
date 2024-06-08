@@ -18,8 +18,8 @@ return new class extends Migration
             $table->integer('month')->nullable();
             $table->timestamp('due_date')->nullable();
             $table->timestamp('paid_at')->nullable();
-            $table->string('original_amount')->nullable();
-            $table->string('paid_amount')->nullable();
+            $table->unsignedBigInteger('original_amount')->nullable();
+            $table->unsignedBigInteger('paid_amount')->nullable();
             $table->timestamps();
         });
     }

@@ -114,11 +114,6 @@ class TransactionController extends Controller {
                 $monthly_charge->save();
                 return view('payment.redirect', ['success' => true , 'code' => $tx_id]);
             }
-            if ( $transaction->subject == 'بدهی' ) {
-                $transaction->tenant->decrement('debt_amount' , $transaction->amount);
-                return view('payment.redirect', ['success' => true , 'code' => $tx_id]);
-
-            }
         }
         catch ( InvalidPaymentException $exception ) {
             $transaction->failed_at = now();

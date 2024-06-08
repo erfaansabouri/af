@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('transactions', function (Blueprint $table) {
-            $table->boolean('is_fake')->default(false);
+        Schema::table('tenants', function (Blueprint $table) {
+            $table->unsignedBigInteger('credit_amount')->default(0)->comment('بستانکاری');
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('transactions', function (Blueprint $table) {
+        Schema::table('tenants', function (Blueprint $table) {
             //
         });
     }

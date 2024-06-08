@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use DateTimeInterface;
+use Exception;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -58,12 +59,84 @@ class Tenant extends Authenticatable implements HasMedia {
         return $this->hasMany(MonthlyCharge::class , 'tenant_id');
     }
 
+    public function debts (): HasMany {
+        return $this->hasMany(Debt::class , 'tenant_id');
+    }
+
+    /** Methods **/
+    public function addDebt ( $amount , $reason , $type ) {
+        Debt::query()
+            ->create([
+                         'tenant_id' => $this->id ,
+                         'amount' => $amount ,
+                         'reason' => $reason ,
+                         'type' => $type ,
+                     ]);
+    }
+
+    public function removeDebt ( $debt_id ) {
+        $debt = Debt::query()
+                    ->find($debt_id);
+        if ( !$debt ) {
+            throw new Exception('بدهی یافت نشد');
+        }
+        if ( $debt->tenant_id != $this->id ) {
+            throw new Exception('بدهی مربوط به این کاربر نیست');
+        }
+        if ( $debt->paid_at ) {
+            throw new Exception('بدهی پرداخت شده قابل حذف نیست');
+        }
+        $debt->delete();
+    }
+
+    public function submitBestankari ( $amount ) {
+        $first_unpaid_monthly_charge = $this->getFirstUnpaidMonthlyCharge();
+        if ( $amount > $first_unpaid_monthly_charge->original_amount ) {
+            return false;
+        }
+        elseif ( $amount == $first_unpaid_monthly_charge->original_amount ) {
+            $transaction = Transaction::query()
+                                      ->create([
+                                                   'tenant_id' => $this->id ,
+                                                   'monthly_charge_id' => $first_unpaid_monthly_charge->id ,
+                                                   'original_amount' => $first_unpaid_monthly_charge->original_amount ,
+                                                   'amount' => $first_unpaid_monthly_charge->original_amount ,
+                                                   'subject' => $first_unpaid_monthly_charge->subject_and_month ,
+                                                   'paid_at' => now() ,
+                                                   'ref_id' => 'AD' . rand() ,
+                                                   'tx_id' => 'AD' . rand() ,
+                                               ]);
+            $first_unpaid_monthly_charge->paid_at = now();
+            $first_unpaid_monthly_charge->paid_amount = $transaction->amount;
+            $first_unpaid_monthly_charge->save();
+
+            return true;
+        }
+        else {
+            $transaction = Transaction::query()
+                                      ->create([
+                                                   'tenant_id' => $this->id ,
+                                                   'monthly_charge_id' => $first_unpaid_monthly_charge->id ,
+                                                   'original_amount' => $amount ,
+                                                   'amount' => $amount ,
+                                                   'subject' => $first_unpaid_monthly_charge->subject_and_month ,
+                                                   'paid_at' => now() ,
+                                                   'ref_id' => 'AD' . rand() ,
+                                                   'tx_id' => 'AD' . rand() ,
+                                               ]);
+            $first_unpaid_monthly_charge->original_amount = $first_unpaid_monthly_charge->original_amount - $amount;
+            $first_unpaid_monthly_charge->save();
+
+            return true;
+        }
+    }
+
     public function scopeWithUnpaidChargesCount ( $query ) {
         return $query->withCount([
                                      'monthlyCharges as unpaid_charges_count' => function ( $q ) {
                                          $q->notPaid()
                                            ->dueDatePassed();
-                                     },
+                                     } ,
                                  ]);
     }
 
@@ -99,5 +172,12 @@ class Tenant extends Authenticatable implements HasMedia {
         }
 
         return $total;
+    }
+
+    public function getFirstUnpaidMonthlyCharge () {
+        return $first_unpaid_monthly_charge = MonthlyCharge::query()
+                                                           ->where('tenant_id' , $this->id)
+                                                           ->notPaid()
+                                                           ->first();
     }
 }

@@ -107,8 +107,8 @@ class MonthlyCharge extends Model {
         }
     }
 
-    public function fakeTransaction () {
-        return $this->hasOne(Transaction::class)
-                    ->where('is_fake' , true);
+    public function getSubjectAndMonthAttribute(){
+        $date = verta($this->due_date)->formatJalaliDate();
+        return "شارژ ماه {$this->month} ام به تاریخ $date";
     }
 }

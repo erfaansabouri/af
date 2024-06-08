@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Debt;
 use App\Models\MonthlyCharge;
 use App\Models\Tenant;
 use App\Models\Transaction;
@@ -114,8 +115,11 @@ class TenantController extends Controller {
                                 })
                                 ->where('tenant_id' , $id)
                                 ->get();
+        $debts = Debt::query()
+                     ->where('tenant_id' , $tenant->id)
+                     ->get();
 
-        return view('metronic.admin.tenants.monthly-charges.index' , compact('tenant' , 'records'));
+        return view('metronic.admin.tenants.monthly-charges.index' , compact('tenant' , 'records' , 'debts'));
     }
 
     public function setDefaultPassword ( $id ) {
@@ -133,54 +137,67 @@ class TenantController extends Controller {
         return redirect()->route('admin.tenants.index');
     }
 
-    public function fakeTransaction ( Request $request ) {
+    public function submitBestankari ( Request $request ) {
         $request->validate([
-                               'paid_amount' => [
-                                   'required' ,
-                               ] ,
-                               'tenant_id' => ['required']
+                               'amount' => [ 'required' ] ,
+                               'tenant_id' => [ 'required' ] ,
                            ]);
-        $paid_amount = str_replace(',', '', $request->get('paid_amount'));
         $tenant = Tenant::query()
                         ->findOrFail($request->get('tenant_id'));
-        $transaction = Transaction::query()
-                                  ->create([
-                                               'tenant_id' => $tenant->id ,
-                                               'monthly_charge_id' => null ,
-                                               'original_amount' => $paid_amount ,
-                                               'amount' => $paid_amount ,
-                                               'subject' => 'بدهی' ,
-                                           ]);
-        $transaction->paid_at = now();
-        $transaction->is_fake = true;
-        $transaction->ref_id = 'ADMIN-PAY' . rand();
-        $transaction->save();
+        $amount = str_replace(',' , '' , $request->get('amount'));
+        $result = $tenant->submitBestankari($amount);
+        if ($result){
+            flash()
+                ->options([
+                              'timeout' => 3000 ,
+                              'position' => 'top-left' ,
+                          ])
+                ->addSuccess('بستانکاری با موفقیت اعمال شد و از شارژ ماهیانه کاسته شد.' , 'تبریک');
 
-        # اگر بیشتر از یک شارژ پایه بود ، یک شارژ رو پرداخت کن
-        if ($paid_amount >= $tenant->monthly_charge_amount){
-            $monthly_charge = MonthlyCharge::query()
-                ->where('tenant_id', $tenant->id)
-                ->whereNull('paid_amount')
-                ->orderBy('month')
-                ->first();
+            return redirect()->back();
+        }else{
+            flash()
+                ->options([
+                              'timeout' => 3000 ,
+                              'position' => 'top-left' ,
+                          ])
+                ->addError('مبلغ بیش از حد مجاز' , 'خطا');
 
-            if ($monthly_charge){
-                $monthly_charge->paid_amount = $paid_amount;
-                $monthly_charge->paid_at = now();
-                $monthly_charge->save();
-                $transaction->subject = 'شارژ ماهیانه';
-                $transaction->monthly_charge_id = $monthly_charge->id;
-                $transaction->save();
-            }
+            return redirect()->back();
         }
+    }
 
+    public function submitBedehkari ( Request $request ) {
+        $request->validate([
+                               'amount' => [ 'required' ] ,
+                               'tenant_id' => [ 'required' ] ,
+                               'reason' => [ 'required' ] ,
+                           ]);
+        $tenant = Tenant::query()
+                        ->findOrFail($request->get('tenant_id'));
+        $amount = str_replace(',' , '' , $request->get('amount'));
+        $reason = $request->get('reason');
+        $tenant->addDebt($amount , $reason , Debt::TYPES[ 'NORMAL' ]);
         flash()
             ->options([
                           'timeout' => 3000 ,
                           'position' => 'top-left' ,
                       ])
-            ->addSuccess('پرداخت با موفقیت انجام شد.' , 'تبریک!');
+            ->addSuccess('بدهی ایجاد شد.' , 'تبریک');
 
-        return redirect()->route('admin.tenants.monthly-charges' , $tenant->id);
+        return redirect()->back();
+    }
+
+    public function removeBedehkari ( Request $request , $id) {
+        $debt = Debt::query()->findOrFail($id);
+        $debt->tenant->removeDebt($id);
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('بدهی حذف شد.' , 'تبریک');
+
+        return redirect()->back();
     }
 }

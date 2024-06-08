@@ -75,13 +75,4 @@ class Transaction extends Model {
 
         return 0;
     }
-
-    public function getFakeTextAttribute () {
-        if ( $this->is_fake ) {
-            return "مجازی توسط مدیریت";
-        }
-        else {
-            return "به پرداخت";
-        }
-    }
 }

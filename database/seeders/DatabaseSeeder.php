@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(FloorSeeder::class);
         $this->call(TenantTypeSeeder::class);
-        $this->call(FakeTenantSeeder::class);
+        $this->call(TenantSeeder::class);
+        $this->call(FiscalYearSeeder::class);
+        $this->call(DebtSeeder::class);
     }
 }
