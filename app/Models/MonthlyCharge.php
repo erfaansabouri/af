@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MonthlyCharge extends Model {
+    const PAID_VIA = [
+        'ADMIN' => 'ADMIN',
+        'BEHPARDAKHT' => 'BEHPARDAKHT',
+    ];
+
     public function tenant (): BelongsTo {
         return $this->belongsTo(Tenant::class);
     }

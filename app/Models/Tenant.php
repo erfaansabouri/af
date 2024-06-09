@@ -105,7 +105,9 @@ class Tenant extends Authenticatable implements HasMedia {
                                                    'paid_at' => now() ,
                                                    'ref_id' => 'AD' . rand() ,
                                                    'tx_id' => 'AD' . rand() ,
+                                                   'paid_via' => Transaction::PAID_VIA[ 'ADMIN' ] ,
                                                ]);
+            $first_unpaid_monthly_charge->paid_via = MonthlyCharge::PAID_VIA[ 'ADMIN' ];
             $first_unpaid_monthly_charge->paid_at = now();
             $first_unpaid_monthly_charge->paid_amount = $transaction->amount;
             $first_unpaid_monthly_charge->save();
@@ -123,7 +125,9 @@ class Tenant extends Authenticatable implements HasMedia {
                                                    'paid_at' => now() ,
                                                    'ref_id' => 'AD' . rand() ,
                                                    'tx_id' => 'AD' . rand() ,
+                                                   'paid_via' => Transaction::PAID_VIA[ 'ADMIN' ] ,
                                                ]);
+            $first_unpaid_monthly_charge->paid_via = MonthlyCharge::PAID_VIA[ 'ADMIN' ];
             $first_unpaid_monthly_charge->original_amount = $first_unpaid_monthly_charge->original_amount - $amount;
             $first_unpaid_monthly_charge->save();
 
@@ -179,5 +183,9 @@ class Tenant extends Authenticatable implements HasMedia {
                                                            ->where('tenant_id' , $this->id)
                                                            ->notPaid()
                                                            ->first();
+    }
+
+    public function getCanPayMonthlyChargesAttribute(){
+        return $this->debts()->sum('amount') < Setting::getMinDebtAmount();
     }
 }

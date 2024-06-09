@@ -146,7 +146,7 @@ class TenantController extends Controller {
                         ->findOrFail($request->get('tenant_id'));
         $amount = str_replace(',' , '' , $request->get('amount'));
         $result = $tenant->submitBestankari($amount);
-        if ($result){
+        if ( $result ) {
             flash()
                 ->options([
                               'timeout' => 3000 ,
@@ -155,7 +155,8 @@ class TenantController extends Controller {
                 ->addSuccess('بستانکاری با موفقیت اعمال شد و از شارژ ماهیانه کاسته شد.' , 'تبریک');
 
             return redirect()->back();
-        }else{
+        }
+        else {
             flash()
                 ->options([
                               'timeout' => 3000 ,
@@ -165,6 +166,38 @@ class TenantController extends Controller {
 
             return redirect()->back();
         }
+    }
+
+    public function restoreMonthlyCharge ( $id ) {
+        $monthly_charge = MonthlyCharge::query()
+                                       ->findOrFail($id);
+        if ( $monthly_charge->paid_via != MonthlyCharge::PAID_VIA[ 'ADMIN' ] ) {
+
+            flash()
+                ->options([
+                              'timeout' => 3000 ,
+                              'position' => 'top-left' ,
+                          ])
+                ->addSuccess('شارژی که از طریق به پرداخت انجام شده باشد قابلیت بازگشت ندارد.' , 'خطا');
+
+            return redirect()->back();
+        }
+        Transaction::query()
+                   ->where('monthly_charge_id' , $monthly_charge->id)
+                   ->delete();
+        $monthly_charge->paid_via = null;
+        $monthly_charge->original_amount = $monthly_charge->tenant->monthly_charge_amount;
+        $monthly_charge->paid_amount = 0;
+        $monthly_charge->paid_at = null;
+        $monthly_charge->save();
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('شارژ ماهیانه به حالت اولیه بازگشت.' , 'تبریک');
+
+        return redirect()->back();
     }
 
     public function submitBedehkari ( Request $request ) {
@@ -188,8 +221,9 @@ class TenantController extends Controller {
         return redirect()->back();
     }
 
-    public function removeBedehkari ( Request $request , $id) {
-        $debt = Debt::query()->findOrFail($id);
+    public function removeBedehkari ( Request $request , $id ) {
+        $debt = Debt::query()
+                    ->findOrFail($id);
         $debt->tenant->removeDebt($id);
         flash()
             ->options([

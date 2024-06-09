@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
+use App\Models\Debt;
 use App\Models\MonthlyCharge;
 use Auth;
 use Illuminate\Http\Request;
@@ -20,7 +21,10 @@ class MonthlyChargeController extends Controller {
                                 })
                                 ->where('tenant_id' , $tenant->id)
                                 ->get();
+        $debts = Debt::query()
+                     ->where('tenant_id' , $tenant->id)
+                     ->get();
 
-        return view('metronic.tenant.monthly-charges.index' , compact('records'));
+        return view('metronic.tenant.monthly-charges.index' , compact('records' , 'debts'));
     }
 }

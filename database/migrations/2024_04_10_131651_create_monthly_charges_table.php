@@ -20,6 +20,7 @@ return new class extends Migration
             $table->timestamp('paid_at')->nullable();
             $table->unsignedBigInteger('original_amount')->nullable();
             $table->unsignedBigInteger('paid_amount')->nullable();
+            $table->string('paid_via')->nullable()->default('BEHPARDAKHT');
             $table->timestamps();
         });
     }
