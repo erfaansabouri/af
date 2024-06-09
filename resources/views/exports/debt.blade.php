@@ -13,7 +13,7 @@
             <td>{{ $tenant->plaque }}</td>
             <td>{{ $tenant->warnings()->count() }}</td>
             <td>{{ $tenant->passed_due_date_amount }}</td>
-            <td>{{ $tenant->debt_amount }}</td>
+            <td>{{ $tenant->debts()->notPaid()->sum('amount') }}</td>
         </tr>
     @endforeach
     </tbody>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tenant;
 
 use App\Exports\TransactionExport;
 use App\Http\Controllers\Controller;
+use App\Models\Debt;
 use App\Models\MonthlyCharge;
 use App\Models\Tenant;
 use App\Models\Transaction;
@@ -45,8 +46,6 @@ class TransactionController extends Controller {
 
     public function generateUrl ( Request $request ) {
         $transaction = null;
-        $tenant = Tenant::query()
-                        ->find($request->get('tenant_id'));
         if ( $monthly_charge_id = $request->get('monthly_charge_id') ) {
             $monthly_charge = MonthlyCharge::query()
                                            ->where('id' , $monthly_charge_id)
@@ -58,26 +57,21 @@ class TransactionController extends Controller {
                                                    'monthly_charge_id' => $monthly_charge->id ,
                                                    'original_amount' => $monthly_charge->original_amount ,
                                                    'amount' => $monthly_charge->final_amount ,
-                                                   'subject' => 'شارژ ماهیانه',
+                                                   'subject' => $monthly_charge->subject_and_month,
                                                ]);
         }
-        else if ( $debt_amount = $request->get('debt_amount') ) {
-            if ( $debt_amount > $tenant->debt_amount ) {
-                flash()
-                    ->options([
-                                  'timeout' => 3000 ,
-                                  'position' => 'top-left' ,
-                              ])
-                    ->addError('مبلغ بیش از حد مجاز' , 'خطا!');
-
-                return redirect()->back();
-            }
+        else if ( $debt_id = $request->get('debt_id') ) {
+            $debt = Debt::query()
+                                           ->where('id' , $debt_id)
+                                           ->whereNull('paid_at')
+                                           ->firstOrFail();
             $transaction = Transaction::query()
                                       ->create([
-                                                   'tenant_id' => $request->get('tenant_id') ,
-                                                   'original_amount' => $debt_amount ,
-                                                   'amount' => $debt_amount ,
-                                                   'subject' => 'بدهی',
+                                                   'tenant_id' => $debt->tenant_id ,
+                                                   'debt_id' => $debt_id ,
+                                                   'original_amount' => $debt->amount ,
+                                                   'amount' => $debt->amount ,
+                                                   'subject' => 'پرداخت بدهی',
                                                ]);
         }
         else {
@@ -94,7 +88,7 @@ class TransactionController extends Controller {
     }
 
     public function verify ( Request $request ) {
-        $tx_id = $request->get('RefId');
+        $tx_id = $request->get('RefId') ?? $request->get('Authority');
         $transaction = Transaction::query()
                                   ->where('tx_id' , $tx_id)
                                   ->firstOrFail();
@@ -114,11 +108,19 @@ class TransactionController extends Controller {
                 $monthly_charge->save();
                 return view('payment.redirect', ['success' => true , 'code' => $tx_id]);
             }
+
+            if ( $transaction->debt_id ) {
+                $debt = Debt::query()
+                                               ->find($transaction->debt_id);
+                $debt->paid_at = now();
+                $debt->save();
+                return view('payment.redirect', ['success' => true , 'code' => $tx_id]);
+            }
         }
         catch ( InvalidPaymentException $exception ) {
             $transaction->failed_at = now();
             $transaction->save();
-            return view('payment.redirect', ['failed' => true]);
+            return view('payment.redirect', ['failed' => true , 'failed_message' => $exception->getMessage()]);
 
         }
     }

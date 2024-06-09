@@ -19,6 +19,8 @@ return new class extends Migration {
                   ->nullable();
             $table->unsignedBigInteger('monthly_charge_id')
                   ->nullable();
+            $table->unsignedBigInteger('debt_id')
+                  ->nullable();
             $table->unsignedBigInteger('original_amount')
                   ->nullable();
             $table->unsignedBigInteger('amount')

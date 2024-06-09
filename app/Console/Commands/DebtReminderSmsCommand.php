@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Tenant;
 use App\Services\Kavenegar;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Builder;
 
 class DebtReminderSmsCommand extends Command {
     /**
@@ -28,17 +29,23 @@ class DebtReminderSmsCommand extends Command {
         if ( $today->day == 6 ) {
             $tenants = Tenant::query()
                              ->whereNotNull('phone_number')
-                             ->where('debt_amount' , '>' , 0)
-                             ->orWhereHas('warnings')
-                             ->orWhereHas('monthlyCharges' , function ( $q ) {
-                                 $q->notPaid()
-                                   ->dueDatePassed();
+                             ->where(function ( Builder $query ) {
+                                 $query->orWhereHas('warnings')
+                                       ->orWhereHas('monthlyCharges' , function ( $q ) {
+                                           $q->notPaid()
+                                             ->dueDatePassed();
+                                       })
+                                       ->orWhereHas('debts' , function ( $query ) {
+                                           $query->whereNull('paid_at');
+                                       });
                              })
                              ->get();
             foreach ( $tenants as $tenant ) {
-                $total = number_format($tenant->debt_amount + $tenant->passed_due_date_amount);
-                $warnings = $tenant->warnings()->count();
-                Kavenegar::send($tenant->phone_number, 'debtreminder', $tenant->plaque, $total, $warnings);
+                $not_paid_debts = $tenant->debts()->notPaid()->sum('amount');
+                $total = number_format($not_paid_debts + $tenant->passed_due_date_amount);
+                $warnings = $tenant->warnings()
+                                   ->count();
+                Kavenegar::send($tenant->phone_number , 'debtreminder' , $tenant->plaque , $total , $warnings);
             }
         }
     }

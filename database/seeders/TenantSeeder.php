@@ -27,7 +27,6 @@ class TenantSeeder extends Seeder {
                 'monthly_charge_amount' => str_replace(',' , '' , $tenant[ 'val1' ]) ,
                 'username' => $plaque ,
                 'password' => bcrypt($plaque . "@1403") ,
-                'debt_amount' => 0 ,
             ];
         }
 
@@ -42,7 +41,6 @@ class TenantSeeder extends Seeder {
                 'monthly_charge_amount' => str_replace(',' , '' , $tenant[ 'val1' ]) ,
                 'username' => $plaque ,
                 'password' => bcrypt($plaque . "@1403") ,
-                'debt_amount' => 0 ,
             ];
         }
 

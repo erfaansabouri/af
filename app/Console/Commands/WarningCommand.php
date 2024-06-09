@@ -38,19 +38,5 @@ class WarningCommand extends Command {
                                        'reason' => "بابت شارژ پرداخت نشده ماه $month_of_charge ام" ,
                                    ]);
         }
-        //$tenants = Tenant::query()
-        //                 ->whereIn('tenant_type_id' , [
-        //                     1 ,
-        //                     2,
-        //                 ])
-        //                 ->where('debt_amount' , '>' , 0)
-        //                 ->get();
-        //foreach ( $tenants as $tenant ) {
-        //    Warning::query()
-        //           ->firstOrCreate([
-        //                               'tenant_id' => $tenant->id ,
-        //                               'reason' => 'بدهی' ,
-        //                           ]);
-        //}
     }
 }

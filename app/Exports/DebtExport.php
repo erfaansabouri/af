@@ -14,12 +14,15 @@ class DebtExport implements FromView {
 
     public function view (): View {
         $tenants = Tenant::query()
-                         ->where('debt_amount' , '>' , 0)
+                         ->whereHas('debts' , function ( $query ) {
+                             $query->whereNull('paid_at');
+                         })
                          ->orWhereHas('warnings')
                          ->orWhereHas('monthlyCharges' , function ( $q ) {
                              $q->notPaid()
                                ->dueDatePassed();
-                         })->get();
+                         })
+                         ->get();
 
         return view('exports.debt' , [
             'tenants' => $tenants ,

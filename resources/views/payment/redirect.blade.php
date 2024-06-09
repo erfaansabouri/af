@@ -62,6 +62,8 @@
 @if(isset($failed))
     <div class="text-box">
         پرداخت با شکست مواجه شد
+        <br>
+        {{ @$failed_message }}
     </div>
 @endif
 <div class="text-box">

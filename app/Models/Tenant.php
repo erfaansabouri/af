@@ -186,6 +186,6 @@ class Tenant extends Authenticatable implements HasMedia {
     }
 
     public function getCanPayMonthlyChargesAttribute(){
-        return $this->debts()->sum('amount') < Setting::getMinDebtAmount();
+        return $this->debts()->notPaid()->sum('amount') < Setting::getMinDebtAmount();
     }
 }

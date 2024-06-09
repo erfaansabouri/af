@@ -43,7 +43,9 @@
                                             </td>
                                             <td class="iransans-web">
                                                 @if(!$debt->paid_at)
-                                                    <a class="btn btn-sm btn-success" href="#">پرداخت</a>
+                                                    <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+                                                        <a href="{{ route('tenant.transaction.generate-url', ['debt_id' => $debt->id]) }}" class="btn btn-sm btn-success">پرداخت</a>
+                                                    </div>
                                                 @endif
                                             </td>
 
@@ -74,17 +76,19 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="m-alert m-alert--icon alert alert-danger" role="alert">
-                                <div class="m-alert__icon">
-                                    <i class="flaticon-danger"></i>
+                            @if(!$tenant->can_pay_monthly_charges)
+                                <div class="m-alert m-alert--icon alert alert-danger" role="alert">
+                                    <div class="m-alert__icon">
+                                        <i class="flaticon-danger"></i>
+                                    </div>
+                                    <div class="m-alert__text">
+                                        <strong>اخطار بدهی</strong>
+                                        کاربر گرامی شما مبلغ {{ number_format($tenant->debts()->notPaid()->sum('amount')) }} ریال بدهکار هستید.
+                                        <br>
+                                        لطفا جهت پرداخت شارژ های ماهیانه، ابتدا بدهی خود را تسویه نمایید
+                                    </div>
                                 </div>
-                                <div class="m-alert__text">
-                                    <strong>اخطار بدهی</strong>
-                                    کاربر گرامی شما مبلغ {{ number_format($tenant->debts()->sum('amount')) }} ریال بدهکار هستید.
-                                    <br>
-                                    لطفا جهت پرداخت شارژ های ماهیانه، ابتدا بدهی خود را تسویه نمایید
-                                </div>
-                            </div>
+                            @endif
                             <div class="table-responsive">
                                 <table
                                     class="table table-bordered table-striped">

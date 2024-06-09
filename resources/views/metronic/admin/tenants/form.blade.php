@@ -145,14 +145,6 @@
                         </div>
                         <div class="col-xl-6">
                             <div class="form-group">
-                                <label class="col-form-label">مقدار بدهی</label>
-                                <input autocomplete="off" type="text" class="form-control" name="debt_amount"
-                                       placeholder="َمقدار بدهی را وارد کنید."
-                                       value="{{ @$record->debt_amount }}"/>
-                            </div>
-                        </div>
-                        <div class="col-xl-6">
-                            <div class="form-group">
                                 <label class="col-form-label">نوع فعالیت یا صنف فروشگاه
                                 </label>
                                 <input autocomplete="off" type="text" class="form-control" name="activity_type"
