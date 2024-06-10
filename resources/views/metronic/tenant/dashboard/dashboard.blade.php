@@ -140,7 +140,7 @@
                                         @method('POST')
                                         <div class="m-portlet__body">
                                             <div class="form-group m-form__group m--margin-top-10">
-                                                <div class="alert m-alert m-alert--default text-danger" role="alert">
+                                                <div class="alert m-alert m-alert--default text-danger bold" role="alert">
                                                      جهت استفاده از برنامه و دریافت پیامک ، ثبت اطلاعات الزامی است.
                                                 </div>
                                             </div>
