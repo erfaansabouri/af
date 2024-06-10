@@ -131,9 +131,9 @@
                                             <td>
                                                 @if(!$tenant->can_pay_monthly_charges)
                                                     ابتدا بدهی خود را تسویه نمایید
-                                                @elseif($record->id != $tenant->getFirstUnpaidMonthlyCharge())
+                                                @elseif($record->id != @$tenant->getFirstUnpaidMonthlyCharge()->id)
                                                     --
-                                                @elseif($record->id != $tenant->getFirstUnpaidMonthlyCharge()->id && $tenant->oneMonthPassedFromFirstUnpaidMonthlyCharge())
+                                                @elseif($record->id != @$tenant->getFirstUnpaidMonthlyCharge()->id && @$tenant->oneMonthPassedFromFirstUnpaidMonthlyCharge())
                                                     ابتدا شارژ ماه قبل را تسویه نمایید
                                                 @else
                                                     @if(!$record->paid_at)
