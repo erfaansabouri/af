@@ -129,7 +129,7 @@
                     </div>
                 </div>
                 <hr>
-                @if(Auth::guard('tenant')->user()->phone_number == null)
+                @if(!Auth::guard('tenant')->user()->canSeeMenu())
                     <div class="row">
                         <div class="card">
                             <div class="card-body">
