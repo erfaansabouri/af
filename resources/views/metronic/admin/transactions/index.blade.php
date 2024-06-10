@@ -21,7 +21,7 @@
                         <div class="mb-7">
                             <form action="{{ route('admin.transactions.index') }}" method="get">
                                 <div class="row align-items-center">
-                                    <div class="col-lg-3 col-xl-3">
+                                    <div class="col-lg-2 col-xl-2">
                                         <div class="row align-items-center">
                                             <div class="col-lg-12 col-xl-12 my-2 my-md-0">
                                                 <div class="input-icon">
@@ -35,7 +35,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-3 col-xl-3">
+                                    <div class="col-lg-2 col-xl-2">
                                         <div class="row align-items-center">
                                             <div class="col-lg-12 col-xl-12 my-2 my-md-0">
                                                 <div class="input-icon">
@@ -49,7 +49,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-3 col-xl-3">
+                                    <div class="col-lg-2 col-xl-2">
                                         <div class="row align-items-center">
                                             <div class="col-lg-12 col-xl-12 my-2 my-md-0">
                                                 <select name="tenant_type_id" class="form-control selectpicker">
@@ -73,7 +73,7 @@
                         <div class="mb-7">
                             <form action="{{ route('admin.transactions.export') }}" method="get">
                                 <div class="row align-items-center">
-                                    <div class="col-lg-3 col-xl-3">
+                                    <div class="col-lg-2 col-xl-2">
                                         <div class="row align-items-center">
                                             <div class="col-lg-12 col-xl-12 my-2 my-md-0">
                                                 <div class="input-icon">
@@ -87,7 +87,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-3 col-xl-3">
+                                    <div class="col-lg-2 col-xl-2">
                                         <div class="row align-items-center">
                                             <div class="col-lg-12 col-xl-12 my-2 my-md-0">
                                                 <div class="input-icon">
@@ -101,7 +101,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-3 col-xl-3">
+                                    <div class="col-lg-2 col-xl-2">
                                         <div class="row align-items-center">
                                             <div class="col-lg-12 col-xl-12 my-2 my-md-0">
                                                 <select name="tenant_type_id" class="form-control selectpicker">
@@ -114,7 +114,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-3 col-xl-3">
+                                    <div class="col-lg-2 col-xl-2">
                                         <div class="row align-items-center">
                                             <div class="col-lg-12 col-xl-12 my-2 my-md-0">
                                                 <select name="paid_via" class="form-control selectpicker">
