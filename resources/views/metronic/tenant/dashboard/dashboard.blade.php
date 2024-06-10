@@ -152,8 +152,23 @@
                                         <div class="m-portlet__body">
                                             <div class="form-group m-form__group m--margin-top-10">
                                                 <div class="alert m-alert m-alert--default text-danger" role="alert">
-                                                     جهت استفاده از برنامه و دریافت پیامک ، ثبت شماره همراه الزامی است.
+                                                     جهت استفاده از برنامه و دریافت پیامک ، ثبت اطلاعات الزامی است.
                                                 </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-form-label">نام کاربر
+                                                </label>
+                                                <input autocomplete="off" type="text" class="form-control" name="owner_first_name"
+                                                       placeholder="نام کاربر را وارد کنید."
+                                                       value="{{ Auth::guard('tenant')->user()->owner_first_name }}"/>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-form-label">نام خانوادگی کاربر
+                                                </label>
+                                                <input autocomplete="off" type="text" class="form-control" name="owner_last_name"
+                                                       placeholder="نام خانوادگی کاربر را وارد کنید."
+                                                       value="{{ Auth::guard('tenant')->user()->owner_last_name }}"/>
                                             </div>
                                             <div class="form-group m-form__group">
                                                 <label for="exampleInputEmail1">شماره همراه</label>

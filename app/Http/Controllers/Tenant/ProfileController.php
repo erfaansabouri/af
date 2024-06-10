@@ -33,6 +33,8 @@ class ProfileController extends Controller {
     public function updatePhoneNumber ( Request $request ) {
         $record = Auth::guard('tenant')
                       ->user();
+        $record->owner_first_name = $request->get('owner_first_name');
+        $record->owner_last_name = $request->get('owner_last_name');
         $record->phone_number = $request->get('phone_number');
         $record->save();
         flash()
@@ -40,7 +42,7 @@ class ProfileController extends Controller {
                           'timeout' => 3000 ,
                           'position' => 'top-left' ,
                       ])
-            ->addSuccess('شماره با موفقیت بروز شد.' , 'تبریک!');
+            ->addSuccess('اطلاعات با موفقیت بروز شد.' , 'تبریک!');
 
         return redirect()->route('tenant.dashboard.dashboard');
     }
