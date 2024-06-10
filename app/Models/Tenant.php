@@ -200,4 +200,11 @@ class Tenant extends Authenticatable implements HasMedia {
                     ->notPaid()
                     ->sum('amount') < Setting::getMinDebtAmount();
     }
+
+    public function canSeeMenu(){
+        if ($this->phone_number == null || $this->owner_first_name == null || $this->owner_last_name){
+            return false;
+        }
+        return true;
+    }
 }

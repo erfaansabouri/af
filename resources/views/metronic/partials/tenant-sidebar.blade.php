@@ -54,7 +54,7 @@
                     @endif
                 </a>
             </li>
-            @if(Auth::guard('tenant')->user()->phone_number)
+            @if(Auth::guard('tenant')->user()->canSeeMenu())
                 <li class="menu-item @if(Route::is('tenant.monthly-charges.*')) menu-item-active menu-item-open @endif" aria-haspopup="true">
                     <a href="{{ route('tenant.monthly-charges.index') }}" class="menu-link ">
                         <span class="svg-icon menu-icon"><!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Design/Layers.svg-->
