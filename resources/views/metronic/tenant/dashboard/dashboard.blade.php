@@ -152,7 +152,7 @@
                                         <div class="m-portlet__body">
                                             <div class="form-group m-form__group m--margin-top-10">
                                                 <div class="alert m-alert m-alert--default text-danger" role="alert">
-                                                    لطفا جهت استفاده از برنامه و دریافت پیامک ، ثبت شماره همراه الزامی است.
+                                                     جهت استفاده از برنامه و دریافت پیامک ، ثبت شماره همراه الزامی است.
                                                 </div>
                                             </div>
                                             <div class="form-group m-form__group">
