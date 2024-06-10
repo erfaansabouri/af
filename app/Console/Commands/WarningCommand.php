@@ -35,7 +35,7 @@ class WarningCommand extends Command {
                                        'tenant_id' => $monthly_charge->tenant_id ,
                                        'monthly_charge_id' => $monthly_charge->id ,
                                    ] , [
-                                       'reason' => "بابت شارژ پرداخت نشده ماه $month_of_charge ام" ,
+                                       'reason' => "بابت شارژ پرداخت نشده ماه $month_of_charge " ,
                                    ]);
         }
     }
