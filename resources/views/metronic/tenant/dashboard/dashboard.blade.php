@@ -137,9 +137,7 @@
                                     <div class="m-portlet__head">
                                         <div class="m-portlet__head-caption">
                                             <div class="m-portlet__head-title">
-                                                <span class="m-portlet__head-icon m--hide">
-                                                    <i class="la la-gear"></i>
-                                                </span>
+
                                                 <h3 class="m-portlet__head-text">
                                                     وارد کردن شماره همراه
                                                 </h3>
@@ -153,8 +151,8 @@
                                         @method('POST')
                                         <div class="m-portlet__body">
                                             <div class="form-group m-form__group m--margin-top-10">
-                                                <div class="alert m-alert m-alert--default" role="alert">
-                                                    لطفا جهت استفاده از سیستم و دریافت پیامک شماره همراه خود را وارد نمایید.
+                                                <div class="alert m-alert m-alert--default text-danger" role="alert">
+                                                    لطفا جهت استفاده از برنامه و دریافت پیامک ، ثبت شماره همراه الزامی است.
                                                 </div>
                                             </div>
                                             <div class="form-group m-form__group">
