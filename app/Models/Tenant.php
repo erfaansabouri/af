@@ -189,7 +189,7 @@ class Tenant extends Authenticatable implements HasMedia {
         $first_unpaid_monthly_Charge = $this->getFirstUnpaidMonthlyCharge();
         if ( Carbon::parse($first_unpaid_monthly_Charge->due_date)
                    ->diffInDays(now()) > 31 ) {
-            true;
+            return true;
         }
 
         return false;
