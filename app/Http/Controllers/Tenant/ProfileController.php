@@ -31,6 +31,11 @@ class ProfileController extends Controller {
     }
 
     public function updatePhoneNumber ( Request $request ) {
+        $request->validate([
+            'owner_first_name' => ['required'],
+            'owner_last_name' => ['required'],
+            'phone_number' => ['required'],
+                           ]);
         $record = Auth::guard('tenant')
                       ->user();
         $record->owner_first_name = $request->get('owner_first_name');
