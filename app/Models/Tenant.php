@@ -185,7 +185,19 @@ class Tenant extends Authenticatable implements HasMedia {
                                                            ->first();
     }
 
-    public function getCanPayMonthlyChargesAttribute(){
-        return $this->debts()->notPaid()->sum('amount') < Setting::getMinDebtAmount();
+    public function oneMonthPassedFromFirstUnpaidMonthlyCharge () {
+        $first_unpaid_monthly_Charge = $this->getFirstUnpaidMonthlyCharge();
+        if ( Carbon::parse($first_unpaid_monthly_Charge->due_date)
+                   ->diffInDays(now()) > 31 ) {
+            true;
+        }
+
+        return false;
+    }
+
+    public function getCanPayMonthlyChargesAttribute () {
+        return $this->debts()
+                    ->notPaid()
+                    ->sum('amount') < Setting::getMinDebtAmount();
     }
 }
