@@ -134,17 +134,6 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="m-portlet m-portlet--tab">
-                                    <div class="m-portlet__head">
-                                        <div class="m-portlet__head-caption">
-                                            <div class="m-portlet__head-title">
-
-                                                <h3 class="m-portlet__head-text">
-                                                    وارد کردن شماره همراه
-                                                </h3>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <!--begin::Form-->
                                     <form class="m-form m-form--fit m-form--label-align-right" method="post" action="{{ route('tenant.profile.update-phone-number') }}">
                                         @csrf
