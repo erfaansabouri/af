@@ -202,7 +202,7 @@ class Tenant extends Authenticatable implements HasMedia {
     }
 
     public function canSeeMenu(){
-        if ($this->phone_number == null || $this->owner_first_name == null || $this->owner_last_name){
+        if ($this->phone_number == null || $this->owner_first_name == null || $this->owner_last_name == null){
             return false;
         }
         return true;
