@@ -44,30 +44,30 @@
 
                         <div class="col-xl-6">
                             <div class="form-group">
-                                <label class="col-form-label">نام
+                                <label class="col-form-label">نام فروشگاه
                                 </label>
                                 <input autocomplete="off" type="text" class="form-control" name="name"
-                                       placeholder="نام را وارد کنید."
+                                       placeholder="نام فروشگاه را وارد کنید."
                                        value="{{ @$record->name }}"/>
                             </div>
                         </div>
 
                         <div class="col-xl-6">
                             <div class="form-group">
-                                <label class="col-form-label">نام مالک
+                                <label class="col-form-label">نام کاربر
                                 </label>
                                 <input autocomplete="off" type="text" class="form-control" name="owner_first_name"
-                                       placeholder="نام مالک را وارد کنید."
+                                       placeholder="نام کاربر را وارد کنید."
                                        value="{{ @$record->owner_first_name }}"/>
                             </div>
                         </div>
 
                         <div class="col-xl-6">
                             <div class="form-group">
-                                <label class="col-form-label">نام خانوادگی مالک
+                                <label class="col-form-label">نام خانوادگی کاربر
                                 </label>
                                 <input autocomplete="off" type="text" class="form-control" name="owner_last_name"
-                                       placeholder="نام خانوادگی مالک را وارد کنید."
+                                       placeholder="نام خانوادگی کاربر را وارد کنید."
                                        value="{{ @$record->owner_last_name }}"/>
                             </div>
                         </div>
