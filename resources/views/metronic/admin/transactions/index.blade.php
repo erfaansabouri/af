@@ -114,6 +114,18 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-lg-3 col-xl-3">
+                                        <div class="row align-items-center">
+                                            <div class="col-lg-12 col-xl-12 my-2 my-md-0">
+                                                <select name="paid_via" class="form-control selectpicker">
+                                                    <option value="">نوع پرداخت</option>
+                                                    <option value="{{ \App\Models\Transaction::PAID_VIA['BEHPARDAKHT'] }}">به پرداخت</option>
+                                                    <option value="{{ \App\Models\Transaction::PAID_VIA['ADMIN'] }}">مدیریت</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="col-lg-2 col-xl-2 mt-5 mt-lg-0">
                                         <button class="btn btn-light-primary px-6 font-weight-bold">دریافت خروجی اکسل</button>
                                     </div>
