@@ -65,17 +65,24 @@ class TransactionController extends Controller {
                         ->where('id' , $debt_id)
                         ->whereNull('paid_at')
                         ->firstOrFail();
-            $lte = $debt->amount;
             $request->validate([
                                    'debt_amount' => [
                                        'required' ,
-                                       'lte:' . $lte ,
                                    ] ,
                                ] , [
                                    'debt_amount.required' => 'مبلغ الزامی است' ,
-                                   'debt_amount.lte' => 'مبلغ بیش از حد مجاز است' ,
                                ]);
-            $debt_amount_to_pay = $request->get('debt_amount');
+            $debt_amount_to_pay =  str_replace(',' , '' , $request->get('debt_amount'));;
+            if ($debt_amount_to_pay > $debt->amount){
+                flash()
+                    ->options([
+                                  'timeout' => 3000 ,
+                                  'position' => 'top-left' ,
+                              ])
+                    ->addError('مبلغ بیش از حد مجاز' , 'خطا');
+
+                return redirect()->back();
+            }
             $transaction = Transaction::query()
                                       ->create([
                                                    'tenant_id' => $debt->tenant_id ,
