@@ -57,27 +57,39 @@ class TransactionController extends Controller {
                                                    'monthly_charge_id' => $monthly_charge->id ,
                                                    'original_amount' => $monthly_charge->original_amount ,
                                                    'amount' => $monthly_charge->final_amount ,
-                                                   'subject' => $monthly_charge->subject_and_month,
+                                                   'subject' => $monthly_charge->subject_and_month ,
                                                ]);
         }
         else if ( $debt_id = $request->get('debt_id') ) {
             $debt = Debt::query()
-                                           ->where('id' , $debt_id)
-                                           ->whereNull('paid_at')
-                                           ->firstOrFail();
+                        ->where('id' , $debt_id)
+                        ->whereNull('paid_at')
+                        ->firstOrFail();
+            $lte = $debt->amount;
+            $request->validate([
+                                   'debt_amount' => [
+                                       'required' ,
+                                       'lte:' . $lte ,
+                                   ] ,
+                               ] , [
+                                   'debt_amount.required' => 'مبلغ الزامی است' ,
+                                   'debt_amount.lte' => 'مبلغ بیش از حد مجاز است' ,
+                               ]);
+            $debt_amount_to_pay = $request->get('debt_amount');
             $transaction = Transaction::query()
                                       ->create([
                                                    'tenant_id' => $debt->tenant_id ,
                                                    'debt_id' => $debt_id ,
-                                                   'original_amount' => $debt->amount ,
-                                                   'amount' => $debt->amount ,
-                                                   'subject' => 'پرداخت بدهی',
+                                                   'original_amount' => $debt_amount_to_pay ,
+                                                   'amount' => $debt_amount_to_pay ,
+                                                   'subject' => 'پرداخت بدهی' ,
                                                ]);
         }
         else {
             dd("ERROR");
         }
         $invoice = ( new Invoice )->amount($transaction->amount / 10);
+
         return Payment::callbackUrl(route('web.verify'))
                       ->purchase($invoice , function ( $driver , $transactionId ) use ( $transaction ) {
                           $transaction->tx_id = $transactionId;
@@ -96,7 +108,6 @@ class TransactionController extends Controller {
             $receipt = Payment::amount($transaction->amount / 10)
                               ->transactionId($tx_id)
                               ->verify();
-
             $transaction->paid_at = now();
             $transaction->ref_id = $request->get('RefId');
             $transaction->save();
@@ -106,22 +117,37 @@ class TransactionController extends Controller {
                 $monthly_charge->paid_at = now();
                 $monthly_charge->paid_amount = $transaction->amount;
                 $monthly_charge->save();
-                return view('payment.redirect', ['success' => true , 'code' => $tx_id]);
-            }
 
+                return view('payment.redirect' , [
+                    'success' => true ,
+                    'code' => $tx_id ,
+                ]);
+            }
             if ( $transaction->debt_id ) {
                 $debt = Debt::query()
-                                               ->find($transaction->debt_id);
-                $debt->paid_at = now();
+                            ->find($transaction->debt_id);
+                if ( $transaction->amount < $debt->amount ) {
+                    $debt->amount = $debt->amount - $transaction->amount;
+                }
+                else {
+                    $debt->paid_at = now();
+                }
                 $debt->save();
-                return view('payment.redirect', ['success' => true , 'code' => $tx_id]);
+
+                return view('payment.redirect' , [
+                    'success' => true ,
+                    'code' => $tx_id ,
+                ]);
             }
         }
         catch ( InvalidPaymentException $exception ) {
             $transaction->failed_at = now();
             $transaction->save();
-            return view('payment.redirect', ['failed' => true , 'failed_message' => $exception->getMessage()]);
 
+            return view('payment.redirect' , [
+                'failed' => true ,
+                'failed_message' => $exception->getMessage() ,
+            ]);
         }
     }
 
@@ -135,6 +161,6 @@ class TransactionController extends Controller {
         $ended_at = Carbon::createFromTimestamp($request->get('ended_at'))
                           ->endOfDay();
 
-        return Excel::download(new TransactionExport($started_at , $ended_at, $request->get('tenant_type_id')) , 'transactions.xlsx');
+        return Excel::download(new TransactionExport($started_at , $ended_at , $request->get('tenant_type_id') , null) , 'transactions.xlsx');
     }
 }

@@ -43,9 +43,52 @@
                                             </td>
                                             <td class="iransans-web">
                                                 @if(!$debt->paid_at)
-                                                    <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-                                                        <a href="{{ route('tenant.transaction.generate-url', ['debt_id' => $debt->id]) }}" class="btn btn-sm btn-success">پرداخت</a>
+                                                    <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#debt-modal-{{ $debt->id }}">
+                                                        پرداخت بدهی
+                                                    </button>
+
+                                                    <!-- The Modal -->
+                                                    <div class="modal" id="debt-modal-{{ $debt->id }}">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content">
+
+                                                                <!-- Modal Header -->
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">پرداخت بدهی</h4>
+                                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                </div>
+
+                                                                <!-- Modal body -->
+                                                                <div class="modal-body">
+                                                                    <form id="my-form" method="post"
+                                                                          action="{{ route('tenant.transaction.generate-url') }}"
+                                                                          enctype="multipart/form-data">
+                                                                        @csrf
+                                                                        @method('POST')
+                                                                        <div class="col-xl-12">
+                                                                            <div class="form-group">
+                                                                                <label class="col-form-label">مبلغ پرداختی به ریال</label>
+                                                                                <input autocomplete="off" id="numberInput" type="text" class="form-control" name="debt_amount"
+                                                                                       placeholder="مبلغ پرداختی به ریال را وارد نمایید"
+                                                                                       value=""/>
+                                                                                <input type="hidden" name="debt_id" value="{{ $debt->id }}">
+                                                                            </div>
+                                                                            <span class="text-primary">حداکثر مبلغ قابل پرداخت {{ number_format($debt->amount) }} ریال میباشد</span>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+
+                                                                <!-- Modal footer -->
+                                                                <div class="modal-footer">
+                                                                    <button type="submit" class="btn btn-success" data-dismiss="modal">رفتن به درگاه</button>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
                                                     </div>
+
+
+                                                    {{--{{ route('tenant.transaction.generate-url', ['debt_id' => $debt->id]) }}--}}
                                                 @endif
                                             </td>
 
@@ -162,3 +205,33 @@
     </div>
 
 @endsection
+
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const numberInput = document.getElementById('numberInput');
+
+            const persianToEnglish = (str) => {
+                const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+                const englishNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+                return str.replace(/[\u06F0-\u06F9]/g, (match) => {
+                    return englishNumbers[persianNumbers.indexOf(match)];
+                }).replace(/[\u0660-\u0669]/g, (match) => {
+                    return englishNumbers[match.charCodeAt(0) - 0x0660];
+                });
+            };
+
+            numberInput.addEventListener('input', (event) => {
+                let value = event.target.value;
+                value = persianToEnglish(value);
+                value = value.replace(/,/g, '');
+                if (!isNaN(value)) {
+                    event.target.value = Number(value).toLocaleString();
+                }
+            });
+
+        });
+
+    </script>
+@endpush
