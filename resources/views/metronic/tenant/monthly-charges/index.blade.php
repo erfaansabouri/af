@@ -79,7 +79,7 @@
 
                                                                     <!-- Modal footer -->
                                                                     <div class="modal-footer">
-                                                                        <button type="submit" class="btn btn-success" data-dismiss="modal">رفتن به درگاه</button>
+                                                                        <button type="submit" class="btn btn-success">رفتن به درگاه</button>
                                                                     </div>
                                                                 </form>
 
