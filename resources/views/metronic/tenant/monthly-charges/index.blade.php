@@ -33,7 +33,7 @@
                                     @foreach($debts as $debt)
                                         <tr>
                                             <td class="iransans-web">{{ $debt->reason }}</td>
-                                            <td class="iransans-web">{{ number_format($debt->amount) }}</td>
+                                            <td class="iransans-web">{{ number_format($debt->amount) }} ریال</td>
                                             <td class="iransans-web">
                                                 @if($debt->paid_at)
                                                     <span class="label label-inline label-light-success">پرداخت موفق</span>
