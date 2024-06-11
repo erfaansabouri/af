@@ -51,20 +51,19 @@
                                                     <div class="modal" id="debt-modal-{{ $debt->id }}">
                                                         <div class="modal-dialog modal-dialog-centered">
                                                             <div class="modal-content">
+                                                                <form id="my-form" method="post"
+                                                                      action="{{ route('tenant.transaction.generate-url') }}"
+                                                                      enctype="multipart/form-data">
+                                                                    @csrf
+                                                                    @method('POST')
+                                                                    <!-- Modal Header -->
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title">پرداخت بدهی</h4>
+                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                    </div>
 
-                                                                <!-- Modal Header -->
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title">پرداخت بدهی</h4>
-                                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                </div>
-
-                                                                <!-- Modal body -->
-                                                                <div class="modal-body">
-                                                                    <form id="my-form" method="post"
-                                                                          action="{{ route('tenant.transaction.generate-url') }}"
-                                                                          enctype="multipart/form-data">
-                                                                        @csrf
-                                                                        @method('POST')
+                                                                    <!-- Modal body -->
+                                                                    <div class="modal-body">
                                                                         <div class="col-xl-12">
                                                                             <div class="form-group">
                                                                                 <label class="col-form-label">مبلغ پرداختی به ریال</label>
@@ -75,13 +74,14 @@
                                                                             </div>
                                                                             <span class="text-primary">حداکثر مبلغ قابل پرداخت {{ number_format($debt->amount) }} ریال میباشد</span>
                                                                         </div>
-                                                                    </form>
-                                                                </div>
 
-                                                                <!-- Modal footer -->
-                                                                <div class="modal-footer">
-                                                                    <button type="submit" class="btn btn-success" data-dismiss="modal">رفتن به درگاه</button>
-                                                                </div>
+                                                                    </div>
+
+                                                                    <!-- Modal footer -->
+                                                                    <div class="modal-footer">
+                                                                        <button type="submit" class="btn btn-success" data-dismiss="modal">رفتن به درگاه</button>
+                                                                    </div>
+                                                                </form>
 
                                                             </div>
                                                         </div>
