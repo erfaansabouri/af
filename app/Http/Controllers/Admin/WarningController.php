@@ -26,17 +26,34 @@ class WarningController extends Controller {
         return view('metronic.admin.warnings.index' , compact('records'));
     }
 
-    public function destroy ( $id ) {
-        $record = Warning::query()
-                         ->findOrFail($id);
-        $record->delete();
-        flash()
-            ->options([
-                          'timeout' => 3000 ,
-                          'position' => 'top-left' ,
-                      ])
-            ->addSuccess('رکورد با موفقیت حذف شد.' , 'تبریک!');
+    public function destroy ( Request $request, $id ) {
+        $request->validate([
+            'key' => ['required'],
+                           ]);
 
-        return redirect()->route('admin.warnings.index');
+        if ($request->get('key') == '4113'){
+            $record = Warning::query()
+                             ->findOrFail($id);
+            $record->delete();
+            flash()
+                ->options([
+                              'timeout' => 3000 ,
+                              'position' => 'top-left' ,
+                          ])
+                ->addSuccess('رکورد با موفقیت حذف شد.' , 'تبریک!');
+
+            return redirect()->route('admin.warnings.index');
+        }else{
+            flash()
+                ->options([
+                              'timeout' => 3000 ,
+                              'position' => 'top-left' ,
+                          ])
+                ->addError('رمز نادرست' , 'خطا');
+
+            return redirect()->route('admin.warnings.index');
+        }
+
+
     }
 }

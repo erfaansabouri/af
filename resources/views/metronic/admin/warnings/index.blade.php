@@ -62,7 +62,48 @@
                                     <td class="iransans-web">{{ $record->reason }}</td>
                                     <td class="iransans-web">{{ verta($record->created_at)->format('Y/m/d H:i:s') }}</td>
                                     <td class="iransans-web">
-                                        <a href="{{ route('admin.warnings.destroy', $record->id) }}" class="btn btn-danger">حذف اخطار</a>
+                                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#remove-warning-{{ $record->id }}">
+                                            حذف اخطار
+                                        </button>
+
+                                        <div class="modal" id="remove-warning-{{ $record->id }}">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <form id="my-form" method="post"
+                                                          action="{{ route('admin.warnings.destroy', $record->id) }}"
+                                                          enctype="multipart/form-data">
+                                                        @csrf
+                                                        @method('POST')
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">حذف اخطار</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+
+                                                        <!-- Modal body -->
+                                                        <div class="modal-body">
+                                                            <div class="col-xl-12">
+                                                                <div class="form-group">
+                                                                    <label class="col-form-label">رمز امنیتی</label>
+                                                                    <input autocomplete="off"  type="text" class="form-control" name="key"
+                                                                           required
+                                                                           placeholder="رمز امنیتی را وارد نمایید"
+                                                                           value=""/>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <!-- Modal footer -->
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-danger">حذف اخطار</button>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </td>
                                 </tr>
                             @endforeach
