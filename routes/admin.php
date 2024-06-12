@@ -94,7 +94,7 @@ Route::middleware(['auth:admin'])->prefix('transactions')->group(function (){
 #
 Route::middleware(['auth:admin'])->prefix('warnings')->group(function (){
     Route::get('/', [WarningController::class, 'index'])->name('admin.warnings.index');
-    Route::get('/destroy/{id}', [WarningController::class, 'destroy'])->name('admin.warnings.destroy');
+    Route::any('/destroy/{id}', [WarningController::class, 'destroy'])->name('admin.warnings.destroy');
 });
 #
 Route::middleware(['auth:admin'])->prefix('exports')->group(function (){
