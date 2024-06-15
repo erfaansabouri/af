@@ -47,45 +47,7 @@
                                                         پرداخت بدهی
                                                     </button>
 
-                                                    <!-- The Modal -->
-                                                    <div class="modal" id="debt-modal-{{ $debt->id }}">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <form id="my-form" method="post"
-                                                                      action="{{ route('tenant.transaction.generate-url') }}"
-                                                                      enctype="multipart/form-data">
-                                                                    @csrf
-                                                                    @method('POST')
-                                                                    <!-- Modal Header -->
-                                                                    <div class="modal-header">
-                                                                        <h4 class="modal-title">پرداخت بدهی</h4>
-                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                    </div>
 
-                                                                    <!-- Modal body -->
-                                                                    <div class="modal-body">
-                                                                        <div class="col-xl-12">
-                                                                            <div class="form-group">
-                                                                                <label class="col-form-label">مبلغ پرداختی به ریال</label>
-                                                                                <input autocomplete="off" id="numberInput" type="text" class="form-control" name="debt_amount"
-                                                                                       placeholder="مبلغ پرداختی به ریال را وارد نمایید"
-                                                                                       value=""/>
-                                                                                <input type="hidden" name="debt_id" value="{{ $debt->id }}">
-                                                                            </div>
-                                                                            <span class="text-primary">حداکثر مبلغ قابل پرداخت {{ number_format($debt->amount) }} ریال میباشد</span>
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <!-- Modal footer -->
-                                                                    <div class="modal-footer">
-                                                                        <button type="submit" class="btn btn-success">رفتن به درگاه</button>
-                                                                    </div>
-                                                                </form>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
 
 
                                                     {{--{{ route('tenant.transaction.generate-url', ['debt_id' => $debt->id]) }}--}}
@@ -203,6 +165,47 @@
 
         </div>
     </div>
+    @foreach($debts as $debt)
+        <!-- The Modal -->
+        <div class="modal" id="debt-modal-{{ $debt->id }}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="my-form" method="post"
+                          action="{{ route('tenant.transaction.generate-url') }}"
+                          enctype="multipart/form-data">
+                        @csrf
+                        @method('POST')
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">پرداخت بدهی</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="col-xl-12">
+                                <div class="form-group">
+                                    <label class="col-form-label">مبلغ پرداختی به ریال</label>
+                                    <input autocomplete="off" id="numberInput" type="text" class="form-control" name="debt_amount"
+                                           placeholder="مبلغ پرداختی به ریال را وارد نمایید"
+                                           value=""/>
+                                    <input type="hidden" name="debt_id" value="{{ $debt->id }}">
+                                </div>
+                                <span class="text-primary">حداکثر مبلغ قابل پرداخت {{ number_format($debt->amount) }} ریال میباشد</span>
+                            </div>
+
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">رفتن به درگاه</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    @endforeach
 
 @endsection
 
