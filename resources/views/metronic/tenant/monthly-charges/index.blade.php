@@ -168,7 +168,7 @@
     @foreach($debts as $debt)
         <!-- The Modal -->
         <div class="modal" id="debt-modal-{{ $debt->id }}">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <form id="my-form" method="post"
                           action="{{ route('tenant.transaction.generate-url') }}"
