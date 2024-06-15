@@ -48,7 +48,7 @@
                                                     </button>
 
                                                     <!-- The Modal -->
-                                                    <div class="modal" id="debt-modal-{{ $debt->id }}" style="z-index: 10000">
+                                                    <div class="modal" id="debt-modal-{{ $debt->id }}">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <form id="my-form" method="post"
