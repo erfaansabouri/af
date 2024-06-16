@@ -42,43 +42,7 @@
                             </form>
                         </div>
 
-                        <div class="mb-7">
-                            <form action="{{ route('tenant.transactions.export') }}" method="get">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-3 col-xl-3">
-                                        <div class="row align-items-center">
-                                            <div class="col-lg-12 col-xl-12 my-2 my-md-0">
-                                                <div class="input-icon">
-                                                    <input value="" type="text" class="form-control started-at-datepicker" />
-                                                    <input  name="started_at" type="hidden" class="alt-started-at-datepicker" />
-                                                    <span>
-                                                        <i class="flaticon-calendar text-muted"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="col-lg-3 col-xl-3">
-                                        <div class="row align-items-center">
-                                            <div class="col-lg-12 col-xl-12 my-2 my-md-0">
-                                                <div class="input-icon">
-                                                    <input value="" type="text" class="form-control ended-at-datepicker" />
-                                                    <input  name="ended_at" type="hidden" class="alt-ended-at-datepicker" />
-                                                    <span>
-                                                        <i class="flaticon-calendar text-muted"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
-                                        <button class="btn btn-light-primary px-6 font-weight-bold">دریافت خروجی اکسل</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
 
                         <div class="table-responsive">
                             <table
