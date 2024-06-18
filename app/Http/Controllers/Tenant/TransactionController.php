@@ -72,7 +72,8 @@ class TransactionController extends Controller {
                                ] , [
                                    'debt_amount.required' => 'مبلغ الزامی است' ,
                                ]);
-            $debt_amount_to_pay =  str_replace(',' , '' , $request->get('debt_amount'));;
+            $removed_comma = str_replace(',' , '' , $request->get('debt_amount'));
+            $debt_amount_to_pay =  Tenant::englishNumber($removed_comma);
             if ($debt_amount_to_pay > $debt->amount){
                 flash()
                     ->options([

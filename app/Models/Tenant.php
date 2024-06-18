@@ -207,4 +207,27 @@ class Tenant extends Authenticatable implements HasMedia {
         }
         return true;
     }
+
+    public static function numbers_ar_fa($numbers)
+    {
+        $find = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+        $replace = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+        return (string) str_replace($find, $replace, $numbers);
+    }
+
+    public static function numbers_en_fa($numbers)
+    {
+        $find = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        $replace = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+        return (string) str_replace($find, $replace, $numbers);
+    }
+
+    public static function englishNumber($numbers)
+    {
+        $arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+        $eng = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        $result =  str_replace($arabic, $eng, $numbers);
+        $farsi = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+        return str_replace($farsi, $eng, $result);
+    }
 }
