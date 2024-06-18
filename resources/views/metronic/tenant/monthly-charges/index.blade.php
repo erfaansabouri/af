@@ -186,7 +186,7 @@
                             <div class="col-xl-12">
                                 <div class="form-group">
                                     <label class="col-form-label">مبلغ پرداختی به ریال</label>
-                                    <input autocomplete="off" id="numberInput" type="text" class="form-control" name="debt_amount"
+                                    <input autocomplete="off" type="text" class="form-control" name="debt_amount"
                                            placeholder="مبلغ پرداختی به ریال را وارد نمایید"
                                            value=""/>
                                     <input type="hidden" name="debt_id" value="{{ $debt->id }}">
