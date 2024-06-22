@@ -82,24 +82,28 @@
                 </div>
                 <div class="row">
                     <div class="col-xl-12">
+                        @foreach($messages as $message)
+                            <div class="alert alert-dismissible bg-warning d-flex flex-column flex-sm-row w-100 p-5 mb-10">
+                                <!--begin::Icon-->
+                                <i class="ki-duotone ki-message-text-2 fs-2hx text-light me-4 mb-5 mb-sm-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>                    <!--end::Icon-->
+
+                                <!--begin::Content-->
+                                <a href="{{ route('tenant.messages.index') }}" class="d-flex flex-column text-light pe-0 pe-sm-10">
+                                    <h4 class="mb-2 text-light">پیام  {{ verta($message->created_at)->format('%d %B %Y') }}</h4>
+                                    <span>
+                                        {{ $message->message }}
+                                    </span>
+                                </a>
+                                <!--end::Content-->
+
+                                <!--begin::Close-->
+                                <button type="button" class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto" data-bs-dismiss="alert">
+                                    <i class="ki-duotone ki-cross fs-2x text-light"><span class="path1"></span><span class="path2"></span></i>                    </button>
+                                <!--end::Close-->
+                            </div>
+                        @endforeach
 
 
-                        <div class="accordion accordion-toggle-arrow" id="accordionExample1">
-                            @foreach($messages as $message)
-                                <div class="card">
-                                    <div class="card-header">
-                                        <div class="card-title" data-toggle="collapse" data-target="#collapse{{ $message->id }}">
-                                            پیام جدید {{ verta($message->created_at)->format('%d %B %Y') }}
-                                        </div>
-                                    </div>
-                                    <div id="collapse{{ $message->id }}" class="collapse" data-parent="#accordionExample1">
-                                        <div class="card-body">
-                                            {{ $message->message }}
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
 
                     </div>
                 </div>
@@ -107,24 +111,28 @@
                 <hr>
                 <div class="row">
                     <div class="col-xl-12">
+                        @foreach($warnings as $warning)
+                            <div class="alert alert-dismissible bg-danger d-flex flex-column flex-sm-row w-100 p-5 mb-10">
+                                <!--begin::Icon-->
+                                <i class="ki-duotone ki-message-text-2 fs-2hx text-light me-4 mb-5 mb-sm-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>                    <!--end::Icon-->
+
+                                <!--begin::Content-->
+                                <a href="#" class="d-flex flex-column text-light pe-0 pe-sm-10">
+                                    <h4 class="mb-2 text-light">اخطار {{ verta($warning->created_at)->format('%d %B %Y') }}</h4>
+                                    <span>
+                                        {{ $warning->reason }}
+                                    </span>
+                                </a>
+                                <!--end::Content-->
+
+                                <!--begin::Close-->
+                                <button type="button" class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto" data-bs-dismiss="alert">
+                                    <i class="ki-duotone ki-cross fs-2x text-light"><span class="path1"></span><span class="path2"></span></i>                    </button>
+                                <!--end::Close-->
+                            </div>
+                        @endforeach
 
 
-                        <div class="accordion accordion-toggle-arrow" id="accordionExample1">
-                            @foreach($warnings as $warning)
-                                <div class="card">
-                                    <div class="card-header">
-                                        <div class="card-title" data-toggle="collapse" data-target="#collapsew{{ $warning->id }}">
-                                            اخطار {{ verta($warning->created_at)->format('%d %B %Y') }}
-                                        </div>
-                                    </div>
-                                    <div id="collapsew{{ $warning->id }}" class="collapse" data-parent="#accordionExample1">
-                                        <div class="card-body">
-                                            {{ $warning->reason }}
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
 
                     </div>
                 </div>
