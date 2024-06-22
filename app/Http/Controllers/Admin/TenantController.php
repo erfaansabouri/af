@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\DidNotPayMonthlyChargeExport;
+use App\Exports\TransactionExport;
 use App\Http\Controllers\Controller;
 use App\Models\Debt;
 use App\Models\MonthlyCharge;
 use App\Models\Tenant;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TenantController extends Controller {
     public function index ( Request $request ) {
@@ -31,6 +35,14 @@ class TenantController extends Controller {
                          ->get();
 
         return view('metronic.admin.tenants.index' , compact('records'));
+    }
+
+    public function exportDidNotPayMonthlyCharge ( Request $request ) {
+        $request->validate([
+                               'month' => [ 'required' ] ,
+                           ]);
+
+        return Excel::download(new DidNotPayMonthlyChargeExport($request->get('month')) , 'bedehkaran-charge.xlsx');
     }
 
     public function create () {

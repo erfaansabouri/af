@@ -61,6 +61,42 @@
                             </form>
                         </div>
 
+                        <div class="mb-7">
+                            <form action="{{ route('admin.tenants.export-did-not-pay-monthly-charge') }}" method="get">
+                                <div class="row align-items-center">
+                                    خروجی کاربرانی که شارژ ماهیانه پرداخت نکردند:
+
+                                    <div class="col-lg-2 col-xl-2">
+                                        <div class="row align-items-center">
+
+                                            <div class="col-lg-12 col-xl-12 my-2 my-md-0">
+                                                <select name="month" class="form-control selectpicker">
+                                                    <option value="">انتخاب ماه</option>
+                                                    <option value="1">ماه 1</option>
+                                                    <option value="2">ماه 2</option>
+                                                    <option value="3">ماه 3</option>
+                                                    <option value="4">ماه 4</option>
+                                                    <option value="5">ماه 5</option>
+                                                    <option value="6">ماه 6</option>
+                                                    <option value="7">ماه 7</option>
+                                                    <option value="8">ماه 8</option>
+                                                    <option value="9">ماه 9</option>
+                                                    <option value="10">ماه 10</option>
+                                                    <option value="11">ماه 11</option>
+                                                    <option value="12">ماه 12</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-2 col-xl-2 mt-5 mt-lg-0">
+                                        <button class="btn btn-light-primary px-6 font-weight-bold">دریافت خروجی اکسل</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+
                         <table
                             class="table table-bordered table-striped">
                             <caption>{{$model_name}} ها</caption>

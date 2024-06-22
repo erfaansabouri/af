@@ -26,6 +26,7 @@ Route::middleware(['auth:admin'])->prefix('dashboard')->group(function (){
 #
 Route::middleware(['auth:admin'])->prefix('tenants')->group(function (){
     Route::get('/', [TenantController::class, 'index'])->name('admin.tenants.index');
+    Route::get('/export-did-not-pay-monthly-charge', [TenantController::class, 'exportDidNotPayMonthlyCharge'])->name('admin.tenants.export-did-not-pay-monthly-charge');
     Route::get('/create', [TenantController::class, 'create'])->name('admin.tenants.create');
     Route::post('/store', [TenantController::class, 'store'])->name('admin.tenants.store');
     Route::get('/edit/{id}', [TenantController::class, 'edit'])->name('admin.tenants.edit');
