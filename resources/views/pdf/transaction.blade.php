@@ -139,7 +139,6 @@
     </tr>
     <tr>
         <th style="border-bottom: 1px solid #333;" colspan="13" class="dana-fa-number text-right">مبلغ نهایی: {{ number_format($transaction->amount) }} ریال</th>
-        <th style="border-bottom: 1px solid #333;" colspan="13" class="dana-fa-number text-right"> شماره پیگیری سفارش: {{ $transaction->ref_id }} </th>
     </tr>
     </thead>
 </table>
