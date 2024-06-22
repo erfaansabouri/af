@@ -34,7 +34,7 @@ class ProfileController extends Controller {
         $request->validate([
             'owner_first_name' => ['required'],
             'owner_last_name' => ['required'],
-            'phone_number' => ['required'],
+            'phone_number' => ['required', 'min:10'],
                            ]);
         $record = Auth::guard('tenant')
                       ->user();
@@ -57,7 +57,7 @@ class ProfileController extends Controller {
                                'name' => [ 'nullable' ] ,
                                'owner_first_name' => [ 'nullable' ] ,
                                'owner_last_name' => [ 'nullable' ] ,
-                               'phone_number' => [ 'nullable' ] ,
+                               'phone_number' => [ 'nullable', 'min:10' ] ,
                            ]);
         $record->name = $request->get('name');
         $record->owner_first_name = $request->get('owner_first_name');
