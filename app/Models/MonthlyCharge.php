@@ -100,7 +100,7 @@ class MonthlyCharge extends Model {
             $now = Carbon::now();
             $days_since_due = $due_date->diffInDays($now);
             // Check if 2 to 5 days passed from due date then apply discount
-            if ( $due_date->isPast() && $coupon_second_day_to_fifth_day && $days_since_due >= 2 && $days_since_due <= 5 ) {
+            if ( $due_date->isPast() && $coupon_second_day_to_fifth_day && $days_since_due >= 2 && $days_since_due < 5 ) {
                 return ( ( 100 - $coupon_second_day_to_fifth_day->discount_percent ) / 100 ) * $this->original_amount;
             }
 
