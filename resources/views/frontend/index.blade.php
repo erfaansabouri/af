@@ -16,7 +16,7 @@
 
     <header id="navbar">
         <div id="logo">
-            <h4><a href="#">آفتاب فارس</a></h4>
+            <h4><a href="{{ route('home') }}"><img src="{{ asset('metronic-assets/media/minimal-logo.png') }}" alt=""></a></h4>
         </div>
         <div id="toggler">
             <i class="fa fa-bars"></i>
