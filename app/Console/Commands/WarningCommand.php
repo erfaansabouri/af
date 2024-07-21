@@ -27,6 +27,7 @@ class WarningCommand extends Command {
     public function handle () {
         $monthly_charges = MonthlyCharge::query()
                                         ->where('due_date' , '<' , now()->subDays(31))
+                                        ->whereNull('paid_at')
                                         ->get();
         foreach ( $monthly_charges as $monthly_charge ) {
             $month_of_charge = $monthly_charge->month;
