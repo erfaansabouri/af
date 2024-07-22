@@ -27,13 +27,13 @@ class RemoveWarningCommand extends Command
      */
     public function handle()
     {
-        $warnings = Warning::whereNotNull('monthly_charge_id')->get();
-        foreach ($warnings as $warning){
-            $tenant_warnings_count = $warning->tenant->warnings()->count();
-
-            if ($warning->monthlyCharge->paid_at && $tenant_warnings_count < Setting::getMaxWarningThreshold()){
-                $warning->delete();
-            }
-        }
+        //$warnings = Warning::whereNotNull('monthly_charge_id')->get();
+        //foreach ($warnings as $warning){
+        //    $tenant_warnings_count = $warning->tenant->warnings()->count();
+        //
+        //    if ($warning->monthlyCharge->paid_at && $tenant_warnings_count < Setting::getMaxWarningThreshold()){
+        //        $warning->delete();
+        //    }
+        //}
     }
 }
