@@ -172,7 +172,7 @@ class Tenant extends Authenticatable implements HasMedia {
                                 ->get();
         $total = 0;
         foreach ( $monthly_charges as $monthly_charge ) {
-            $total += $monthly_charge->final_amount;
+            $total += $monthly_charge->original_amount;
         }
 
         return $total;
