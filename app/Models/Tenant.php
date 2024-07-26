@@ -168,6 +168,7 @@ class Tenant extends Authenticatable implements HasMedia {
 
     public function getPassedDueDateAmountAttribute () {
         $monthly_charges = $this->monthlyCharges()
+                                ->notPaid()
                                 ->dueDatePassedMoreThanOneMonth()
                                 ->get();
         $total = 0;
@@ -201,33 +202,111 @@ class Tenant extends Authenticatable implements HasMedia {
                     ->sum('amount') < Setting::getMinDebtAmount();
     }
 
-    public function canSeeMenu(){
-        if ($this->phone_number == null || $this->owner_first_name == null || $this->owner_last_name == null){
+    public function canSeeMenu () {
+        if ( $this->phone_number == null || $this->owner_first_name == null || $this->owner_last_name == null ) {
             return false;
         }
+
         return true;
     }
 
-    public static function numbers_ar_fa($numbers)
-    {
-        $find = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-        $replace = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-        return (string) str_replace($find, $replace, $numbers);
+    public static function numbers_ar_fa ( $numbers ) {
+        $find = [
+            '٠' ,
+            '١' ,
+            '٢' ,
+            '٣' ,
+            '٤' ,
+            '٥' ,
+            '٦' ,
+            '٧' ,
+            '٨' ,
+            '٩',
+        ];
+        $replace = [
+            '۰' ,
+            '۱' ,
+            '۲' ,
+            '۳' ,
+            '۴' ,
+            '۵' ,
+            '۶' ,
+            '۷' ,
+            '۸' ,
+            '۹',
+        ];
+
+        return (string)str_replace($find , $replace , $numbers);
     }
 
-    public static function numbers_en_fa($numbers)
-    {
-        $find = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-        $replace = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-        return (string) str_replace($find, $replace, $numbers);
+    public static function numbers_en_fa ( $numbers ) {
+        $find = [
+            '0' ,
+            '1' ,
+            '2' ,
+            '3' ,
+            '4' ,
+            '5' ,
+            '6' ,
+            '7' ,
+            '8' ,
+            '9',
+        ];
+        $replace = [
+            '۰' ,
+            '۱' ,
+            '۲' ,
+            '۳' ,
+            '۴' ,
+            '۵' ,
+            '۶' ,
+            '۷' ,
+            '۸' ,
+            '۹',
+        ];
+
+        return (string)str_replace($find , $replace , $numbers);
     }
 
-    public static function englishNumber($numbers)
-    {
-        $arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-        $eng = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-        $result =  str_replace($arabic, $eng, $numbers);
-        $farsi = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-        return str_replace($farsi, $eng, $result);
+    public static function englishNumber ( $numbers ) {
+        $arabic = [
+            '٠' ,
+            '١' ,
+            '٢' ,
+            '٣' ,
+            '٤' ,
+            '٥' ,
+            '٦' ,
+            '٧' ,
+            '٨' ,
+            '٩',
+        ];
+        $eng = [
+            '0' ,
+            '1' ,
+            '2' ,
+            '3' ,
+            '4' ,
+            '5' ,
+            '6' ,
+            '7' ,
+            '8' ,
+            '9',
+        ];
+        $result = str_replace($arabic , $eng , $numbers);
+        $farsi = [
+            '۰' ,
+            '۱' ,
+            '۲' ,
+            '۳' ,
+            '۴' ,
+            '۵' ,
+            '۶' ,
+            '۷' ,
+            '۸' ,
+            '۹',
+        ];
+
+        return str_replace($farsi , $eng , $result);
     }
 }
