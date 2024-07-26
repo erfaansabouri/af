@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MonthlyCharge extends Model {
     const PAID_VIA = [
-        'ADMIN' => 'ADMIN',
-        'BEHPARDAKHT' => 'BEHPARDAKHT',
+        'ADMIN' => 'ADMIN' ,
+        'BEHPARDAKHT' => 'BEHPARDAKHT' ,
     ];
 
     public function tenant (): BelongsTo {
@@ -24,6 +24,10 @@ class MonthlyCharge extends Model {
 
     public function scopeDueDatePassed ( Builder $query ): Builder {
         return $query->where('due_date' , '<' , now());
+    }
+
+    public function scopeDueDatePassedMoreThanOneMonth ( Builder $query ): Builder {
+        return $query->where('due_date' , '<' , now()->subDays(31));
     }
 
     public function scopePaid ( Builder $query ): Builder {
@@ -112,8 +116,9 @@ class MonthlyCharge extends Model {
         }
     }
 
-    public function getSubjectAndMonthAttribute(){
+    public function getSubjectAndMonthAttribute () {
         $date = verta($this->due_date)->formatJalaliDate();
+
         return "شارژ ماه {$this->month} ام به تاریخ $date";
     }
 }

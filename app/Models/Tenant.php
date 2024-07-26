@@ -168,7 +168,7 @@ class Tenant extends Authenticatable implements HasMedia {
 
     public function getPassedDueDateAmountAttribute () {
         $monthly_charges = $this->monthlyCharges()
-                                ->dueDatePassed()
+                                ->dueDatePassedMoreThanOneMonth()
                                 ->get();
         $total = 0;
         foreach ( $monthly_charges as $monthly_charge ) {
