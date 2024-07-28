@@ -22,6 +22,9 @@ class Kernel extends ConsoleKernel {
         $schedule->command('expire-transactions')
                  ->everyMinute()
                  ->withoutOverlapping();
+        $schedule->command('fix-phone')
+                 ->everyMinute()
+                 ->withoutOverlapping();
     }
 
     /**
