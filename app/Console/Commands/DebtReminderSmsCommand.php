@@ -26,7 +26,7 @@ class DebtReminderSmsCommand extends Command {
      */
     public function handle () {
         $today = verta();
-        if ( $today->day == 7 ) {
+        if ( $today->day == 6 ) {
             $tenants = Tenant::query()
                              ->whereNotNull('phone_number')
                              ->where(function ( Builder $query ) {
