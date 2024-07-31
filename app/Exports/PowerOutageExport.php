@@ -12,9 +12,8 @@ class PowerOutageExport implements FromView {
     }
 
     public function view (): View {
-        $tenants = Tenant::query()
-                         ->withUnpaidChargesCount()
-                         ->having('unpaid_charges_count' , '>' , 2)
+        $tenants = Tenant::query()->withUnpaidChargesCount()
+                         ->having('unpaid_charges_count' , '>=' , 2)
                          ->get();
 
         return view('exports.debt' , [
