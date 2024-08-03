@@ -53,6 +53,7 @@ class TransactionController extends Controller {
                                            ->firstOrFail();
             $transaction = Transaction::query()
                                       ->create([
+                                                   'tenant_name' => $monthly_charge->tenant->full_name ,
                                                    'tenant_id' => $monthly_charge->tenant_id ,
                                                    'monthly_charge_id' => $monthly_charge->id ,
                                                    'original_amount' => $monthly_charge->original_amount ,
@@ -73,8 +74,8 @@ class TransactionController extends Controller {
                                    'debt_amount.required' => 'مبلغ الزامی است' ,
                                ]);
             $removed_comma = str_replace(',' , '' , $request->get('debt_amount'));
-            $debt_amount_to_pay =  Tenant::englishNumber($removed_comma);
-            if ($debt_amount_to_pay > $debt->amount){
+            $debt_amount_to_pay = Tenant::englishNumber($removed_comma);
+            if ( $debt_amount_to_pay > $debt->amount ) {
                 flash()
                     ->options([
                                   'timeout' => 3000 ,
@@ -86,6 +87,7 @@ class TransactionController extends Controller {
             }
             $transaction = Transaction::query()
                                       ->create([
+                                                   'tenant_name' => $debt->tenant->full_name ,
                                                    'tenant_id' => $debt->tenant_id ,
                                                    'debt_id' => $debt_id ,
                                                    'original_amount' => $debt_amount_to_pay ,

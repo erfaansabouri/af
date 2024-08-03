@@ -118,7 +118,7 @@
     <thead>
     <tr>
         <th style="border-bottom: 1px solid #333;" class="text-right dana-fa-number" colspan="13">
-            نام: {{ $transaction->tenant->full_name }} | پلاک: {{ $transaction->tenant->plaque }}
+            نام: {{ $transaction->tenant_name }} | پلاک: {{ $transaction->tenant->plaque }}
         </th>
     </tr>
     <tr>

@@ -97,6 +97,7 @@ class Tenant extends Authenticatable implements HasMedia {
         elseif ( $amount == $first_unpaid_monthly_charge->original_amount ) {
             $transaction = Transaction::query()
                                       ->create([
+                                                   'tenant_name' => $this->full_name ,
                                                    'tenant_id' => $this->id ,
                                                    'monthly_charge_id' => $first_unpaid_monthly_charge->id ,
                                                    'original_amount' => $first_unpaid_monthly_charge->original_amount ,
@@ -117,6 +118,7 @@ class Tenant extends Authenticatable implements HasMedia {
         else {
             $transaction = Transaction::query()
                                       ->create([
+                                                   'tenant_name' => $this->full_name ,
                                                    'tenant_id' => $this->id ,
                                                    'monthly_charge_id' => $first_unpaid_monthly_charge->id ,
                                                    'original_amount' => $amount ,
