@@ -12,6 +12,7 @@ class DashboardController extends Controller
     public function dashboard(){
         $messages = Message::query()
             ->where('tenant_id', Auth::guard('tenant')->id())
+            ->whereNull('seen_at')
             ->orderByDesc('id')
             ->get();
         $warnings = Warning::query()
