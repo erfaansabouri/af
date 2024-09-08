@@ -183,11 +183,10 @@
                                         @if($record->verifyLogs)
                                             @foreach($record->verifyLogs as $verify_log)
                                                 @if($verify_log->request)
-                                                    <code>
-                                                        @foreach(json_decode($verify_log->request, true) as $k => $v)
-                                                            {{ $k }} : {{ $v }}
-                                                        @endforeach
-                                                    </code>
+                                                    @foreach(json_decode($verify_log->request, true) as $k => $v)
+                                                        {{ $k }} : {{ $v }}
+                                                        <br>
+                                                    @endforeach
                                                 @endif
                                                 @if($verify_log->exception_message)
                                                     <br>
