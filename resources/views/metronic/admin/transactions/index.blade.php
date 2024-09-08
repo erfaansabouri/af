@@ -184,8 +184,11 @@
                                             @foreach($record->verifyLogs as $verify_log)
                                                 @if($verify_log->request)
                                                     @foreach(json_decode($verify_log->request, true) as $k => $v)
-                                                        {{ $k }} : {{ $v }}
-                                                        <br>
+                                                        @if($k != 'CardHolderInfo')
+                                                            {{ $k }} : {{ $v }}
+                                                            <br>
+                                                        @endif
+
                                                     @endforeach
                                                 @endif
                                                 @if($verify_log->exception_message)
