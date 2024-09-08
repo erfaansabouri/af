@@ -8,6 +8,7 @@ use App\Models\Debt;
 use App\Models\MonthlyCharge;
 use App\Models\Tenant;
 use App\Models\Transaction;
+use App\Models\VerifyLog;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -114,6 +115,11 @@ class TransactionController extends Controller {
         $transaction = Transaction::query()
                                   ->where('tx_id' , $tx_id)
                                   ->firstOrFail();
+        $verify_log = VerifyLog::query()
+                               ->create([
+                                            'transaction_id' => $transaction->id ,
+                                            'request' => json_encode($request->all()),
+                                        ]);
         try {
             $receipt = Payment::amount($transaction->amount / 10)
                               ->transactionId($tx_id)
@@ -153,6 +159,10 @@ class TransactionController extends Controller {
         catch ( InvalidPaymentException $exception ) {
             $transaction->failed_at = now();
             $transaction->save();
+
+            $verify_log->exception_message = $exception->getMessage();
+            $verify_log->exception_code = $exception->getCode();
+            $verify_log->save();
 
             return view('payment.redirect' , [
                 'failed' => true ,
