@@ -4,17 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\TransactionExport;
 use App\Http\Controllers\Controller;
-use App\Models\MonthlyCharge;
-use App\Models\Tenant;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
-use Shetabit\Multipay\Invoice;
-use Shetabit\Payment\Facade\Payment;
 
 class TransactionController extends Controller {
     public function index ( Request $request ) {
@@ -24,6 +19,7 @@ class TransactionController extends Controller {
                           ->endOfDay();
         $tenant_type_id = $request->get('tenant_type_id');
         $records = Transaction::query()
+                              ->with([ 'verifyLogs' ])
                               ->when($request->get('search') , function ( Builder $query ) use ( $request ) {
                                   $search = $request->get('search');
                                   $query->where('id' , 'like' , '%' . $search . '%')
@@ -60,7 +56,7 @@ class TransactionController extends Controller {
         $tenant_type_id = $request->get('tenant_type_id');
         $paid_via = $request->get('paid_via');
 
-        return Excel::download(new TransactionExport($started_at , $ended_at , $tenant_type_id, $paid_via) , 'transactions.xlsx');
+        return Excel::download(new TransactionExport($started_at , $ended_at , $tenant_type_id , $paid_via) , 'transactions.xlsx');
     }
 
     public function pdf ( $id ) {
