@@ -157,6 +157,7 @@ class TransactionController extends Controller {
             return view('payment.redirect' , [
                 'failed' => true ,
                 'failed_message' => $exception->getMessage() ,
+                'failed_code' => $exception->getCode() ,
             ]);
         }
     }

@@ -64,6 +64,8 @@
         پرداخت با شکست مواجه شد
         <br>
         {{ @$failed_message }}
+        <br>
+        {{ @$failed_code }}
     </div>
 @endif
 <div class="text-box">
