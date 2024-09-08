@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Transaction extends Model {
     const PAID_VIA = [
@@ -79,5 +80,9 @@ class Transaction extends Model {
         }
 
         return 0;
+    }
+
+    public function verifyLogs (): HasMany {
+        return $this->hasMany(VerifyLog::class , 'transaction_id');
     }
 }

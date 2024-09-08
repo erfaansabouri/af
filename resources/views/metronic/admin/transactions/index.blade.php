@@ -146,6 +146,7 @@
                                 <th class="iransans-web">مبلغ</th>
                                 <th class="iransans-web">وضعیت پرداخت</th>
                                 <th class="iransans-web">تاریخ ایجاد</th>
+                                <th class="iransans-web">اطلاعات بانکی</th>
                                 <th class="iransans-web">عملیات</th>
                             </tr>
                             </thead>
@@ -178,6 +179,21 @@
                                             @endif
                                     </td>
                                     <td class="iransans-web">{{ verta($record->created_at)->format('Y/m/d H:i:s') }}</td>
+                                    <td class="iransans-web">
+                                        @if($record->verifyLogs)
+                                            @foreach($record->verifyLogs as $verify_log)
+                                                @if($verify_log->request)
+                                                    <code>
+                                                        {{ $verify_log->request }}
+                                                    </code>
+                                                @endif
+                                                @if($verify_log->exception_message)
+                                                    <br>
+                                                    متن خطا : {{ $verify_log->error_code }} {{ $verify_log->error_message }}
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    </td>
                                     <td class="iransans-web">
                                         @if($record->paid_at)
                                             <a href="{{ route('admin.transactions.pdf', $record->id) }}" class="btn btn-primary">PDF</a>
