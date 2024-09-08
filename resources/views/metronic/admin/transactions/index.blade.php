@@ -184,12 +184,12 @@
                                             @foreach($record->verifyLogs as $verify_log)
                                                 @if($verify_log->request)
                                                     <code>
-                                                        {{ $verify_log->request }}
+                                                        {{ json_encode(json_decode($verify_log->request), JSON_PRETTY_PRINT) }}
                                                     </code>
                                                 @endif
                                                 @if($verify_log->exception_message)
                                                     <br>
-                                                    متن خطا : {{ $verify_log->error_code }} {{ $verify_log->error_message }}
+                                                    متن خطا : {{ $verify_log->exception_code }} {{ $verify_log->exception_message }}
                                                 @endif
                                             @endforeach
                                         @endif
