@@ -184,7 +184,9 @@
                                             @foreach($record->verifyLogs as $verify_log)
                                                 @if($verify_log->request)
                                                     <code>
-                                                        {{ json_encode(json_decode($verify_log->request), JSON_PRETTY_PRINT) }}
+                                                        @foreach(json_decode($verify_log->request, true) as $k => $v)
+                                                            {{ $k }} : {{ $v }}
+                                                        @endforeach
                                                     </code>
                                                 @endif
                                                 @if($verify_log->exception_message)
