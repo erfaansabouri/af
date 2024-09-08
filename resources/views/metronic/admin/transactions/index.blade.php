@@ -177,7 +177,7 @@
                                             @endif
                                     </td>
                                     <td class="iransans-web">{{ verta($record->created_at)->format('Y/m/d H:i:s') }}</td>
-                                    <td class="iransans-web">
+                                    <td class="iransans-web" dir="ltr" style="direction: ltr">
                                         @if($record->verifyLogs)
                                             @foreach($record->verifyLogs as $verify_log)
                                                 @if($verify_log->request)
