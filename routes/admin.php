@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\FiscalYearController;
 use App\Http\Controllers\Admin\FloorController;
 use App\Http\Controllers\Admin\MessageGroupController;
+use App\Http\Controllers\Admin\OtherController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\Admin\TransactionController;
@@ -38,6 +39,13 @@ Route::middleware(['auth:admin'])->prefix('tenants')->group(function (){
     Route::any('/submit-bedehkari', [TenantController::class, 'submitBedehkari'])->name('admin.tenants.submit-bedehkari');
     Route::any('/remove-bedehkari/{id}', [TenantController::class, 'removeBedehkari'])->name('admin.tenants.remove-bedehkari');
     Route::any('/restore-monthly-charge/{id}', [TenantController::class, 'restoreMonthlyCharge'])->name('admin.tenants.restore-monthly-charge');
+});
+#
+
+Route::middleware(['auth:admin'])->prefix('others')->group(function (){
+    Route::get('/', [OtherController::class, 'index'])->name('admin.others.index');
+    Route::get('/create', [OtherController::class, 'create'])->name('admin.others.create');
+    Route::post('/store', [OtherController::class, 'store'])->name('admin.others.store');
 });
 #
 Route::middleware(['auth:admin'])->prefix('complex-settings')->group(function (){
