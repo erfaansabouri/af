@@ -140,7 +140,6 @@
                             <tr>
                                 <th class="iransans-web">شناسه</th>
                                 <th class="iransans-web">شماره تراکنش</th>
-                                <th class="iransans-web">کد پیگیری</th>
                                 <th class="iransans-web">پلاک</th>
                                 <th class="iransans-web">موضوع پرداخت</th>
                                 <th class="iransans-web">مبلغ</th>
@@ -155,7 +154,6 @@
                                 <tr>
                                     <td class="iransans-web">{{ $record->id }}</td>
                                     <td class="iransans-web">{{ $record->tx_id }}</td>
-                                    <td class="iransans-web">{{ $record->ref_id }}</td>
                                     <td class="iransans-web">{{ $record->tenant->plaque }}</td>
                                     <td class="iransans-web">{{ $record->subject }}</td>
                                     <td class="iransans-web">{{ number_format($record->amount) }} ریال</td>
