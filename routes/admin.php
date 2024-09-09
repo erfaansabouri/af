@@ -50,6 +50,9 @@ Route::middleware(['auth:admin'])->prefix('others')->group(function (){
     Route::post('/update/{id}', [OtherController::class, 'update'])->name('admin.others.update');
     Route::get('/set-default-password/{id}', [OtherController::class, 'setDefaultPassword'])->name('admin.others.set-default-password');
 
+    Route::get('/financial-period/{id}', [OtherController::class, 'financialPeriod'])->name('admin.others.financial-period');
+    Route::post('/create-financial-period/{id}', [OtherController::class, 'createFinancialPeriod'])->name('admin.others.create-financial-period');
+
 });
 #
 Route::middleware(['auth:admin'])->prefix('complex-settings')->group(function (){

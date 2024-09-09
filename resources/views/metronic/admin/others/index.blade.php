@@ -86,8 +86,7 @@
                                         <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
                                             <div class="btn-group" role="group" aria-label="First group">
                                                 <a href="{{ route('admin.others.edit', $record->id) }}" class="btn btn-primary  btn-icon"><i class="la la-edit"></i></a>
-                                                <a href="#" class="btn btn-success btn-icon"><i class="la la-file-invoice"></i></a>
-                                                <a href="#" class="btn btn-danger btn-icon"><i class="la la-warning"></i></a>
+                                                <a href="{{ route('admin.others.financial-period', $record->id) }}" class="btn btn-success btn-icon"><i class="la la-clipboard-list"></i></a>
                                             </div>
                                         </div>
                                     </td>
