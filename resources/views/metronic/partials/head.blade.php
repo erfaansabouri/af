@@ -30,7 +30,7 @@
 
     <link type="text/css" rel="stylesheet" href="{{ asset('metronic-assets/css/jalalipicker.css') }}" />
     <script type="text/javascript" src="{{ asset('metronic-assets/js/jalalipicker.js') }}"></script>
-    <link rel="stylesheet" href="https://unpkg.com/persian-datepicker@latest/dist/css/persian-datepicker.min.css"/>
+    <link rel="stylesheet" href="{{ asset('frontend/css/persian-datepicker.min.css') }}"/>
 
     @stack('head')
 
