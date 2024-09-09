@@ -183,8 +183,9 @@
                                                 @if($verify_log->request)
                                                     @foreach(json_decode($verify_log->request, true) as $k => $v)
                                                         @if($k != 'CardHolderInfo')
-                                                            {{ __($k) }} : {{ $v }}
-                                                            <br>
+                                                            {{ __($k) }}:
+                                                            <br><b>{{ $v }}</b>
+                                                            <hr>
                                                         @endif
 
                                                     @endforeach
