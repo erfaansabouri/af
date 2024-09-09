@@ -4,6 +4,6 @@
 <script src="{{ asset('metronic-assets/js/scripts.bundle.js') }}"></script>
 <script src="{{ asset('metronic-assets/js/pages/crud/forms/widgets/bootstrap-select.js') }}"></script>
 
-<script src="https://unpkg.com/persian-date@latest/dist/persian-date.min.js"></script>
-<script src="https://unpkg.com/persian-datepicker@latest/dist/js/persian-datepicker.min.js"></script>
+<script src="{{ asset('frontend/js/persian-date.min.js') }}"></script>
+<script src="{{ asset('frontend/js/persian-datepicker.min.js') }}"></script>
 @include('metronic.partials.toastr')

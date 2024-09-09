@@ -138,8 +138,7 @@
                             <caption>{{$model_name}} ها</caption>
                             <thead class="thead-light iransans-web">
                             <tr>
-                                <th class="iransans-web">شناسه</th>
-                                <th class="iransans-web">شماره تراکنش</th>
+                                <th class="iransans-web">آی دی سیستم</th>
                                 <th class="iransans-web">پلاک</th>
                                 <th class="iransans-web">موضوع پرداخت</th>
                                 <th class="iransans-web">مبلغ</th>
@@ -153,7 +152,6 @@
                             @foreach($records as $record)
                                 <tr>
                                     <td class="iransans-web">{{ $record->id }}</td>
-                                    <td class="iransans-web">{{ $record->tx_id }}</td>
                                     <td class="iransans-web">{{ $record->tenant->plaque }}</td>
                                     <td class="iransans-web">{{ $record->subject }}</td>
                                     <td class="iransans-web">{{ number_format($record->amount) }} ریال</td>
@@ -183,10 +181,10 @@
                                                 @if($verify_log->request)
                                                     @foreach(json_decode($verify_log->request, true) as $k => $v)
                                                         @if($k != 'CardHolderInfo')
-                                                            {{ __($k) }} : {{ $v }}
-                                                            <br>
+                                                            {{ __($k) }}:
+                                                            <br><b>{{ $v }}</b>
+                                                            <hr>
                                                         @endif
-
                                                     @endforeach
                                                 @endif
                                                 @if($verify_log->exception_message)
