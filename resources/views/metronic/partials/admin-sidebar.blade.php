@@ -77,7 +77,7 @@
                             <a href="{{ route('admin.others.create') }}" class="menu-link">
                                 <i class="menu-bullet menu-bullet-line">
                                     <span></span></i>
-                                <span class="menu-text">ایجاد متفرفه</span>
+                                <span class="menu-text">ایجاد متفرقه</span>
                             </a>
                         </li>
                     </ul>

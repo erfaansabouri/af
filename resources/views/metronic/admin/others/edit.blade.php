@@ -6,12 +6,12 @@
             <div class="card card-custom">
                 <div class="card-header">
                     <h3 class="card-title">
-                        ایجاد متفرقه جدید
+                        ویرایش متفرقه پلاک {{ $record->plaque }}
                     </h3>
                 </div>
 
                 <form id="my-form" method="post"
-                      action="{{ route('admin.others.store') }}"
+                      action="{{ route('admin.others.update', $record->id) }}"
                       enctype="multipart/form-data">
                     @csrf
                     @method('POST')
@@ -83,7 +83,7 @@
                                        value=""/>
                                 @if(@$record)
                                     <br>
-                                    <a dir="ltr" href="{{ route('admin.tenants.set-default-password', $record->id) }}" class="btn btn-light-primary">بازگردانی به پسورد پیشفرض </a>
+                                    <a dir="ltr" href="{{ route('admin.others.set-default-password', $record->id) }}" class="btn btn-light-primary">بازگردانی به پسورد پیشفرض </a>
                                 @endif
                             </div>
                         </div>

@@ -81,11 +81,11 @@
                                     <td class="iransans-web">{{ $record->id }}</td>
                                     <td class="iransans-web">{{ $record->plaque }}</td>
                                     <td class="iransans-web">{{ $record->description }}</td>
-                                    <td class="iransans-web">{{ is_numeric($record->monthly_charge_amount) ? number_format($record->monthly_charge_amount) : "ندارد" }}</td>
+                                    <td class="iransans-web">{{ is_numeric($record->monthly_charge_amount) ? number_format($record->monthly_charge_amount) . " ریال" : "ندارد" }}</td>
                                     <td>
                                         <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
                                             <div class="btn-group" role="group" aria-label="First group">
-                                                <a href="#" class="btn btn-primary  btn-icon"><i class="la la-edit"></i></a>
+                                                <a href="{{ route('admin.others.edit', $record->id) }}" class="btn btn-primary  btn-icon"><i class="la la-edit"></i></a>
                                                 <a href="#" class="btn btn-success btn-icon"><i class="la la-file-invoice"></i></a>
                                                 <a href="#" class="btn btn-danger btn-icon"><i class="la la-warning"></i></a>
                                             </div>

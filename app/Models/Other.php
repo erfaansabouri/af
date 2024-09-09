@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Other extends Model
 {
     use HasFactory;
+
+    public function getDefaultPasswordAttribute () {
+        return $this->plaque . "@1403";
+    }
 }

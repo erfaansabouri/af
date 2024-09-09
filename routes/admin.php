@@ -46,6 +46,10 @@ Route::middleware(['auth:admin'])->prefix('others')->group(function (){
     Route::get('/', [OtherController::class, 'index'])->name('admin.others.index');
     Route::get('/create', [OtherController::class, 'create'])->name('admin.others.create');
     Route::post('/store', [OtherController::class, 'store'])->name('admin.others.store');
+    Route::get('/edit/{id}', [OtherController::class, 'edit'])->name('admin.others.edit');
+    Route::post('/update/{id}', [OtherController::class, 'update'])->name('admin.others.update');
+    Route::get('/set-default-password/{id}', [OtherController::class, 'setDefaultPassword'])->name('admin.others.set-default-password');
+
 });
 #
 Route::middleware(['auth:admin'])->prefix('complex-settings')->group(function (){
