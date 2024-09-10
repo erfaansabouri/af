@@ -44,55 +44,133 @@
                     </div>
                 </form>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xl-6">
-            <div>
-                <div class="d-flex flex-column-fluid">
-                    <!--begin::Container-->
-                    <div class="container-fluid">
-                        <div class="card card-custom">
-                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
-                                <div class="card-title">
-                                    <h3 class="card-label">{{ "شارژ های ماهیانه پلاک" . " " . $record->plaque }}
-                                        <span class="text-muted pt-2 font-size-sm d-block"></span>
-                                    </h3>
+            <br>
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="card card-custom">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                شارژ های ماهیانه پلاک {{ $record->plaque }}
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="m-portlet">
+                                <div class="m-portlet__head">
+                                    <div class="m-portlet__head-caption">
+                                        <div class="m-portlet__head-title">
+                                            <h3 class="m-portlet__head-text">
+                                                Small Table
+                                            </h3>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
+                                <div class="m-portlet__body">
 
-                                <div class="table-responsive">
-                                    <table
-                                        class="table table-bordered table-striped">
-                                        <thead class="thead-light iransans-web">
-                                        <tr>
-                                            <th class="iransans-web">ماه</th>
-                                            <th class="iransans-web">موعد پرداخت</th>
-                                            <th class="iransans-web">مبلغ</th>
-                                            <th class="iransans-web">وضعیت</th>
-                                            <th class="iransans-web">عملیات</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
+                                    <!--begin::Section-->
+                                    <div class="m-section">
+                                        <span class="m-section__sub">
+                                            Add <code>.table-sm</code> to make tables more compact by cutting cell padding in half.
+                                        </span>
+                                        <div class="m-section__content">
+                                            <table class="table table-sm m-table m-table--head-bg-brand">
+                                                <thead class="thead-inverse">
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Username</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <th scope="row">1</th>
+                                                    <td>Jhon</td>
+                                                    <td>Stone</td>
+                                                    <td>@jhon</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">2</th>
+                                                    <td>Lisa</td>
+                                                    <td>Nilson</td>
+                                                    <td>@lisa</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">3</th>
+                                                    <td>Larry</td>
+                                                    <td>the Bird</td>
+                                                    <td>@twitter</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
 
-
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                                    <!--end::Section-->
                                 </div>
-                                <!--end: Datatable-->
                             </div>
                         </div>
-                        <!--end::Card-->
                     </div>
-                    <!--end::Container-->
+                </div>
+                <div class="col-xl-6">
+                    <div class="card card-custom">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                شارژ های ماهیانه پلاک {{ $record->plaque }}
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="m-portlet">
+                                <div class="m-portlet__head">
+                                    <div class="m-portlet__head-caption">
+                                        <div class="m-portlet__head-title">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="m-portlet__body">
+
+                                    <!--begin::Section-->
+                                    <div class="m-section">
+                                        <span class="m-section__sub">
+                                        </span>
+                                        <div class="m-section__content">
+                                            <table class="table table-sm m-table m-table--head-bg-brand">
+                                                <thead class="thead-inverse">
+                                                <tr>
+                                                    <th>موعد پرداخت</th>
+                                                    <th>مبلغ</th>
+                                                    <th>وضعیت پرداخت</th>
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach($record->otherMonthlyCharges as $omc)
+                                                <tr>
+                                                    <td>{{ verta($omc->due_date)->format('Y/m/d') }}</td>
+                                                    <td>{{ number_format($omc->amount) }} ریال</td>
+                                                    <td>
+                                                        @if($record->paid_at)
+                                                            <span class="label label-inline label-light-success">پرداخت موفق</span>
+                                                        @else
+                                                            <span class="label label-inline label-light-danger">پرداخت نشده</span>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <!--end::Section-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
+
 
 @endsection
 
