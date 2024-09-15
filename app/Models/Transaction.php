@@ -93,4 +93,8 @@ class Transaction extends Model {
     public function verifyLogs (): HasMany {
         return $this->hasMany(VerifyLog::class , 'transaction_id');
     }
+
+    public function getTenantOrOtherAttribute () {
+        return $this->tenant_id ? 'واحد کاربری' : 'واحد متفرقه';
+    }
 }
