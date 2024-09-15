@@ -5,8 +5,8 @@
         داشبورد
         @if(Auth::guard('tenant')->check())
             کاربران
-        @else
-            مدیریت
+        @elseif(Auth::guard('other')->check())
+            متفرقه
         @endif
     </title>
     <meta name="description" content="{{ env('APP_NAME') }}" />
