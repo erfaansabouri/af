@@ -323,7 +323,7 @@ return [
 
             'mode' => 'normal', // can be normal, direct
 
-            'merchantId' => 'test',
+            'merchantId' => 'zibal',
             'callbackUrl' => 'http://yoursite.com/path/to',
             'description' => 'payment using zibal',
             'currency' => 'T', //Can be R, T (Rial, Toman)

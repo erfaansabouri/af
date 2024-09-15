@@ -6,6 +6,8 @@ use App\Exports\TransactionExport;
 use App\Http\Controllers\Controller;
 use App\Models\Debt;
 use App\Models\MonthlyCharge;
+use App\Models\OtherDebt;
+use App\Models\OtherMonthlyCharge;
 use App\Models\Tenant;
 use App\Models\Transaction;
 use App\Models\VerifyLog;
@@ -149,6 +151,34 @@ class TransactionController extends Controller {
                     $debt->paid_at = now();
                 }
                 $debt->save();
+
+                return view('payment.redirect' , [
+                    'success' => true ,
+                    'code' => $tx_id ,
+                ]);
+            }
+            #
+            if ( $transaction->other_monthly_charge_id ) {
+                $other_monthly_charge = OtherMonthlyCharge::query()
+                                               ->find($transaction->other_monthly_charge_id);
+                $other_monthly_charge->paid_at = now();
+                $other_monthly_charge->save();
+
+                return view('payment.redirect' , [
+                    'success' => true ,
+                    'code' => $tx_id ,
+                ]);
+            }
+            if ( $transaction->other_debt_id ) {
+                $other_debt = OtherDebt::query()
+                            ->find($transaction->other_debt_id);
+                if ( $transaction->amount < $other_debt->amount ) {
+                    $other_debt->amount = $other_debt->amount - $transaction->amount;
+                }
+                else {
+                    $other_debt->paid_at = now();
+                }
+                $other_debt->save();
 
                 return view('payment.redirect' , [
                     'success' => true ,

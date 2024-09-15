@@ -70,7 +70,7 @@
 @endif
 <div class="text-box">
 بازگشت به وبسایت
-    <a href="{{ route('tenant.monthly-charges.index') }}">کلیک کنید</a>
+    <a href="{{ route('home') }}">کلیک کنید</a>
 </div>
 </body>
 </html>

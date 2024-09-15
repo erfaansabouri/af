@@ -72,6 +72,9 @@
             @if(\Illuminate\Support\Facades\Auth::guard('tenant')->check())
                 @include('metronic.partials.tenant-sidebar')
             @endif
+            @if(\Illuminate\Support\Facades\Auth::guard('other')->check())
+                @include('metronic.partials.other-sidebar')
+            @endif
         </div>
         <!--end::Aside-->
         <!--begin::Wrapper-->

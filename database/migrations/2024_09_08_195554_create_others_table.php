@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('monthly_charge_amount')->nullable();
             $table->string('username')->nullable();
             $table->string('password')->nullable();
+            $table->text('remember_token')->nullable();
             $table->timestamps();
         });
     }

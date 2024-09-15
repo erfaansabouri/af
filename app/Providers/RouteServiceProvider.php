@@ -40,6 +40,10 @@ class RouteServiceProvider extends ServiceProvider {
                  ->group(base_path('routes/tenant.php'));
             #
             Route::middleware('web')
+                 ->prefix('other')
+                 ->group(base_path('routes/other.php'));
+            #
+            Route::middleware('web')
                  ->prefix('')
                  ->group(base_path('routes/web.php'));
         });
