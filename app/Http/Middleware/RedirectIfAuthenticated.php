@@ -27,6 +27,9 @@ class RedirectIfAuthenticated
                 if ($guard == 'tenant'){
                     return  redirect()->route('tenant.dashboard.dashboard');
                 }
+                if ($guard == 'other'){
+                    return  redirect()->route('other.dashboard.dashboard');
+                }
             }
         }
 
