@@ -26,7 +26,7 @@
             <td>{{ $transaction->subject }}</td>
             <td>{{ $transaction?->tenant?->plaque }} {{ $transaction?->other?->plaque }}</td>
             <td>{{ $transaction?->tenant?->phone_number }}</td>
-            <td>{{ $transaction?->tenant->name }} - {{ $transaction?->tenant?->full_name }}</td>
+            <td>{{ $transaction?->tenant?->name }} - {{ $transaction?->tenant?->full_name }}</td>
             <td>{{ $transaction->ref_id }}</td>
             <td>پرداخت شده</td>
             <td>{{ verta($transaction->paid_at)->format('Y-m-d H:i:s') }}</td>
