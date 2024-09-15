@@ -81,7 +81,19 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            @if(!$tenant->can_pay_monthly_charges)
+                        @if($tenant->other_has_debt)
+                                <div class="m-alert m-alert--icon alert alert-danger" role="alert">
+                                    <div class="m-alert__icon">
+                                        <i class="flaticon-danger"></i>
+                                    </div>
+                                    <div class="m-alert__text">
+                                        <strong>تخفیف شما غیر فعال شد</strong>
+                                        کاربر گرامی به دلیل بدهی واحد متفرقه تخفیف شما غیر فعال است.
+                                    </div>
+                                </div>
+                            @endif
+
+                        @if(!$tenant->can_pay_monthly_charges)
                                 <div class="m-alert m-alert--icon alert alert-danger" role="alert">
                                     <div class="m-alert__icon">
                                         <i class="flaticon-danger"></i>

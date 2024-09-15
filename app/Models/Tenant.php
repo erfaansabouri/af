@@ -319,4 +319,8 @@ class Tenant extends Authenticatable implements HasMedia {
     public function other (): HasOne {
         return $this->hasOne(Other::class , 'tenant_id');
     }
+
+    public function getOtherHasDebtAttribute () {
+        return $this->other && $this->other->otherDebts()->notPaid()->count() > 0;
+    }
 }
