@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\MonthlyCharge;
 use App\Models\Other;
 use App\Models\OtherMonthlyCharge;
 use App\Models\Tenant;
+use App\Models\Transaction;
 use App\Services\Convert;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -138,6 +140,7 @@ class OtherController extends Controller {
 			OtherMonthlyCharge::query()
 						 ->create([
 											 'other_id' => $id ,
+											 'original_amount' => $record->monthly_charge_amount ,
 											 'amount' => $record->monthly_charge_amount ,
 											 'due_date' => $due_date ,
 										 ]);
@@ -185,5 +188,37 @@ class OtherController extends Controller {
             return redirect()->back();
         }
     }
+
+    public function restoreMonthlyCharge ( $id ) {
+        $other_monthly_charge = OtherMonthlyCharge::query()
+                                       ->findOrFail($id);
+        if ( $other_monthly_charge->paid_via != OtherMonthlyCharge::PAID_VIA[ 'ADMIN' ] ) {
+
+            flash()
+                ->options([
+                              'timeout' => 3000 ,
+                              'position' => 'top-left' ,
+                          ])
+                ->addSuccess('شارژی که از طریق به پرداخت انجام شده باشد قابلیت بازگشت ندارد.' , 'خطا');
+
+            return redirect()->back();
+        }
+        Transaction::query()
+                   ->where('other_monthly_charge_id' , $other_monthly_charge->id)
+                   ->delete();
+        $other_monthly_charge->paid_via = null;
+        $other_monthly_charge->amount = $other_monthly_charge->original_amount;
+        $other_monthly_charge->paid_at = null;
+        $other_monthly_charge->save();
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('شارژ ماهیانه به حالت اولیه بازگشت.' , 'تبریک');
+
+        return redirect()->back();
+    }
+
 
 }

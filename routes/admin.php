@@ -54,6 +54,7 @@ Route::middleware(['auth:admin'])->prefix('others')->group(function (){
     Route::post('/create-financial-period/{id}', [OtherController::class, 'createFinancialPeriod'])->name('admin.others.create-financial-period');
 
     Route::any('/submit-bestankari', [OtherController::class, 'submitBestankari'])->name('admin.others.submit-bestankari');
+    Route::any('/restore-monthly-charge/{id}', [OtherController::class, 'restoreMonthlyCharge'])->name('admin.others.restore-monthly-charge');
 
 });
 #

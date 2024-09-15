@@ -48,6 +48,7 @@ class Other extends Model
                                                    'tx_id' => 'AD' . rand() ,
                                                    'paid_via' => Transaction::PAID_VIA[ 'ADMIN' ] ,
                                                ]);
+            $first_unpaid_monthly_charge->paid_via = OtherMonthlyCharge::PAID_VIA['ADMIN'];
             $first_unpaid_monthly_charge->paid_at = now();
             $first_unpaid_monthly_charge->save();
 
@@ -67,6 +68,7 @@ class Other extends Model
                                                    'tx_id' => 'AD' . rand() ,
                                                    'paid_via' => Transaction::PAID_VIA[ 'ADMIN' ] ,
                                                ]);
+            $first_unpaid_monthly_charge->paid_via = OtherMonthlyCharge::PAID_VIA['ADMIN'];
             $first_unpaid_monthly_charge->amount = $first_unpaid_monthly_charge->amount - $amount;
             $first_unpaid_monthly_charge->save();
 

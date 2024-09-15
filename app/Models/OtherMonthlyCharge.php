@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OtherMonthlyCharge extends Model
 {
@@ -23,5 +24,9 @@ class OtherMonthlyCharge extends Model
         $date = verta($this->due_date)->formatJalaliDate();
 
         return "شارژ ماهیانه به تاریخ $date";
+    }
+
+    public function other (): BelongsTo {
+        return $this->belongsTo(Other::class);
     }
 }

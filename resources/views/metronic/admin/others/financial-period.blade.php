@@ -178,6 +178,7 @@
                                                     <th>موعد پرداخت</th>
                                                     <th>مبلغ</th>
                                                     <th>وضعیت پرداخت</th>
+                                                    <th>عملیات</th>
 
                                                 </tr>
                                                 </thead>
@@ -191,6 +192,11 @@
                                                             <span class="label label-inline label-light-success">پرداخت موفق</span>
                                                         @else
                                                             <span class="label label-inline label-light-danger">پرداخت نشده</span>
+                                                        @endif
+                                                    </td>
+                                                    <td class="iransans-web">
+                                                        @if($omc->paid_via == \App\Models\OtherMonthlyCharge::PAID_VIA['ADMIN'])
+                                                            <a class="btn btn-sm btn-danger" href="{{ route('admin.others.restore-monthly-charge', $omc->id) }}">بازگردانی</a>
                                                         @endif
                                                     </td>
                                                 </tr>
