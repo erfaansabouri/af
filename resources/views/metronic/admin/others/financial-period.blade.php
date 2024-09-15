@@ -1,4 +1,3 @@
-@php use App\Models\Floor;use App\Models\TenantType; @endphp
 @extends('metronic.master')
 @section('content')
     <div class="d-flex flex-column-fluid">
