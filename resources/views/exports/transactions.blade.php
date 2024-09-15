@@ -2,6 +2,7 @@
     <thead>
     <tr>
         <th>شناسه سیستم</th>
+        <th>واحد کاربری</th>
         <th>موضوع</th>
         <th>پلاک</th>
         <th>موبایل</th>
@@ -21,10 +22,11 @@
     @foreach($transactions as $transaction)
         <tr>
             <td>{{ $transaction->id }}</td>
+            <td>{{ $transaction->tenant_or_other }}</td>
             <td>{{ $transaction->subject }}</td>
-            <td>{{ $transaction->tenant->plaque }}</td>
-            <td>{{ $transaction->tenant->phone_number }}</td>
-            <td>{{ $transaction->tenant->name }} - {{ $transaction->tenant->full_name }}</td>
+            <td>{{ $transaction?->tenant?->plaque }} {{ $transaction?->other?->plaque }}</td>
+            <td>{{ $transaction?->tenant?->phone_number }}</td>
+            <td>{{ $transaction?->tenant->name }} - {{ $transaction?->tenant?->full_name }}</td>
             <td>{{ $transaction->ref_id }}</td>
             <td>پرداخت شده</td>
             <td>{{ verta($transaction->paid_at)->format('Y-m-d H:i:s') }}</td>
