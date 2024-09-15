@@ -69,7 +69,7 @@
                                             <label for="exampleInputEmail1">مبلغ بستانکاری</label>
                                             <input type="hidden" name="tenant_id" value="{{ $tenant->id }}">
                                             <input type="text" class="form-control m-input m-input--square" id="numberInput" aria-describedby="emailHelp" placeholder="" name="amount">
-                                            <span class="m-form__help">لطفا مبلغی کمتر یا مساوی با ({{ number_format($tenant->getFirstUnpaidMonthlyCharge()->original_amount) }} ریال) وارد نمایید.</span>
+                                            <span class="m-form__help">لطفا مبلغی کمتر یا مساوی با ({{ number_format($tenant->getFirstUnpaidMonthlyCharge()->original_amount ?? 0) }} ریال) وارد نمایید.</span>
                                         </div>
                                     </div>
                                     <div class="m-portlet__foot m-portlet__foot--fit">

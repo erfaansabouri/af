@@ -91,6 +91,9 @@ class Tenant extends Authenticatable implements HasMedia {
 
     public function submitBestankari ( $amount ) {
         $first_unpaid_monthly_charge = $this->getFirstUnpaidMonthlyCharge();
+        if (!$first_unpaid_monthly_charge){
+            return false;
+        }
         if ( $amount > $first_unpaid_monthly_charge->original_amount ) {
             return false;
         }
