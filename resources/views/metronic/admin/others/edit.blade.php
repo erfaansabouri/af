@@ -44,7 +44,7 @@
                                 <select name="tenant_id" class="form-control selectpicker">
                                     <option value="">انتخاب کنید</option>
                                     @foreach(\App\Models\Tenant::all() as $tenant)
-                                        <option value="{{ $tenant->id }}">پلاک {{ $tenant->plaque }}</option>
+                                        <option @if($tenant->id == $record->tenant_id) selected @endif value="{{ $tenant->id }}">پلاک {{ $tenant->plaque }}</option>
                                     @endforeach
                                 </select>
                             </div>
