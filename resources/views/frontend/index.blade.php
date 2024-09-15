@@ -25,7 +25,7 @@
             <ul class="list-unstyled">
                 <li><a href="{{ route('home') }}">خانه</a></li>
                 <li><a href="{{ route('tenant.auth.login-form') }}">پنل کاربری واحد ها</a></li>
-                <li><a href="{{ route('other.auth.login-form') }}">پنل کاربری متفرفه ها</a></li>
+                <li><a href="{{ route('other.auth.login-form') }}">پنل کاربری متفرقه ها</a></li>
             </ul>
         </nav>
     </header>

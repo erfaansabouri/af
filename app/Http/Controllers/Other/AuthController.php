@@ -14,7 +14,7 @@ class AuthController extends Controller {
 
     public function loginForm () {
         $page_info = [
-            'title' => 'ورود به سامانه متفرفه' ,
+            'title' => 'ورود به سامانه متفرقه' ,
             'login_route' => route('other.auth.login'),
         ];
 
