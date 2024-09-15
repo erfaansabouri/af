@@ -40,9 +40,9 @@ class TransactionController extends Controller {
                                                             ->id())
                                   ->paid()
                                   ->findOrFail($id);
-        $pdf = PDF::loadView('pdf.transaction' , compact('transaction') , [] , [ 'format' => 'A5-L' ]);
+        $pdf = PDF::loadView('pdf.other-transaction' , compact('transaction') , [] , [ 'format' => 'A5-L' ]);
 
-        return $pdf->stream('t-' . $transaction->id . '.pdf');
+        return $pdf->stream('ot-' . $transaction->id . '.pdf');
     }
 
     public function generateUrl ( Request $request ) {
