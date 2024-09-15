@@ -7,6 +7,7 @@ use DateTimeInterface;
 use Exception;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia;
@@ -313,5 +314,9 @@ class Tenant extends Authenticatable implements HasMedia {
         ];
 
         return str_replace($farsi , $eng , $result);
+    }
+
+    public function other (): HasOne {
+        return $this->hasOne(Other::class , 'tenant_id');
     }
 }

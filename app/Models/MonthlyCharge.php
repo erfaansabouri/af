@@ -71,6 +71,9 @@ class MonthlyCharge extends Model {
 
     public function getFinalAmountAttribute () {
         if ( $this->tenant->tenant_type_id == 1 || $this->tenant->tenant_type_id == 2 ) {
+            if ($this->tenant->other && $this->tenant->other->otherDebts()->notPaid()->count() > 0){
+                return $this->original_amount;
+            }
             if ( $this->tenant->warnings()
                               ->count() >= Setting::getMaxWarningThreshold() ) {
                 $penalty = 100 + Setting::getPenaltyPercent();

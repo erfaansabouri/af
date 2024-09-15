@@ -17,6 +17,7 @@ class Other extends Authenticatable {
         return $this->hasMany(OtherMonthlyCharge::class , 'other_id');
     }
 
+
     public function transactions (): HasMany {
         return $this->hasMany(Transaction::class , 'other_id');
     }
