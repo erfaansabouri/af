@@ -152,7 +152,7 @@
                             @foreach($records as $record)
                                 <tr>
                                     <td class="iransans-web">{{ $record->id }}</td>
-                                    <td class="iransans-web">{{ $record->tenant->plaque }}</td>
+                                    <td class="iransans-web">{{ $record?->tenant?->plaque ?? '' }} {{ $record?->other->plaque ?? '' }}</td>
                                     <td class="iransans-web">{{ $record->subject }}</td>
                                     <td class="iransans-web">{{ number_format($record->amount) }} ریال</td>
                                     <td class="iransans-web">

@@ -47,6 +47,45 @@
             <br>
             <div class="row">
                 <div class="col-xl-6">
+
+                </div>
+                <div class="col-xl-6">
+                    <div class="card card-custom">
+                        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                            <div class="card-title">
+                                <h3 class="card-label">{{ "ایجاد بستانکاری برای پلاک " . $record->plaque }}
+                                    <span class="text-muted pt-2 font-size-sm d-block"></span>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+
+                            <form class="m-form m-form--fit m-form--label-align-right" method="post" action="{{ route('admin.others.submit-bestankari') }}">
+                                @csrf
+                                @method('POST')
+                                <div class="m-portlet__body">
+                                    <div class="form-group m-form__group">
+                                        <label for="exampleInputEmail1">مبلغ بستانکاری</label>
+                                        <input type="hidden" name="other_id" value="{{ $record->id }}">
+                                        <input type="text" class="form-control m-input m-input--square" id="numberInput" aria-describedby="emailHelp" placeholder="" name="amount">
+                                        <span class="m-form__help">لطفا مبلغی کمتر یا مساوی با ({{ number_format($record->getFirstUnpaidMonthlyCharge()->amount ?? 0) }} ریال) وارد نمایید.</span>
+                                    </div>
+                                </div>
+                                <div class="m-portlet__foot m-portlet__foot--fit">
+                                    <div class="m-form__actions">
+                                        <button type="submit" class="btn btn-success">ثبت بستانکاری</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <!--end: Datatable-->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-xl-6">
                     <div class="card card-custom">
                         <div class="card-header">
                             <h3 class="card-title">
@@ -148,7 +187,7 @@
                                                     <td>{{ verta($omc->due_date)->format('Y/m/d') }}</td>
                                                     <td>{{ number_format($omc->amount) }} ریال</td>
                                                     <td>
-                                                        @if($record->paid_at)
+                                                        @if($omc->paid_at)
                                                             <span class="label label-inline label-light-success">پرداخت موفق</span>
                                                         @else
                                                             <span class="label label-inline label-light-danger">پرداخت نشده</span>
@@ -198,4 +237,31 @@
             });
         });
     </script>
+
+    <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const numberInput = document.getElementById('numberInput');
+
+                const persianToEnglish = (str) => {
+                    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+                    const englishNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+                    return str.replace(/[\u06F0-\u06F9]/g, (match) => {
+                        return englishNumbers[persianNumbers.indexOf(match)];
+                    }).replace(/[\u0660-\u0669]/g, (match) => {
+                        return englishNumbers[match.charCodeAt(0) - 0x0660];
+                    });
+                };
+
+                numberInput.addEventListener('input', (event) => {
+                    let value = event.target.value;
+                    value = persianToEnglish(value);
+                    value = value.replace(/,/g, '');
+                    if (!isNaN(value)) {
+                        event.target.value = Number(value).toLocaleString();
+                    }
+                });
+
+            });
+
+        </script>
 @endpush

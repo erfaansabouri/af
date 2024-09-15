@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Other;
 use App\Models\OtherMonthlyCharge;
+use App\Models\Tenant;
 use App\Services\Convert;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -152,4 +153,37 @@ class OtherController extends Controller {
 
 		return redirect()->back();
 	}
+
+    public function submitBestankari ( Request $request ) {
+        $request->validate([
+                               'amount' => [ 'required' ] ,
+                               'other_id' => [ 'required' ] ,
+                           ]);
+        $other = Other::query()
+                        ->findOrFail($request->get('other_id'));
+        $amount = str_replace(',' , '' , $request->get('amount'));
+        $amount = Convert::convertToEnNumbers($amount);
+        $result = $other->submitBestankari($amount);
+        if ( $result ) {
+            flash()
+                ->options([
+                              'timeout' => 3000 ,
+                              'position' => 'top-left' ,
+                          ])
+                ->addSuccess('بستانکاری با موفقیت اعمال شد و از شارژ ماهیانه کاسته شد.' , 'تبریک');
+
+            return redirect()->back();
+        }
+        else {
+            flash()
+                ->options([
+                              'timeout' => 3000 ,
+                              'position' => 'top-left' ,
+                          ])
+                ->addError('مبلغ بیش از حد مجاز' , 'خطا');
+
+            return redirect()->back();
+        }
+    }
+
 }

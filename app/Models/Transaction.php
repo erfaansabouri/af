@@ -18,8 +18,16 @@ class Transaction extends Model {
         return $this->belongsTo(Tenant::class);
     }
 
+    public function other (): BelongsTo {
+        return $this->belongsTo(Other::class);
+    }
+
     public function monthlyCharge (): BelongsTo {
         return $this->belongsTo(MonthlyCharge::class);
+    }
+
+    public function otherMonthlyCharge (): BelongsTo {
+        return $this->belongsTo(OtherMonthlyCharge::class);
     }
 
     public function scopePaid ( Builder $query ): Builder {
