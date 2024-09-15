@@ -61,7 +61,8 @@ class TransactionController extends Controller {
 
     public function pdf ( $id ) {
         $transaction = Transaction::findOrFail($id);
-        $pdf = PDF::loadView('pdf.transaction' , compact('transaction') , [] , [ 'format' => 'A5-L' ]);
+        $view = $transaction->tenant_id ? 'pdf.transaction' : 'pdf.other-transaction';
+        $pdf = PDF::loadView($view , compact('transaction') , [] , [ 'format' => 'A5-L' ]);
 
         return $pdf->stream('t-' . $transaction->id . '.pdf');
     }
