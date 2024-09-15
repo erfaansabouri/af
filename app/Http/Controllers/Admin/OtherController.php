@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Debt;
 use App\Models\MonthlyCharge;
 use App\Models\Other;
+use App\Models\OtherDebt;
 use App\Models\OtherMonthlyCharge;
 use App\Models\Tenant;
 use App\Models\Transaction;
@@ -220,5 +222,41 @@ class OtherController extends Controller {
         return redirect()->back();
     }
 
+
+    public function submitBedehkari ( Request $request ) {
+        $request->validate([
+                               'amount' => [ 'required' ] ,
+                               'other_id' => [ 'required' ] ,
+                               'reason' => [ 'required' ] ,
+                           ]);
+        $other = Other::query()
+                        ->findOrFail($request->get('other_id'));
+        $amount = str_replace(',' , '' , $request->get('amount'));
+        $amount = Convert::convertToEnNumbers($amount);
+        $reason = $request->get('reason');
+        $other->addDebt($amount , $reason , OtherDebt::TYPES[ 'NORMAL' ]);
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('بدهی ایجاد شد.' , 'تبریک');
+
+        return redirect()->back();
+    }
+
+    public function removeBedehkari ( Request $request , $id ) {
+        $other_debt = OtherDebt::query()
+                    ->findOrFail($id);
+        $other_debt->other->removeDebt($id);
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('بدهی حذف شد.' , 'تبریک');
+
+        return redirect()->back();
+    }
 
 }

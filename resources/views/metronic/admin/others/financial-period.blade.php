@@ -47,6 +47,39 @@
             <br>
             <div class="row">
                 <div class="col-xl-6">
+                    <div class="card card-custom">
+                        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                            <div class="card-title">
+                                <h3 class="card-label">{{ "ایجاد بدهکاری برای پلاک " . $record->plaque }}
+                                    <span class="text-muted pt-2 font-size-sm d-block"></span>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+
+                            <form class="m-form m-form--fit m-form--label-align-right" method="post" action="{{ route('admin.others.submit-bedehkari') }}">
+                                @csrf
+                                @method('POST')
+                                <div class="m-portlet__body">
+                                    <div class="form-group m-form__group">
+                                        <label for="exampleInputEmail1">مبلغ بدهکاری</label>
+                                        <input type="hidden" name="other_id" value="{{ $record->id }}">
+                                        <input type="text" class="form-control m-input m-input--square" id="numberInput2" aria-describedby="emailHelp" placeholder="" name="amount">
+                                    </div>
+                                    <div class="form-group m-form__group">
+                                        <label for="exampleInputEmail1">دلیل بدهکاری</label>
+                                        <input type="text" class="form-control m-input m-input--square" aria-describedby="emailHelp" placeholder="" name="reason">
+                                    </div>
+                                </div>
+                                <div class="m-portlet__foot m-portlet__foot--fit">
+                                    <div class="m-form__actions">
+                                        <button type="submit" class="btn btn-dark">ثبت بدهکاری</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <!--end: Datatable-->
+                        </div>
+                    </div>
 
                 </div>
                 <div class="col-xl-6">
@@ -87,66 +120,49 @@
             <div class="row">
                 <div class="col-xl-6">
                     <div class="card card-custom">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                شارژ های ماهیانه پلاک {{ $record->plaque }}
-                            </h3>
+                        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                            <div class="card-title">
+                                <h3 class="card-label">بدهی های پلاک {{ $record->plaque }}
+                                    <span class="text-muted pt-2 font-size-sm d-block"></span>
+                                </h3>
+                            </div>
                         </div>
                         <div class="card-body">
-                            <div class="m-portlet">
-                                <div class="m-portlet__head">
-                                    <div class="m-portlet__head-caption">
-                                        <div class="m-portlet__head-title">
-                                            <h3 class="m-portlet__head-text">
-                                                Small Table
-                                            </h3>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-portlet__body">
+                            <div class="table-responsive">
+                                <table
+                                    class="table table-bordered table-striped">
+                                    <thead class="thead-light iransans-web">
+                                    <tr>
+                                        <th class="iransans-web">دلیل بدهی</th>
+                                        <th class="iransans-web">مبلغ</th>
+                                        <th class="iransans-web">وضعیت</th>
+                                        <th class="iransans-web">عملیات</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($record->otherDebts()->orderBy('id')->get() as $debt)
+                                        <tr>
+                                            <td class="iransans-web">{{ $debt->reason }}</td>
+                                            <td class="iransans-web">{{ number_format($debt->amount) }} ریال</td>
+                                            <td class="iransans-web">
+                                                @if($debt->paid_at)
+                                                    <span class="label label-inline label-light-success">پرداخت موفق</span>
+                                                @else
+                                                    <span class="label label-inline label-light-danger">پرداخت نشده</span>
+                                                @endif
+                                            </td>
+                                            <td class="iransans-web">
+                                                @if(!$debt->paid_at)
+                                                    <a class="btn btn-sm btn-danger" href="{{ route('admin.others.remove-bedehkari', $debt->id) }}">حذف بدهی</a>
+                                                @endif
+                                            </td>
 
-                                    <!--begin::Section-->
-                                    <div class="m-section">
-                                        <span class="m-section__sub">
-                                            Add <code>.table-sm</code> to make tables more compact by cutting cell padding in half.
-                                        </span>
-                                        <div class="m-section__content">
-                                            <table class="table table-sm m-table m-table--head-bg-brand">
-                                                <thead class="thead-inverse">
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>First Name</th>
-                                                    <th>Last Name</th>
-                                                    <th>Username</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <th scope="row">1</th>
-                                                    <td>Jhon</td>
-                                                    <td>Stone</td>
-                                                    <td>@jhon</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">2</th>
-                                                    <td>Lisa</td>
-                                                    <td>Nilson</td>
-                                                    <td>@lisa</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">3</th>
-                                                    <td>Larry</td>
-                                                    <td>the Bird</td>
-                                                    <td>@twitter</td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                    <!--end::Section-->
-                                </div>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
                             </div>
+                            <!--end: Datatable-->
                         </div>
                     </div>
                 </div>
@@ -245,29 +261,37 @@
     </script>
 
     <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const numberInput = document.getElementById('numberInput');
+        document.addEventListener('DOMContentLoaded', () => {
+            const numberInput = document.getElementById('numberInput');
+            const numberInput2 = document.getElementById('numberInput2');
 
-                const persianToEnglish = (str) => {
-                    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-                    const englishNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-                    return str.replace(/[\u06F0-\u06F9]/g, (match) => {
-                        return englishNumbers[persianNumbers.indexOf(match)];
-                    }).replace(/[\u0660-\u0669]/g, (match) => {
-                        return englishNumbers[match.charCodeAt(0) - 0x0660];
-                    });
-                };
-
-                numberInput.addEventListener('input', (event) => {
-                    let value = event.target.value;
-                    value = persianToEnglish(value);
-                    value = value.replace(/,/g, '');
-                    if (!isNaN(value)) {
-                        event.target.value = Number(value).toLocaleString();
-                    }
+            const persianToEnglish = (str) => {
+                const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+                const englishNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+                return str.replace(/[\u06F0-\u06F9]/g, (match) => {
+                    return englishNumbers[persianNumbers.indexOf(match)];
+                }).replace(/[\u0660-\u0669]/g, (match) => {
+                    return englishNumbers[match.charCodeAt(0) - 0x0660];
                 });
+            };
 
+            numberInput.addEventListener('input', (event) => {
+                let value = event.target.value;
+                value = persianToEnglish(value);
+                value = value.replace(/,/g, '');
+                if (!isNaN(value)) {
+                    event.target.value = Number(value).toLocaleString();
+                }
             });
 
-        </script>
-@endpush
+            numberInput2.addEventListener('input', (event) => {
+                let value = event.target.value;
+                value = persianToEnglish(value);
+                value = value.replace(/,/g, '');
+                if (!isNaN(value)) {
+                    event.target.value = Number(value).toLocaleString();
+                }
+            });
+        });
+
+    </script>@endpush

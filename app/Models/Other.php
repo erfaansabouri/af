@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -76,4 +77,32 @@ class Other extends Model
         }
     }
 
+    public function addDebt ( $amount , $reason , $type ) {
+        OtherDebt::query()
+            ->create([
+                         'other_id' => $this->id ,
+                         'amount' => $amount ,
+                         'reason' => $reason ,
+                         'type' => $type ,
+                     ]);
+    }
+
+    public function removeDebt ( $debt_id ) {
+        $other_debt = OtherDebt::query()
+                    ->find($debt_id);
+        if ( !$other_debt ) {
+            throw new Exception('بدهی یافت نشد');
+        }
+        if ( $other_debt->other_id != $this->id ) {
+            throw new Exception('بدهی مربوط به این کاربر نیست');
+        }
+        if ( $other_debt->paid_at ) {
+            throw new Exception('بدهی پرداخت شده قابل حذف نیست');
+        }
+        $other_debt->delete();
+    }
+
+    public function otherDebts(): HasMany {
+        return $this->hasMany(OtherDebt::class);
+    }
 }

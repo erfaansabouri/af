@@ -56,6 +56,9 @@ Route::middleware(['auth:admin'])->prefix('others')->group(function (){
     Route::any('/submit-bestankari', [OtherController::class, 'submitBestankari'])->name('admin.others.submit-bestankari');
     Route::any('/restore-monthly-charge/{id}', [OtherController::class, 'restoreMonthlyCharge'])->name('admin.others.restore-monthly-charge');
 
+    Route::any('/submit-bedehkari', [OtherController::class, 'submitBedehkari'])->name('admin.others.submit-bedehkari');
+    Route::any('/remove-bedehkari/{id}', [OtherController::class, 'removeBedehkari'])->name('admin.others.remove-bedehkari');
+
 });
 #
 Route::middleware(['auth:admin'])->prefix('complex-settings')->group(function (){
