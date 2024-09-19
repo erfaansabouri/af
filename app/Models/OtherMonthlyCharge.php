@@ -29,4 +29,8 @@ class OtherMonthlyCharge extends Model
     public function other (): BelongsTo {
         return $this->belongsTo(Other::class);
     }
+
+    public function scopeDueDatePassed ( Builder $query ): Builder {
+        return $query->where('due_date' , '<' , now());
+    }
 }

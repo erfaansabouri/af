@@ -92,7 +92,7 @@ class Tenant extends Authenticatable implements HasMedia {
 
     public function submitBestankari ( $amount ) {
         $first_unpaid_monthly_charge = $this->getFirstUnpaidMonthlyCharge();
-        if (!$first_unpaid_monthly_charge){
+        if ( !$first_unpaid_monthly_charge ) {
             return false;
         }
         if ( $amount > $first_unpaid_monthly_charge->original_amount ) {
@@ -227,7 +227,7 @@ class Tenant extends Authenticatable implements HasMedia {
             '٦' ,
             '٧' ,
             '٨' ,
-            '٩',
+            '٩' ,
         ];
         $replace = [
             '۰' ,
@@ -239,7 +239,7 @@ class Tenant extends Authenticatable implements HasMedia {
             '۶' ,
             '۷' ,
             '۸' ,
-            '۹',
+            '۹' ,
         ];
 
         return (string)str_replace($find , $replace , $numbers);
@@ -256,7 +256,7 @@ class Tenant extends Authenticatable implements HasMedia {
             '6' ,
             '7' ,
             '8' ,
-            '9',
+            '9' ,
         ];
         $replace = [
             '۰' ,
@@ -268,7 +268,7 @@ class Tenant extends Authenticatable implements HasMedia {
             '۶' ,
             '۷' ,
             '۸' ,
-            '۹',
+            '۹' ,
         ];
 
         return (string)str_replace($find , $replace , $numbers);
@@ -285,7 +285,7 @@ class Tenant extends Authenticatable implements HasMedia {
             '٦' ,
             '٧' ,
             '٨' ,
-            '٩',
+            '٩' ,
         ];
         $eng = [
             '0' ,
@@ -297,7 +297,7 @@ class Tenant extends Authenticatable implements HasMedia {
             '6' ,
             '7' ,
             '8' ,
-            '9',
+            '9' ,
         ];
         $result = str_replace($arabic , $eng , $numbers);
         $farsi = [
@@ -310,7 +310,7 @@ class Tenant extends Authenticatable implements HasMedia {
             '۶' ,
             '۷' ,
             '۸' ,
-            '۹',
+            '۹' ,
         ];
 
         return str_replace($farsi , $eng , $result);
@@ -321,6 +321,15 @@ class Tenant extends Authenticatable implements HasMedia {
     }
 
     public function getOtherHasDebtAttribute () {
-        return $this->other && $this->other->otherDebts()->notPaid()->count() > 0;
+        return $this->other && $this->other->otherDebts()
+                                           ->notPaid()
+                                           ->count() > 0;
+    }
+
+    public function getOtherHasMonthlyChargeDueDatePassedAndNotPaidAttribute () {
+        return $this->other && $this->other->otherMonthlyCharges()
+                                           ->notPaid()
+                                           ->dueDatePassed()
+                                           ->count() > 0;
     }
 }
