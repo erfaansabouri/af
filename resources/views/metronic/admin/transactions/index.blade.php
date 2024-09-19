@@ -180,6 +180,9 @@
                                     </td>
                                     <td class="iransans-web">{{ verta($record->created_at)->format('Y/m/d H:i:s') }}</td>
                                     <td class="iransans-web" dir="ltr" style="direction: ltr">
+                                        @if($record->paid_via == \App\Models\Transaction::PAID_VIA['ADMIN'])
+                                            پرداخت توسط مدیریت
+                                        @endif
                                         @if($record->verifyLogs)
                                             @foreach($record->verifyLogs as $verify_log)
                                                 @if($verify_log->request)
