@@ -48,6 +48,17 @@ class TransactionController extends Controller {
         return $pdf->stream('t-' . $transaction->id . '.pdf');
     }
 
+    public function downloadPdf ( $id ) {
+        $transaction = Transaction::query()
+                                  ->where('tenant_id' , Auth::guard('tenant')
+                                                            ->id())
+                                  ->paid()
+                                  ->findOrFail($id);
+        $pdf = PDF::loadView('pdf.transaction' , compact('transaction') , [] , [ 'format' => 'A5-L' ]);
+
+        return $pdf->download('t-' . $transaction->id . '.pdf');
+    }
+
     public function generateUrl ( Request $request ) {
         $transaction = null;
         if ( $monthly_charge_id = $request->get('monthly_charge_id') ) {

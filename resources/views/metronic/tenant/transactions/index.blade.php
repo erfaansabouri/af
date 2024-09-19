@@ -74,7 +74,8 @@
                                         <td class="iransans-web">{{ verta($record->created_at)->format('Y/m/d H:i:s') }}</td>
                                         <td class="iransans-web">
                                             @if($record->paid_at)
-                                                <a href="{{ route('tenant.transactions.pdf', $record->id) }}" class="btn btn-primary">PDF</a>
+                                                <a href="{{ route('tenant.transactions.pdf', $record->id) }}" class="btn btn-primary">نمایش PDF</a>
+                                                <a href="{{ route('tenant.transactions.download-pdf', $record->id) }}" class="btn btn-primary">دانلود PDF</a>
                                             @endif
                                         </td>
                                     </tr>
