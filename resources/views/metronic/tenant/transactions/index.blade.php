@@ -75,8 +75,8 @@
                                         <td class="iransans-web">
                                             @if($record->paid_at)
                                                 <a href="{{ route('tenant.transactions.pdf', $record->id) }}" class="btn btn-primary">نمایش PDF</a>
-                                                <a href="https://telegram.me/share/url?url={{ route('download-pdf', $record->tx_id) }}&text=آفتاب فارس">اشتراک گذاری در تلگرام</a>
-                                                <a href="whatsapp://send?text={{ route('download-pdf', $record->tx_id) }}" data-action="share/whatsapp/share">اشتراک گذاری در واتساپ</a>
+                                                <a class="btn btn-outline-success" href="https://telegram.me/share/url?url={{ route('download-pdf', $record->tx_id) }}&text=آفتاب فارس">اشتراک گذاری در تلگرام</a>
+                                                <a class="btn btn-outline-success" href="whatsapp://send?text={{ route('download-pdf', $record->tx_id) }}" data-action="share/whatsapp/share">اشتراک گذاری در واتساپ</a>
                                             @endif
                                         </td>
                                     </tr>
