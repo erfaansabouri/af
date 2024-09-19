@@ -75,7 +75,8 @@
                                         <td class="iransans-web">
                                             @if($record->paid_at)
                                                 <a href="{{ route('tenant.transactions.pdf', $record->id) }}" class="btn btn-primary">نمایش PDF</a>
-                                                <a href="{{ route('tenant.transactions.download-pdf', $record->id) }}" class="btn btn-primary">دانلود PDF</a>
+                                                <a href="https://telegram.me/share/url?url={{ route('download-pdf', bcrypt($record->id)) }}&text=آفتاب فارس">اشتراک گذاری در تلگرام</a>
+                                                <a href="whatsapp://send?text{{ route('download-pdf', bcrypt($record->id)) }}" data-action="share/whatsapp/share">اشتراک گذاری در واتساپ</a>
                                             @endif
                                         </td>
                                     </tr>

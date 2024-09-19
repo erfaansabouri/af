@@ -8,3 +8,4 @@ Route::get('/' , function () {
 })->name('home');
 
 Route::any('/transaction-verify', [TransactionController::class, 'verify'])->name('web.verify');
+Route::get('/download-pdf/{enc}', [TransactionController::class, 'downloadPdf'])->name('download-pdf');

@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
 use Shetabit\Multipay\Exceptions\InvalidPaymentException;
@@ -48,15 +49,14 @@ class TransactionController extends Controller {
         return $pdf->stream('t-' . $transaction->id . '.pdf');
     }
 
-    public function downloadPdf ( $id ) {
+    public function downloadPdf ( $enc ) {
+        $id = decrypt($enc);
         $transaction = Transaction::query()
-                                  ->where('tenant_id' , Auth::guard('tenant')
-                                                            ->id())
                                   ->paid()
                                   ->findOrFail($id);
         $pdf = PDF::loadView('pdf.transaction' , compact('transaction') , [] , [ 'format' => 'A5-L' ]);
 
-        return $pdf->download('t-' . $transaction->id . '.pdf');
+        return $pdf->download(Str::random() . '.pdf');
     }
 
     public function generateUrl ( Request $request ) {
@@ -112,9 +112,9 @@ class TransactionController extends Controller {
         }
         else if ( $ownership_debt_id = $request->get('ownership_debt_id') ) {
             $ownership_debt = OwnershipDebt::query()
-                        ->where('id' , $ownership_debt_id)
-                        ->whereNull('paid_at')
-                        ->firstOrFail();
+                                           ->where('id' , $ownership_debt_id)
+                                           ->whereNull('paid_at')
+                                           ->firstOrFail();
             $request->validate([
                                    'ownership_debt_amount' => [
                                        'required' ,
@@ -144,7 +144,6 @@ class TransactionController extends Controller {
                                                    'subject' => 'پرداخت هزینه مالکیتی' ,
                                                ]);
         }
-
         else {
             dd("ERROR");
         }
@@ -167,7 +166,7 @@ class TransactionController extends Controller {
         $verify_log = VerifyLog::query()
                                ->create([
                                             'transaction_id' => $transaction->id ,
-                                            'request' => json_encode($request->all()),
+                                            'request' => json_encode($request->all()) ,
                                         ]);
         try {
             $receipt = Payment::amount($transaction->amount / 10)
@@ -204,10 +203,9 @@ class TransactionController extends Controller {
                     'code' => $tx_id ,
                 ]);
             }
-
             if ( $transaction->ownership_debt_id ) {
                 $ownership_debt_id = OwnershipDebt::query()
-                            ->find($transaction->ownership_debt_id);
+                                                  ->find($transaction->ownership_debt_id);
                 if ( $transaction->amount < $ownership_debt_id->amount ) {
                     $ownership_debt_id->amount = $ownership_debt_id->amount - $transaction->amount;
                 }
@@ -221,11 +219,10 @@ class TransactionController extends Controller {
                     'code' => $tx_id ,
                 ]);
             }
-
             #
             if ( $transaction->other_monthly_charge_id ) {
                 $other_monthly_charge = OtherMonthlyCharge::query()
-                                               ->find($transaction->other_monthly_charge_id);
+                                                          ->find($transaction->other_monthly_charge_id);
                 $other_monthly_charge->paid_at = now();
                 $other_monthly_charge->save();
 
@@ -236,7 +233,7 @@ class TransactionController extends Controller {
             }
             if ( $transaction->other_debt_id ) {
                 $other_debt = OtherDebt::query()
-                            ->find($transaction->other_debt_id);
+                                       ->find($transaction->other_debt_id);
                 if ( $transaction->amount < $other_debt->amount ) {
                     $other_debt->amount = $other_debt->amount - $transaction->amount;
                 }
@@ -254,7 +251,6 @@ class TransactionController extends Controller {
         catch ( InvalidPaymentException $exception ) {
             $transaction->failed_at = now();
             $transaction->save();
-
             $verify_log->exception_message = $exception->getMessage();
             $verify_log->exception_code = $exception->getCode();
             $verify_log->save();
