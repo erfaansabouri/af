@@ -43,5 +43,5 @@ Route::middleware(['auth:tenant'])->prefix('transactions')->group(function (){
     Route::get('/', [TransactionController::class, 'index'])->name('tenant.transactions.index');
     Route::get('/export', [TransactionController::class, 'export'])->name('tenant.transactions.export');
     Route::get('/pdf/{id}', [TransactionController::class, 'pdf'])->name('tenant.transactions.pdf');
-    Route::get('/pdf/{id}', [TransactionController::class, 'downloadPdf'])->name('tenant.transactions.download-pdf');
+    Route::get('/download-pdf/{id}', [TransactionController::class, 'downloadPdf'])->name('tenant.transactions.download-pdf');
 });
