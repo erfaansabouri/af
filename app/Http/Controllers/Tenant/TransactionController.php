@@ -50,10 +50,10 @@ class TransactionController extends Controller {
     }
 
     public function downloadPdf ( $enc ) {
-        $id = decrypt($enc);
         $transaction = Transaction::query()
                                   ->paid()
-                                  ->findOrFail($id);
+                                  ->where('tx_id' , $enc)
+                                  ->firstOrFail();
         $pdf = PDF::loadView('pdf.transaction' , compact('transaction') , [] , [ 'format' => 'A5-L' ]);
 
         return $pdf->download(Str::random() . '.pdf');
