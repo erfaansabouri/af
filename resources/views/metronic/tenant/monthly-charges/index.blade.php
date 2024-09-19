@@ -66,6 +66,68 @@
                 </div>
                 <!--end::Container-->
             </div>
+            <hr>
+            <br>
+            <div class="d-flex flex-column-fluid">
+                <!--begin::Container-->
+                <div class="container-fluid">
+                    <div class="card card-custom">
+                        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                            <div class="card-title">
+                                <h3 class="card-label">هزینه مالکیتی پلاک {{ $tenant->plaque }}
+                                    <span class="text-muted pt-2 font-size-sm d-block"></span>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table
+                                    class="table table-bordered table-striped">
+                                    <thead class="thead-light iransans-web">
+                                    <tr>
+                                        <th class="iransans-web">موعد پرداخت</th>
+                                        <th class="iransans-web">مبلغ</th>
+                                        <th class="iransans-web">وضعیت</th>
+                                        <th class="iransans-web">عملیات</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($ownership_debts as $ownership_debt)
+                                        <tr>
+                                            <td class="iransans-web">{{ verta($ownership_debt->due_date)->formatJalaliDate() }}</td>
+                                            <td class="iransans-web">{{ number_format($ownership_debt->amount) }} ریال</td>
+                                            <td class="iransans-web">
+                                                @if($ownership_debt->paid_at)
+                                                    <span class="label label-inline label-light-success">پرداخت موفق</span>
+                                                @else
+                                                    <span class="label label-inline label-light-danger">پرداخت نشده</span>
+                                                @endif
+                                            </td>
+                                            <td class="iransans-web">
+                                                @if(!$ownership_debt->paid_at)
+                                                    <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#ownership-debt-modal-{{ $ownership_debt->id }}">
+                                                        پرداخت هزینه مالکیتی
+                                                    </button>
+
+
+
+
+                                                    {{--{{ route('tenant.transaction.generate-url', ['debt_id' => $debt->id]) }}--}}
+                                                @endif
+                                            </td>
+
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--end: Datatable-->
+                        </div>
+                    </div>
+                    <!--end::Card-->
+                </div>
+                <!--end::Container-->
+            </div>
 
         </div>
         <div class="col-xl-6">
@@ -231,6 +293,47 @@
         </div>
     @endforeach
 
+    @foreach($ownership_debts as $ownership_debt)
+        <!-- The Modal -->
+        <div class="modal" id="ownership-debt-modal-{{ $ownership_debt->id }}">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <form id="my-form" method="post"
+                          action="{{ route('tenant.transaction.generate-url') }}"
+                          enctype="multipart/form-data">
+                        @csrf
+                        @method('POST')
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">پرداخت هزینه مالکیتی</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="col-xl-12">
+                                <div class="form-group">
+                                    <label class="col-form-label">مبلغ پرداختی به ریال</label>
+                                    <input autocomplete="off" type="text" class="form-control" name="ownership_debt_amount"
+                                           placeholder="مبلغ پرداختی به ریال را وارد نمایید"
+                                           value=""/>
+                                    <input type="hidden" name="ownership_debt_id" value="{{ $ownership_debt->id }}">
+                                </div>
+                                <span class="text-primary">حداکثر مبلغ قابل پرداخت {{ number_format($ownership_debt->amount) }} ریال میباشد</span>
+                            </div>
+
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">رفتن به درگاه</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection
 
 

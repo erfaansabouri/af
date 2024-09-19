@@ -8,6 +8,7 @@ use App\Models\Debt;
 use App\Models\MonthlyCharge;
 use App\Models\OtherDebt;
 use App\Models\OtherMonthlyCharge;
+use App\Models\OwnershipDebt;
 use App\Models\Tenant;
 use App\Models\Transaction;
 use App\Models\VerifyLog;
@@ -98,6 +99,41 @@ class TransactionController extends Controller {
                                                    'subject' => 'پرداخت بدهی' ,
                                                ]);
         }
+        else if ( $ownership_debt_id = $request->get('ownership_debt_id') ) {
+            $ownership_debt = OwnershipDebt::query()
+                        ->where('id' , $ownership_debt_id)
+                        ->whereNull('paid_at')
+                        ->firstOrFail();
+            $request->validate([
+                                   'ownership_debt_amount' => [
+                                       'required' ,
+                                   ] ,
+                               ] , [
+                                   'ownership_debt_amount.required' => 'مبلغ الزامی است' ,
+                               ]);
+            $removed_comma = str_replace(',' , '' , $request->get('ownership_debt_amount'));
+            $ownership_debt_amount_to_pay = Tenant::englishNumber($removed_comma);
+            if ( $ownership_debt_amount_to_pay > $ownership_debt->amount ) {
+                flash()
+                    ->options([
+                                  'timeout' => 3000 ,
+                                  'position' => 'top-left' ,
+                              ])
+                    ->addError('مبلغ بیش از حد مجاز' , 'خطا');
+
+                return redirect()->back();
+            }
+            $transaction = Transaction::query()
+                                      ->create([
+                                                   'tenant_name' => $ownership_debt->tenant->full_name ,
+                                                   'tenant_id' => $ownership_debt->tenant_id ,
+                                                   'ownership_debt_id' => $ownership_debt->id ,
+                                                   'original_amount' => $ownership_debt_amount_to_pay ,
+                                                   'amount' => $ownership_debt_amount_to_pay ,
+                                                   'subject' => 'پرداخت هزینه مالکیتی' ,
+                                               ]);
+        }
+
         else {
             dd("ERROR");
         }
@@ -157,6 +193,24 @@ class TransactionController extends Controller {
                     'code' => $tx_id ,
                 ]);
             }
+
+            if ( $transaction->ownership_debt_id ) {
+                $ownership_debt_id = OwnershipDebt::query()
+                            ->find($transaction->ownership_debt_id);
+                if ( $transaction->amount < $ownership_debt_id->amount ) {
+                    $ownership_debt_id->amount = $ownership_debt_id->amount - $transaction->amount;
+                }
+                else {
+                    $ownership_debt_id->paid_at = now();
+                }
+                $ownership_debt_id->save();
+
+                return view('payment.redirect' , [
+                    'success' => true ,
+                    'code' => $tx_id ,
+                ]);
+            }
+
             #
             if ( $transaction->other_monthly_charge_id ) {
                 $other_monthly_charge = OtherMonthlyCharge::query()

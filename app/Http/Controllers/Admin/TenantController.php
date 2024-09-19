@@ -7,8 +7,10 @@ use App\Exports\TransactionExport;
 use App\Http\Controllers\Controller;
 use App\Models\Debt;
 use App\Models\MonthlyCharge;
+use App\Models\OwnershipDebt;
 use App\Models\Tenant;
 use App\Models\Transaction;
+use App\Services\Convert;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -129,8 +131,11 @@ class TenantController extends Controller {
         $debts = Debt::query()
                      ->where('tenant_id' , $tenant->id)
                      ->get();
+        $ownership_debts = OwnershipDebt::query()
+                                        ->where('tenant_id' , $tenant->id)
+                                        ->get();
 
-        return view('metronic.admin.tenants.monthly-charges.index' , compact('tenant' , 'records' , 'debts'));
+        return view('metronic.admin.tenants.monthly-charges.index' , compact('tenant' , 'records' , 'debts', 'ownership_debts'));
     }
 
     public function setDefaultPassword ( $id ) {
@@ -236,6 +241,57 @@ class TenantController extends Controller {
         $debt = Debt::query()
                     ->findOrFail($id);
         $debt->tenant->removeDebt($id);
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('بدهی حذف شد.' , 'تبریک');
+
+        return redirect()->back();
+    }
+
+    public function submitOwnershipDebt ( Request $request ) {
+        $request->validate([
+                               'amount' => [ 'required' ] ,
+                               'tenant_id' => [ 'required' ] ,
+                               'due_date' => [ 'required' ] ,
+                           ]);
+        $tenant = Tenant::query()
+                        ->findOrFail($request->get('tenant_id'));
+        $amount = str_replace(',' , '' , $request->get('amount'));
+        $amount = Convert::convertToEnNumbers($amount);
+        OwnershipDebt::query()
+                     ->create([
+                                  'amount' => $amount ,
+                                  'tenant_id' => $request->get('tenant_id') ,
+                                  'due_date' => Carbon::createFromTimestamp($request->get('due_date'))
+                                                      ->endOfDay() ,
+                              ]);
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('بدهی ایجاد شد.' , 'تبریک');
+
+        return redirect()->back();
+    }
+
+    public function removeOwnershipDebt ( Request $request , $id ) {
+        $ownership_debt = OwnershipDebt::query()
+                                       ->findOrFail($id);
+        if ( $ownership_debt->paid_at ) {
+            flash()
+                ->options([
+                              'timeout' => 3000 ,
+                              'position' => 'top-left' ,
+                          ])
+                ->addError('بدهی پرداخت شده قابل حذف نمیباشد' , 'خطا');
+
+            return redirect()->back();
+        }
+        $ownership_debt->delete();
         flash()
             ->options([
                           'timeout' => 3000 ,
