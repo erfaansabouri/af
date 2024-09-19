@@ -143,7 +143,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                        @if($tenant->other_has_debt)
+                            @if($tenant->other_has_debt)
                                 <div class="m-alert m-alert--icon alert alert-danger" role="alert">
                                     <div class="m-alert__icon">
                                         <i class="flaticon-danger"></i>
@@ -153,21 +153,36 @@
                                         کاربر گرامی به دلیل بدهی واحد متفرقه تخفیف شما غیر فعال است.
                                     </div>
                                 </div>
-                        @endif
+                            @endif
 
-                        @if($tenant->other_has_monthly_charge_due_date_passed_and_not_paid)
-                            <div class="m-alert m-alert--icon alert alert-danger" role="alert">
-                                <div class="m-alert__icon">
-                                    <i class="flaticon-danger"></i>
+                            @if($tenant->other_has_monthly_charge_due_date_passed_and_not_paid)
+                                <div class="m-alert m-alert--icon alert alert-danger" role="alert">
+                                    <div class="m-alert__icon">
+                                        <i class="flaticon-danger"></i>
+                                    </div>
+                                    <div class="m-alert__text">
+                                        <strong>تخفیف شما غیر فعال شد</strong>
+                                        کاربر گرامی به دلیل شارژ پرداخت نشده واحد متفرقه تخفیف شما غیر فعال است.
+                                    </div>
                                 </div>
-                                <div class="m-alert__text">
-                                    <strong>تخفیف شما غیر فعال شد</strong>
-                                    کاربر گرامی به دلیل شارژ پرداخت نشده واحد متفرقه تخفیف شما غیر فعال است.
-                                </div>
-                            </div>
-                        @endif
+                            @endif
 
-                        @if(!$tenant->can_pay_monthly_charges)
+                            @if($tenant->ownershipDebts()
+                                  ->notPaid()
+                                  ->dueDatePassed()
+                                  ->count() > 0)
+                                <div class="m-alert m-alert--icon alert alert-danger" role="alert">
+                                    <div class="m-alert__icon">
+                                        <i class="flaticon-danger"></i>
+                                    </div>
+                                    <div class="m-alert__text">
+                                        <strong>تخفیف شما غیر فعال شد</strong>
+                                        کاربر گرامی به دلیل عدم پرداخت هزینه مالکیتی تخفیف شما غیر فعال است.
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if(!$tenant->can_pay_monthly_charges)
                                 <div class="m-alert m-alert--icon alert alert-danger" role="alert">
                                     <div class="m-alert__icon">
                                         <i class="flaticon-danger"></i>

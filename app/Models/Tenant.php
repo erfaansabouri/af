@@ -64,6 +64,10 @@ class Tenant extends Authenticatable implements HasMedia {
         return $this->hasMany(Debt::class , 'tenant_id');
     }
 
+    public function ownershipDebts (): HasMany {
+        return $this->hasMany(OwnershipDebt::class , 'tenant_id');
+    }
+
     /** Methods **/
     public function addDebt ( $amount , $reason , $type ) {
         Debt::query()
