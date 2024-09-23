@@ -5,7 +5,7 @@
             <div class="card card-custom">
                 <div class="card-header">
                     <h3 class="card-title">
-                        تعریف دوره مالی  برای پلاک {{ $record->plaque }}
+                        تعریف دوره مالی برای پلاک {{ $record->plaque }}
                     </h3>
                 </div>
 
@@ -15,27 +15,63 @@
                     @csrf
                     @method('POST')
                     <div class="card-body">
-                      <div class="row">
-                          <div class="col-xl-6">
-                              <div class="form-group">
-                                  <label class="col-form-label">تاریخ شروع
-                                      <span class="text-danger">*</span>
-                                  </label>
-                                  <input value="" type="text" class="form-control started-at-datepicker" />
-                                  <input  name="started_at" type="hidden" class="alt-started-at-datepicker" />
-                              </div>
-                          </div>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">تاریخ شروع
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input value="" type="text" class="form-control started-at-datepicker"/>
+                                    <input name="started_at" type="hidden" class="alt-started-at-datepicker"/>
+                                </div>
+                            </div>
 
-                          <div class="col-xl-6">
-                              <div class="form-group">
-                                  <label class="col-form-label">تاریخ پایان
-                                      <span class="text-danger">*</span>
-                                  </label>
-                                  <input value="" type="text" class="form-control ended-at-datepicker" />
-                                  <input  name="ended_at" type="hidden" class="alt-ended-at-datepicker" />
-                              </div>
-                          </div>
-                      </div>
+                            <div class="col-xl-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">تاریخ پایان
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input value="" type="text" class="form-control ended-at-datepicker"/>
+                                    <input name="ended_at" type="hidden" class="alt-ended-at-datepicker"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            {{-- show otherFinancialPeriodLogs --}}
+                            <div class="col-xl-12">
+                                <div class="table-responsive">
+                                    <table
+                                        class="table table-bordered table-striped">
+                                        <thead class="thead-light iransans-web">
+                                        <tr>
+                                            <th class="iransans-web">تاریخ شروع</th>
+                                            <th class="iransans-web">تاریخ پایان</th>
+                                            <th class="iransans-web">تاریخ ثبت</th>
+                                            <th class="iransans-web">وضعیت</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($record->otherFinancialPeriodLogs as $log)
+                                            <tr>
+                                                <td class="iransans-web">{{ verta($log->started_at)->format('Y/m/d') }}</td>
+                                                <td class="iransans-web">{{ verta($log->ended_at)->format('Y/m/d') }}</td>
+                                                <td class="iransans-web">{{ verta($log->created_at)->format('Y/m/d') }}</td>
+                                                <td class="iransans-web">
+                                                    @if($log->ended_at < now())
+                                                        <span class="label label-inline label-light-success">پایان یافته</span>
+                                                    @else
+                                                        <span class="label label-inline label-light-danger">در حال اجرا</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--end: Datatable-->
+                            </div>
+
+                        </div>
                     </div>
 
                     <div class="card-footer">
@@ -199,22 +235,24 @@
                                                 </thead>
                                                 <tbody>
                                                 @foreach($record->otherMonthlyCharges as $omc)
-                                                <tr>
-                                                    <td>{{ verta($omc->due_date)->format('Y/m/d') }}</td>
-                                                    <td>{{ number_format($omc->amount) }} ریال</td>
-                                                    <td>
-                                                        @if($omc->paid_at)
-                                                            <span class="label label-inline label-light-success">پرداخت موفق</span>
-                                                        @else
-                                                            <span class="label label-inline label-light-danger">پرداخت نشده</span>
-                                                        @endif
-                                                    </td>
-                                                    <td class="iransans-web">
-                                                        @if($omc->paid_via == \App\Models\OtherMonthlyCharge::PAID_VIA['ADMIN'])
-                                                            <a class="btn btn-sm btn-danger" href="{{ route('admin.others.restore-monthly-charge', $omc->id) }}">بازگردانی</a>
-                                                        @endif
-                                                    </td>
-                                                </tr>
+                                                    <tr>
+                                                        <td>{{ verta($omc->due_date)->format('Y/m/d') }}</td>
+                                                        <td>{{ number_format($omc->amount) }} ریال</td>
+                                                        <td>
+                                                            @if($omc->paid_at)
+                                                                <span class="label label-inline label-light-success">پرداخت موفق</span>
+                                                            @else
+                                                                <span class="label label-inline label-light-danger">پرداخت نشده</span>
+                                                            @endif
+                                                        </td>
+                                                        <td class="iransans-web">
+                                                            @if($omc->paid_via == \App\Models\OtherMonthlyCharge::PAID_VIA['ADMIN'])
+                                                                <a class="btn btn-sm btn-danger" href="{{ route('admin.others.restore-monthly-charge', $omc->id) }}">بازگردانی</a>
+                                                            @endif
+                                                            {{-- delete --}}
+                                                            <a class="btn btn-sm btn-danger" href="{{ route('admin.others.remove-monthly-charge', $omc->id) }}">حذف</a>
+                                                        </td>
+                                                    </tr>
                                                 @endforeach
                                                 </tbody>
                                             </table>
@@ -231,12 +269,11 @@
         </div>
     </div>
 
-
 @endsection
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $(".started-at-datepicker").pDatepicker({
                 altField: '.alt-started-at-datepicker',
                 minDate: new persianDate().unix(),
@@ -253,7 +290,7 @@
                 autoClose: true,
                 format: 'YYYY/MM/DD',
                 altFormat: 'X',
-                initialValueType: 'persian' ,
+                initialValueType: 'persian',
                 observer: true,
             });
         });
@@ -293,4 +330,5 @@
             });
         });
 
-    </script>@endpush
+    </script>
+@endpush

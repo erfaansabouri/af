@@ -18,6 +18,7 @@ class TransactionController extends Controller {
         $ended_at = Carbon::createFromTimestamp($request->get('ended_at'))
                           ->endOfDay();
         $tenant_type_id = $request->get('tenant_type_id');
+        $transaction_type = $request->get('transaction_type');
         $records = Transaction::query()
                               ->with([ 'verifyLogs' ])
                               ->when($request->get('search') , function ( Builder $query ) use ( $request ) {
@@ -38,6 +39,22 @@ class TransactionController extends Controller {
                                       $q->where('tenant_type_id' , $tenant_type_id);
                                   });
                               })
+                              ->when($transaction_type == 'tejari' , function ( Builder $query ) use ( $transaction_type ) {
+                                  $query->whereHas('tenant' , function ( $q ) use ( $transaction_type ) {
+                                      $q->where('tenant_type_id' , 1);
+                                  });
+                              })
+                              ->when($transaction_type == 'edari' , function ( Builder $query ) use ( $transaction_type ) {
+                                  $query->whereHas('tenant' , function ( $q ) use ( $transaction_type ) {
+                                      $q->where('tenant_type_id' , 2);
+                                  });
+                              })
+                              ->when($transaction_type == 'malekiati' , function ( Builder $query ) use ( $transaction_type ) {
+                                  $query->whereNotNull('ownership_debt_id');
+                              })
+                              ->when($transaction_type == 'motefareghe' , function ( Builder $query ) use ( $transaction_type ) {
+                                  $query->whereNotNull('other_id');
+                              })
                               ->orderByDesc('id')
                               ->get();
 
@@ -55,8 +72,10 @@ class TransactionController extends Controller {
                           ->endOfDay();
         $tenant_type_id = $request->get('tenant_type_id');
         $paid_via = $request->get('paid_via');
+        $transaction_type = $request->get('transaction_type');
 
-        return Excel::download(new TransactionExport($started_at , $ended_at , $tenant_type_id , $paid_via) , 'transactions.xlsx');
+
+        return Excel::download(new TransactionExport($started_at , $ended_at , $transaction_type , $paid_via) , 'transactions.xlsx');
     }
 
     public function pdf ( $id ) {

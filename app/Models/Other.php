@@ -117,4 +117,8 @@ class Other extends Authenticatable {
                     ->notPaid()
                     ->sum('amount') < 1;
     }
+
+    public function otherFinancialPeriodLogs (): HasMany {
+        return $this->hasMany(OtherFinancialPeriodLog::class , 'other_id');
+    }
 }

@@ -7,6 +7,7 @@ use App\Models\Debt;
 use App\Models\MonthlyCharge;
 use App\Models\Other;
 use App\Models\OtherDebt;
+use App\Models\OtherFinancialPeriodLog;
 use App\Models\OtherMonthlyCharge;
 use App\Models\Tenant;
 use App\Models\Transaction;
@@ -130,6 +131,14 @@ class OtherController extends Controller {
 						   ]);
 		$started_at = Carbon::createFromTimestamp($request->get('started_at'));
 		$ended_at = Carbon::createFromTimestamp($request->get('ended_at'));
+
+        OtherFinancialPeriodLog::query()
+            ->create([
+                         'other_id' => $id ,
+                         'started_at' => $started_at ,
+                         'ended_at' => $ended_at ,
+                     ]);
+
 		$i = 1;
 		while ( 1 ) {
 			$due_date = verta($started_at)
@@ -255,6 +264,31 @@ class OtherController extends Controller {
                           'position' => 'top-left' ,
                       ])
             ->addSuccess('بدهی حذف شد.' , 'تبریک');
+
+        return redirect()->back();
+    }
+
+    public function removeMonthlyCharge ($id) {
+        $other_monthly_charge = OtherMonthlyCharge::query()
+                                       ->findOrFail($id);
+        if ( $other_monthly_charge->paid_via == OtherMonthlyCharge::PAID_VIA[ 'BEHPARDAKHT' ] ) {
+
+            flash()
+                ->options([
+                              'timeout' => 3000 ,
+                              'position' => 'top-left' ,
+                          ])
+                ->addSuccess('شارژی که از طریق به پرداخت انجام شده باشد قابلیت حذف ندارد.' , 'خطا');
+
+            return redirect()->back();
+        }
+        $other_monthly_charge->delete();
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('شارژ ماهیانه حذف شد.' , 'تبریک');
 
         return redirect()->back();
     }

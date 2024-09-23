@@ -95,6 +95,6 @@ class Transaction extends Model {
     }
 
     public function getTenantOrOtherAttribute () {
-        return $this->tenant_id ? 'واحد کاربری' : 'واحد متفرقه';
+        return $this->tenant_id ? $this->tenant->tenantType->type_fa : 'واحد متفرقه';
     }
 }

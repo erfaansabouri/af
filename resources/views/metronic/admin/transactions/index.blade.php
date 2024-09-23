@@ -52,11 +52,12 @@
                                     <div class="col-lg-2 col-xl-2">
                                         <div class="row align-items-center">
                                             <div class="col-lg-12 col-xl-12 my-2 my-md-0">
-                                                <select name="tenant_type_id" class="form-control selectpicker">
-                                                    <option value="">نوع واحد</option>
-                                                    @foreach(\App\Models\TenantType::all() as $tenant_type)
-                                                        <option value="{{ $tenant_type->id }}">{{ $tenant_type->type_fa }}</option>
-                                                    @endforeach
+                                                <select name="transaction_type" class="form-control selectpicker">
+                                                    <option value="">نوع تراکنش</option>
+                                                    <option @if(request('transaction_type') == 'tejari') selected @endif value="tejari">تجاری</option>
+                                                    <option @if(request('transaction_type') == 'edari') selected @endif value="edari">اداری</option>
+                                                    <option @if(request('transaction_type') == 'malekiati') selected @endif value="malekiati">مالکیتی</option>
+                                                    <option @if(request('transaction_type') == 'motefareghe') selected @endif value="motefareghe">متفرقه</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -104,15 +105,17 @@
                                     <div class="col-lg-2 col-xl-2">
                                         <div class="row align-items-center">
                                             <div class="col-lg-12 col-xl-12 my-2 my-md-0">
-                                                <select name="tenant_type_id" class="form-control selectpicker">
-                                                    <option value="">نوع واحد</option>
-                                                    @foreach(\App\Models\TenantType::all() as $tenant_type)
-                                                        <option value="{{ $tenant_type->id }}">{{ $tenant_type->type_fa }}</option>
-                                                    @endforeach
+                                                <select name="transaction_type" class="form-control selectpicker">
+                                                    <option value="">نوع تراکنش</option>
+                                                    <option @if(request('transaction_type') == 'tejari') selected @endif value="tejari">تجاری</option>
+                                                    <option @if(request('transaction_type') == 'edari') selected @endif value="edari">اداری</option>
+                                                    <option @if(request('transaction_type') == 'malekiati') selected @endif value="malekiati">مالکیتی</option>
+                                                    <option @if(request('transaction_type') == 'motefareghe') selected @endif value="motefareghe">متفرقه</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
+
 
                                     <div class="col-lg-2 col-xl-2">
                                         <div class="row align-items-center">

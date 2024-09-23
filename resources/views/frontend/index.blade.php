@@ -24,7 +24,7 @@
         <nav id="nav">
             <ul class="list-unstyled">
                 <li><a href="{{ route('home') }}">خانه</a></li>
-                <li><a href="{{ route('tenant.auth.login-form') }}">پنل کاربری واحد ها</a></li>
+                <li><a href="{{ route('tenant.auth.login-form') }}">پنل کاربری تجاری/اداری ها</a></li>
                 <li><a href="{{ route('other.auth.login-form') }}">پنل کاربری متفرقه ها</a></li>
             </ul>
         </nav>
@@ -149,7 +149,7 @@
                     <h5>پیوندهای مفید</h5>
                     <ul class="list-unstyled">
                         <li><i class="fa fa-angle-left"></i><a href="{{ route('home') }}">خانه</a></li>
-                        <li><i class="fa fa-angle-left"></i><a href="{{ route('tenant.auth.login-form') }}">پنل کاربری واحد ها</a></li>
+                        <li><i class="fa fa-angle-left"></i><a href="{{ route('tenant.auth.login-form') }}">پنل کاربری تجاری/اداری ها</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-6">
