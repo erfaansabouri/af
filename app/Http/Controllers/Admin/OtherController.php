@@ -293,4 +293,17 @@ class OtherController extends Controller {
         return redirect()->back();
     }
 
+    public function deleteFinancialPeriodLog ($id) {
+        OtherFinancialPeriodLog::query()->findOrFail($id)->delete();
+
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('با موفقیت حذف شد' , 'تبریک');
+
+        return redirect()->back();
+    }
+
 }

@@ -46,8 +46,7 @@
                                         <tr>
                                             <th class="iransans-web">تاریخ شروع</th>
                                             <th class="iransans-web">تاریخ پایان</th>
-                                            <th class="iransans-web">تاریخ ثبت</th>
-                                            <th class="iransans-web">وضعیت</th>
+                                            <th class="iransans-web">عملیات</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -57,11 +56,7 @@
                                                 <td class="iransans-web">{{ verta($log->ended_at)->format('Y/m/d') }}</td>
                                                 <td class="iransans-web">{{ verta($log->created_at)->format('Y/m/d') }}</td>
                                                 <td class="iransans-web">
-                                                    @if($log->ended_at < now())
-                                                        <span class="label label-inline label-light-success">پایان یافته</span>
-                                                    @else
-                                                        <span class="label label-inline label-light-danger">در حال اجرا</span>
-                                                    @endif
+                                                    <a href="{{ route('admin.others.delete-financial-period-log', $log->id) }}" class="btn btn-sm btn-danger">حذف</a>
                                                 </td>
                                             </tr>
                                         @endforeach
