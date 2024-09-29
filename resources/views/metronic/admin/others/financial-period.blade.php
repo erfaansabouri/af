@@ -229,7 +229,7 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                @foreach($record->otherMonthlyCharges as $omc)
+                                                @foreach($record->otherMonthlyCharges()->orderBy('due_date')->get() as $omc)
                                                     <tr>
                                                         <td>{{ verta($omc->due_date)->format('Y/m/d') }}</td>
                                                         <td>{{ number_format($omc->amount) }} ریال</td>
