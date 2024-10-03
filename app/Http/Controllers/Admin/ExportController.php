@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\DebtExport;
+use App\Exports\OtherDebtExport;
 use App\Exports\PowerOutageExport;
 use App\Exports\TransactionExport;
 use App\Http\Controllers\Controller;
@@ -13,6 +14,10 @@ use Maatwebsite\Excel\Facades\Excel;
 class ExportController extends Controller {
     public function debt ( Request $request ) {
         return Excel::download(new DebtExport() , 'debt.xlsx');
+    }
+
+    public function otherDebt ( Request $request ) {
+        return Excel::download(new OtherDebtExport() , 'other-debt.xlsx');
     }
 
     public function powerOutage ( Request $request ) {

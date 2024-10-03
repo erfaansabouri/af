@@ -127,5 +127,6 @@ Route::middleware(['auth:admin'])->prefix('warnings')->group(function (){
 #
 Route::middleware(['auth:admin'])->prefix('exports')->group(function (){
     Route::get('/debt', [ExportController::class, 'debt'])->name('admin.exports.debt');
+    Route::get('/other-debt', [ExportController::class, 'otherDebt'])->name('admin.exports.other-debt');
     Route::get('/power-outage', [ExportController::class, 'powerOutage'])->name('admin.exports.power-outage');
 });

@@ -348,6 +348,13 @@
                             </a>
                         </li>
                         <li class="menu-item @if(Route::is('admin.exports.*')) menu-item-active @endif" aria-haspopup="true">
+                            <a href="{{ route('admin.exports.other-debt') }}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-line">
+                                    <span></span></i>
+                                <span class="menu-text">خروجی بدهی متفرقه ها</span>
+                            </a>
+                        </li>
+                        <li class="menu-item @if(Route::is('admin.exports.*')) menu-item-active @endif" aria-haspopup="true">
                             <a href="{{ route('admin.exports.power-outage') }}" class="menu-link">
                                 <i class="menu-bullet menu-bullet-line">
                                     <span></span></i>

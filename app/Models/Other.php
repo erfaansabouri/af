@@ -121,4 +121,17 @@ class Other extends Authenticatable {
     public function otherFinancialPeriodLogs (): HasMany {
         return $this->hasMany(OtherFinancialPeriodLog::class , 'other_id');
     }
+
+    public function getPassedDueDateAmountAttribute () {
+        $monthly_charges = $this->otherMonthlyCharges()
+                                ->notPaid()
+                                ->dueDatePassed()
+                                ->get();
+        $total = 0;
+        foreach ( $monthly_charges as $monthly_charge ) {
+            $total += $monthly_charge->original_amount;
+        }
+
+        return $total;
+    }
 }
