@@ -36,6 +36,9 @@ class MessageGroupController extends Controller {
     public function destroy ( $id ) {
         $record = MessageGroup::query()
                               ->findOrFail($id);
+        Message::query()
+               ->where('message_group_id' , $id)
+               ->delete();
         $record->delete();
         flash()
             ->options([
@@ -165,6 +168,32 @@ class MessageGroupController extends Controller {
         }
         Message::query()
                ->insert($items);
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('رکورد با موفقیت ایجاد شد.' , 'تبریک!');
+
+        return redirect()->route('admin.complex-settings.message-groups.index');
+    }
+
+    public function edit ( $id ) {
+        $record = MessageGroup::query()
+                              ->findOrFail($id);
+
+        return view('metronic.admin.group-messages.create-send-to-all' , compact('record'));
+    }
+
+    public function update ( Request $request , $id ) {
+        $record = MessageGroup::query()
+                              ->findOrFail($id);
+        $message_group = $this->save($record , $request);
+        Message::query()
+               ->where('message_group_id' , $record->id)
+               ->update([
+                            'message' => $request->get('message') ,
+                        ]);
         flash()
             ->options([
                           'timeout' => 3000 ,
