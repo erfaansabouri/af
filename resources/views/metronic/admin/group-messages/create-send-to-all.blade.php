@@ -15,7 +15,7 @@
                 </div>
 
                 <form id="my-form" method="post"
-                      action="{{ route('admin.complex-settings.message-groups.submit-send-to-all') }}"
+                      action="@if(isset($record)) {{ route('admin.complex-settings.message-groups.update', $record->id) }} @else {{ route('admin.complex-settings.message-groups.submit-send-to-all') }} @endif"
                       enctype="multipart/form-data">
                     @csrf
                     @method('POST')
