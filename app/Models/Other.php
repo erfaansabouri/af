@@ -129,7 +129,7 @@ class Other extends Authenticatable {
                                 ->get();
         $total = 0;
         foreach ( $monthly_charges as $monthly_charge ) {
-            $total += $monthly_charge->original_amount;
+            $total += $monthly_charge->amount;
         }
 
         return $total;
