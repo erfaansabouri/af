@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Exports\DidNotPayMonthlyChargeExport;
 use App\Exports\TransactionExport;
 use App\Http\Controllers\Controller;
+use App\Models\BedehiOmrani;
 use App\Models\Debt;
+use App\Models\HazineOmrani;
 use App\Models\MonthlyCharge;
 use App\Models\OwnershipDebt;
 use App\Models\Tenant;
@@ -131,11 +133,15 @@ class TenantController extends Controller {
         $debts = Debt::query()
                      ->where('tenant_id' , $tenant->id)
                      ->get();
-        $ownership_debts = OwnershipDebt::query()
+        $bedehi_omranis = BedehiOmrani::query()
                                         ->where('tenant_id' , $tenant->id)
                                         ->get();
 
-        return view('metronic.admin.tenants.monthly-charges.index' , compact('tenant' , 'records' , 'debts', 'ownership_debts'));
+        $hazine_omranis = HazineOmrani::query()
+            ->where('tenant_id', $tenant->id)
+            ->get();
+
+        return view('metronic.admin.tenants.monthly-charges.index' , compact('hazine_omranis','tenant' , 'records' , 'debts', 'bedehi_omranis'));
     }
 
     public function setDefaultPassword ( $id ) {
@@ -183,6 +189,36 @@ class TenantController extends Controller {
             return redirect()->back();
         }
     }
+    public function submitBestankariForHazineOmrani ( Request $request ) {
+        $request->validate([
+                               'amount' => [ 'required' ] ,
+                               'tenant_id' => [ 'required' ] ,
+                           ]);
+        $tenant = Tenant::query()
+                        ->findOrFail($request->get('tenant_id'));
+        $amount = str_replace(',' , '' , $request->get('amount'));
+        $result = $tenant->submitBestankariForHazineOmrani($amount);
+        if ( $result ) {
+            flash()
+                ->options([
+                              'timeout' => 3000 ,
+                              'position' => 'top-left' ,
+                          ])
+                ->addSuccess('بستانکاری با موفقیت اعمال شد و از هزینه عمرانی کاسته شد.' , 'تبریک');
+
+            return redirect()->back();
+        }
+        else {
+            flash()
+                ->options([
+                              'timeout' => 3000 ,
+                              'position' => 'top-left' ,
+                          ])
+                ->addError('مبلغ بیش از حد مجاز' , 'خطا');
+
+            return redirect()->back();
+        }
+    }
 
     public function restoreMonthlyCharge ( $id ) {
         $monthly_charge = MonthlyCharge::query()
@@ -212,6 +248,37 @@ class TenantController extends Controller {
                           'position' => 'top-left' ,
                       ])
             ->addSuccess('شارژ ماهیانه به حالت اولیه بازگشت.' , 'تبریک');
+
+        return redirect()->back();
+    }
+    public function restoreHazineOmrani ( $id ) {
+        $hazine_omrani = HazineOmrani::query()
+                                       ->findOrFail($id);
+        if ( $hazine_omrani->paid_via != MonthlyCharge::PAID_VIA[ 'ADMIN' ] ) {
+
+            flash()
+                ->options([
+                              'timeout' => 3000 ,
+                              'position' => 'top-left' ,
+                          ])
+                ->addSuccess('شارژی که از طریق به پرداخت انجام شده باشد قابلیت بازگشت ندارد.' , 'خطا');
+
+            return redirect()->back();
+        }
+        Transaction::query()
+                   ->where('hazine_omrani_id' , $hazine_omrani->id)
+                   ->delete();
+        $hazine_omrani->paid_via = null;
+        $hazine_omrani->original_amount = $hazine_omrani->for_restore_amount;
+        $hazine_omrani->paid_amount = 0;
+        $hazine_omrani->paid_at = null;
+        $hazine_omrani->save();
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('هزینه عمرانی به حالت اولیه بازگشت.' , 'تبریک');
 
         return redirect()->back();
     }
@@ -292,6 +359,56 @@ class TenantController extends Controller {
             return redirect()->back();
         }
         $ownership_debt->delete();
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('بدهی حذف شد.' , 'تبریک');
+
+        return redirect()->back();
+    }
+
+    ###
+
+    public function submitBedehiOmrani ( Request $request ) {
+        $request->validate([
+                               'amount' => [ 'required' ] ,
+                               'tenant_id' => [ 'required' ] ,
+                           ]);
+        $tenant = Tenant::query()
+                        ->findOrFail($request->get('tenant_id'));
+        $amount = str_replace(',' , '' , $request->get('amount'));
+        $amount = Convert::convertToEnNumbers($amount);
+        BedehiOmrani::query()
+                     ->create([
+                                  'amount' => $amount ,
+                                  'tenant_id' => $request->get('tenant_id') ,
+                              ]);
+        flash()
+            ->options([
+                          'timeout' => 3000 ,
+                          'position' => 'top-left' ,
+                      ])
+            ->addSuccess('بدهی ایجاد شد.' , 'تبریک');
+
+        return redirect()->back();
+    }
+
+    public function removeBedehiOmrani ( Request $request , $id ) {
+        $debt = BedehiOmrani::query()
+                                       ->findOrFail($id);
+        if ( $debt->paid_at ) {
+            flash()
+                ->options([
+                              'timeout' => 3000 ,
+                              'position' => 'top-left' ,
+                          ])
+                ->addError('بدهی پرداخت شده قابل حذف نمیباشد' , 'خطا');
+
+            return redirect()->back();
+        }
+        $debt->delete();
         flash()
             ->options([
                           'timeout' => 3000 ,

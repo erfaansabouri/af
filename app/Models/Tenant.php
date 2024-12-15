@@ -144,6 +144,56 @@ class Tenant extends Authenticatable implements HasMedia {
             return true;
         }
     }
+    public function submitBestankariForHazineOmrani ( $amount ) {
+        $first = $this->getFirstUnpaidHazineOmrani();
+        if ( !$first ) {
+            return false;
+        }
+        if ( $amount > $first->original_amount ) {
+            return false;
+        }
+        elseif ( $amount == $first->original_amount ) {
+            $transaction = Transaction::query()
+                                      ->create([
+                                                   'tenant_name' => $this->full_name ,
+                                                   'tenant_id' => $this->id ,
+                                                   'hazine_omrani_id' => $first->id ,
+                                                   'original_amount' => $first->original_amount ,
+                                                   'amount' => $first->original_amount ,
+                                                   'subject' => $first->subject_and_month ,
+                                                   'paid_at' => now() ,
+                                                   'ref_id' => 'AD' . rand() ,
+                                                   'tx_id' => 'AD' . rand() ,
+                                                   'paid_via' => Transaction::PAID_VIA[ 'ADMIN' ] ,
+                                               ]);
+            $first->paid_via = MonthlyCharge::PAID_VIA[ 'ADMIN' ];
+            $first->paid_at = now();
+            $first->paid_amount = $transaction->amount;
+            $first->save();
+
+            return true;
+        }
+        else {
+            $transaction = Transaction::query()
+                                      ->create([
+                                                   'tenant_name' => $this->full_name ,
+                                                   'tenant_id' => $this->id ,
+                                                   'hazine_omrani_id' => $first->id ,
+                                                   'original_amount' => $amount ,
+                                                   'amount' => $amount ,
+                                                   'subject' => $first->subject_and_month ,
+                                                   'paid_at' => now() ,
+                                                   'ref_id' => 'AD' . rand() ,
+                                                   'tx_id' => 'AD' . rand() ,
+                                                   'paid_via' => Transaction::PAID_VIA[ 'ADMIN' ] ,
+                                               ]);
+            $first->paid_via = MonthlyCharge::PAID_VIA[ 'ADMIN' ];
+            $first->original_amount = $first->original_amount - $amount;
+            $first->save();
+
+            return true;
+        }
+    }
 
     public function scopeWithUnpaidChargesCount ( $query ) {
         return $query->withCount([
@@ -191,6 +241,13 @@ class Tenant extends Authenticatable implements HasMedia {
 
     public function getFirstUnpaidMonthlyCharge () {
         return $first_unpaid_monthly_charge = MonthlyCharge::query()
+                                                           ->where('tenant_id' , $this->id)
+                                                           ->notPaid()
+                                                           ->first();
+    }
+
+    public function getFirstUnpaidHazineOmrani () {
+        return HazineOmrani::query()
                                                            ->where('tenant_id' , $this->id)
                                                            ->notPaid()
                                                            ->first();

@@ -12,6 +12,71 @@
                     <div class="card card-custom">
                         <div class="card-header flex-wrap border-0 pt-6 pb-0">
                             <div class="card-title">
+                                <h3 class="card-label">بدهی های هزینه عمرانی پلاک {{ $tenant->plaque }}
+                                    <span class="text-muted pt-2 font-size-sm d-block"></span>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table
+                                    class="table table-bordered table-striped">
+                                    <thead class="thead-light iransans-web">
+                                    <tr>
+                                        <th class="iransans-web">دلیل بدهی</th>
+                                        <th class="iransans-web">مبلغ</th>
+                                        <th class="iransans-web">وضعیت</th>
+                                        <th class="iransans-web">عملیات</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($debts as $debt)
+                                        <tr>
+                                            <td class="iransans-web">{{ $debt->reason }}</td>
+                                            <td class="iransans-web">{{ number_format($debt->amount) }} ریال</td>
+                                            <td class="iransans-web">
+                                                @if($debt->paid_at)
+                                                    <span class="label label-inline label-light-success">پرداخت موفق</span>
+                                                @else
+                                                    <span class="label label-inline label-light-danger">پرداخت نشده</span>
+                                                @endif
+                                            </td>
+                                            <td class="iransans-web">
+                                                @if(!$debt->paid_at)
+                                                    <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#debt-modal-{{ $debt->id }}">
+                                                        پرداخت بدهی
+                                                    </button>
+
+
+
+
+                                                    {{--{{ route('tenant.transaction.generate-url', ['debt_id' => $debt->id]) }}--}}
+                                                @endif
+                                            </td>
+
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--end: Datatable-->
+                        </div>
+                    </div>
+                    <!--end::Card-->
+                </div>
+                <!--end::Container-->
+            </div>
+            <hr>
+            <br>
+
+        </div>
+        <div class="col-xl-6">
+            <div class="d-flex flex-column-fluid">
+                <!--begin::Container-->
+                <div class="container-fluid">
+                    <div class="card card-custom">
+                        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                            <div class="card-title">
                                 <h3 class="card-label">بدهی های پلاک {{ $tenant->plaque }}
                                     <span class="text-muted pt-2 font-size-sm d-block"></span>
                                 </h3>
@@ -68,69 +133,6 @@
             </div>
             <hr>
             <br>
-            <div class="d-flex flex-column-fluid">
-                <!--begin::Container-->
-                <div class="container-fluid">
-                    <div class="card card-custom">
-                        <div class="card-header flex-wrap border-0 pt-6 pb-0">
-                            <div class="card-title">
-                                <h3 class="card-label">هزینه مالکیتی پلاک {{ $tenant->plaque }}
-                                    <span class="text-muted pt-2 font-size-sm d-block"></span>
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table
-                                    class="table table-bordered table-striped">
-                                    <thead class="thead-light iransans-web">
-                                    <tr>
-                                        <th class="iransans-web">موعد پرداخت</th>
-                                        <th class="iransans-web">مبلغ</th>
-                                        <th class="iransans-web">وضعیت</th>
-                                        <th class="iransans-web">عملیات</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($ownership_debts as $ownership_debt)
-                                        <tr>
-                                            <td class="iransans-web">{{ verta($ownership_debt->due_date)->formatJalaliDate() }}</td>
-                                            <td class="iransans-web">{{ number_format($ownership_debt->amount) }} ریال</td>
-                                            <td class="iransans-web">
-                                                @if($ownership_debt->paid_at)
-                                                    <span class="label label-inline label-light-success">پرداخت موفق</span>
-                                                @else
-                                                    <span class="label label-inline label-light-danger">پرداخت نشده</span>
-                                                @endif
-                                            </td>
-                                            <td class="iransans-web">
-                                                @if(!$ownership_debt->paid_at)
-                                                    <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#ownership-debt-modal-{{ $ownership_debt->id }}">
-                                                        پرداخت هزینه مالکیتی
-                                                    </button>
-
-
-
-
-                                                    {{--{{ route('tenant.transaction.generate-url', ['debt_id' => $debt->id]) }}--}}
-                                                @endif
-                                            </td>
-
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!--end: Datatable-->
-                        </div>
-                    </div>
-                    <!--end::Card-->
-                </div>
-                <!--end::Container-->
-            </div>
-
-        </div>
-        <div class="col-xl-6">
             <div class="d-flex flex-column-fluid">
                 <!--begin::Container-->
                 <div class="container-fluid">
@@ -263,7 +265,6 @@
                 </div>
                 <!--end::Container-->
             </div>
-
         </div>
     </div>
     @foreach($debts as $debt)

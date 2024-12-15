@@ -44,6 +44,11 @@ Route::middleware(['auth:admin'])->prefix('tenants')->group(function (){
     Route::any('/remove-ownership-debt/{id}', [TenantController::class, 'removeOwnershipDebt'])->name('admin.tenants.remove-ownership-debt');
 
 
+    Route::any('/submit-bedehi-omrani', [TenantController::class, 'submitBedehiOmrani'])->name('admin.tenants.submit-bedehi-omrani');
+    Route::any('/remove-bedehi-omrani/{id}', [TenantController::class, 'removeBedehiOmrani'])->name('admin.tenants.remove-bedehi-omrani');
+    Route::any('/submit-bestankari-for-hazine-omrani', [TenantController::class, 'submitBestankariForHazineOmrani'])->name('admin.tenants.submit-bestankari-for-hazine-omrani');
+    Route::any('/restore-hazine-omrani/{id}', [TenantController::class, 'restoreHazineOmrani'])->name('admin.tenants.restore-hazine-omrani');
+
 });
 #
 

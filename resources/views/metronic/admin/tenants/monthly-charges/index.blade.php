@@ -222,6 +222,10 @@
     </div>
     <br>
     <hr>
+    <hr>
+    <hr width="100%;" color="red" size="5">
+
+    <div class="border-1"></div>
     <div class="row">
         <div class="col-xl-6">
             <div>
@@ -231,33 +235,26 @@
                         <div class="card card-custom">
                             <div class="card-header flex-wrap border-0 pt-6 pb-0">
                                 <div class="card-title">
-                                    <h3 class="card-label">{{ "ایجاد هزینه مالکیتی برای پلاک " . $tenant->plaque }}
+                                    <h3 class="card-label">{{ "ایجاد بدهی عمرانی " . $tenant->plaque }}
                                         <span class="text-muted pt-2 font-size-sm d-block"></span>
                                     </h3>
                                 </div>
                             </div>
                             <div class="card-body">
 
-                                <form class="m-form m-form--fit m-form--label-align-right" method="post" action="{{ route('admin.tenants.submit-ownership-debt') }}">
+                                <form class="m-form m-form--fit m-form--label-align-right" method="post" action="{{ route('admin.tenants.submit-bedehi-omrani') }}">
                                     @csrf
                                     @method('POST')
                                     <div class="m-portlet__body">
                                         <div class="form-group m-form__group">
-                                            <label for="exampleInputEmail1">مبلغ هزینه مالکیتی</label>
+                                            <label for="exampleInputEmail1">مبلغ بدهی عمرانی</label>
                                             <input type="hidden" name="tenant_id" value="{{ $tenant->id }}">
                                             <input type="text" class="form-control m-input m-input--square" id="numberInput3" aria-describedby="emailHelp" placeholder="" name="amount">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-form-label">موعد پرداخت
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <input value="" type="text" class="form-control started-at-datepicker" />
-                                            <input  name="due_date" type="hidden" class="alt-started-at-datepicker" />
                                         </div>
                                     </div>
                                     <div class="m-portlet__foot m-portlet__foot--fit">
                                         <div class="m-form__actions">
-                                            <button type="submit" class="btn btn-dark">ثبت هزینه مالکیتی</button>
+                                            <button type="submit" class="btn btn-dark">ثبت بدهی عمرانی</button>
                                         </div>
                                     </div>
                                 </form>
@@ -270,6 +267,48 @@
                 </div>
             </div>
         </div>
+        <div class="col-xl-6">
+            <div>
+                <div class="d-flex flex-column-fluid">
+                    <!--begin::Container-->
+                    <div class="container-fluid">
+                        <div class="card card-custom">
+                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                <div class="card-title">
+                                    <h3 class="card-label">{{ "ایجاد بستانکاری  هزینه عمرانی برای پلاک " . $tenant->plaque }}
+                                        <span class="text-muted pt-2 font-size-sm d-block"></span>
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="card-body">
+
+                                <form class="m-form m-form--fit m-form--label-align-right" method="post" action="{{ route('admin.tenants.submit-bestankari-for-hazine-omrani') }}">
+                                    @csrf
+                                    @method('POST')
+                                    <div class="m-portlet__body">
+                                        <div class="form-group m-form__group">
+                                            <label for="exampleInputEmail1">مبلغ بستانکاری</label>
+                                            <input type="hidden" name="tenant_id" value="{{ $tenant->id }}">
+                                            <input type="text" class="form-control m-input m-input--square" id="numberInput" aria-describedby="emailHelp" placeholder="" name="amount">
+                                            <span class="m-form__help">لطفا مبلغی کمتر یا مساوی با ({{ number_format($tenant->getFirstUnpaidHazineOmrani()->original_amount ?? 0) }} ریال) وارد نمایید.</span>
+                                        </div>
+                                    </div>
+                                    <div class="m-portlet__foot m-portlet__foot--fit">
+                                        <div class="m-form__actions">
+                                            <button type="submit" class="btn btn-success">ثبت بستانکاری</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!--end: Datatable-->
+                            </div>
+                        </div>
+                        <!--end::Card-->
+                    </div>
+                    <!--end::Container-->
+                </div>
+            </div>
+        </div>
+
     </div>
     <br>
     <hr>
@@ -282,7 +321,7 @@
                         <div class="card card-custom">
                             <div class="card-header flex-wrap border-0 pt-6 pb-0">
                                 <div class="card-title">
-                                    <h3 class="card-label">{{ "هزینه های مالکیتی پلاک" . " " . $tenant->plaque }}
+                                    <h3 class="card-label">{{ "بدهی های عمرانی" . " " . $tenant->plaque }}
                                         <span class="text-muted pt-2 font-size-sm d-block"></span>
                                     </h3>
                                 </div>
@@ -294,27 +333,91 @@
                                         class="table table-bordered table-striped">
                                         <thead class="thead-light iransans-web">
                                         <tr>
-                                            <th class="iransans-web">موعد پرداخت</th>
                                             <th class="iransans-web">مبلغ</th>
                                             <th class="iransans-web">وضعیت</th>
                                             <th class="iransans-web">عملیات</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach($ownership_debts as $ownership_debt)
+                                        @foreach($bedehi_omranis as $bedehi_omarani)
                                             <tr>
-                                                <td class="iransans-web">{{ verta($ownership_debt->due_date)->formatJalaliDate() }}</td>
-                                                <td class="iransans-web">{{ number_format($ownership_debt->amount) }} ریال</td>
+                                                <td class="iransans-web">{{ number_format($bedehi_omarani->amount) }} ریال</td>
                                                 <td class="iransans-web">
-                                                    @if($ownership_debt->paid_at)
+                                                    @if($bedehi_omarani->paid_at)
                                                         <span class="label label-inline label-light-success">پرداخت موفق</span>
                                                     @else
                                                         <span class="label label-inline label-light-danger">پرداخت نشده</span>
                                                     @endif
                                                 </td>
                                                 <td class="iransans-web">
-                                                    @if(!$ownership_debt->paid_at)
-                                                        <a class="btn btn-sm btn-danger" href="{{ route('admin.tenants.remove-ownership-debt', $ownership_debt->id) }}">حذف بدهی</a>
+                                                    @if(!$bedehi_omarani->paid_at)
+                                                        <a class="btn btn-sm btn-danger" href="{{ route('admin.tenants.remove-bedehi-omrani', $bedehi_omarani->id) }}">حذف بدهی</a>
+                                                    @endif
+                                                </td>
+
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--end: Datatable-->
+                            </div>
+                        </div>
+                        <!--end::Card-->
+                    </div>
+                    <!--end::Container-->
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div>
+                <div class="d-flex flex-column-fluid">
+                    <!--begin::Container-->
+                    <div class="container-fluid">
+                        <div class="card card-custom">
+                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                <div class="card-title">
+                                    <h3 class="card-label">{{ "هزینه های عمرانی" . " " . $tenant->plaque }}
+                                        <span class="text-muted pt-2 font-size-sm d-block"></span>
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="table-responsive">
+                                    <table
+                                        class="table table-bordered table-striped">
+                                        <thead class="thead-light iransans-web">
+                                        <tr>
+                                            <th class="iransans-web">بازه</th>
+                                            <th class="iransans-web">مبلغ</th>
+                                            <th class="iransans-web">وضعیت</th>
+                                            <th class="iransans-web">عملیات</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($hazine_omranis as $hazine_omrani)
+                                            <tr>
+                                                <td class="iransans-web">
+                                                    {{ verta($hazine_omrani->started_at)->format('Q Y') }}
+                                                </td>
+                                                <td>
+                                                    پایه : {{ number_format($hazine_omrani->original_amount) }} ریال
+                                                    @if(!$hazine_omrani->paid_at && $hazine_omrani->original_amount != $hazine_omrani->final_amount)
+                                                        <hr>
+                                                        <span class="text-success"> پس از تخفیف: {{ number_format($hazine_omrani->final_amount) }} ریال</span>
+                                                    @endif
+                                                </td>
+                                                <td class="iransans-web">
+                                                    @if($hazine_omrani->paid_at)
+                                                        <span class="label label-inline label-light-success">پرداخت موفق</span>
+                                                    @else
+                                                        <span class="label label-inline label-light-danger">پرداخت نشده</span>
+                                                    @endif
+                                                </td>
+                                                <td class="iransans-web">
+                                                    @if($hazine_omrani->paid_via == MonthlyCharge::PAID_VIA['ADMIN'])
+                                                        <a class="btn btn-sm btn-danger" href="{{ route('admin.tenants.restore-hazine-omrani', $hazine_omrani->id) }}">بازگردانی</a>
                                                     @endif
                                                 </td>
 
