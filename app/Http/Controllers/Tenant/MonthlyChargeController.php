@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
+use App\Models\BedehiOmrani;
 use App\Models\Debt;
+use App\Models\HazineOmrani;
 use App\Models\MonthlyCharge;
 use App\Models\OwnershipDebt;
 use Auth;
@@ -26,10 +28,14 @@ class MonthlyChargeController extends Controller {
                      ->where('tenant_id' , $tenant->id)
                      ->get();
 
-        $ownership_debts = OwnershipDebt::query()
+        $bedehi_omranis = BedehiOmrani::query()
+                                      ->where('tenant_id' , $tenant->id)
+                                      ->get();
+
+        $hazine_omranis = HazineOmrani::query()
                      ->where('tenant_id' , $tenant->id)
                      ->get();
 
-        return view('metronic.tenant.monthly-charges.index' , compact('records' , 'ownership_debts', 'debts'));
+        return view('metronic.tenant.monthly-charges.index' , compact('records' , 'bedehi_omranis','hazine_omranis', 'debts'));
     }
 }

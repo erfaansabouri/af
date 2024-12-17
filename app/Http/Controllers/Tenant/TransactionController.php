@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Tenant;
 
 use App\Exports\TransactionExport;
 use App\Http\Controllers\Controller;
+use App\Models\BedehiOmrani;
 use App\Models\Debt;
+use App\Models\HazineOmrani;
 use App\Models\MonthlyCharge;
 use App\Models\OtherDebt;
 use App\Models\OtherMonthlyCharge;
@@ -76,6 +78,21 @@ class TransactionController extends Controller {
                                                    'subject' => $monthly_charge->subject_and_month ,
                                                ]);
         }
+        if ( $hazine_omrani_id = $request->get('hazine_omrani_id') ) {
+            $hazine_omrani = HazineOmrani::query()
+                                           ->where('id' , $hazine_omrani_id)
+                                           ->whereNull('paid_at')
+                                           ->firstOrFail();
+            $transaction = Transaction::query()
+                                      ->create([
+                                                   'tenant_name' => $hazine_omrani->tenant->full_name ,
+                                                   'tenant_id' => $hazine_omrani->tenant_id ,
+                                                   'hazine_omrani_id' => $hazine_omrani->id ,
+                                                   'original_amount' => $hazine_omrani->original_amount ,
+                                                   'amount' => $hazine_omrani->final_amount ,
+                                                   'subject' => $hazine_omrani->subject_and_month ,
+                                               ]);
+        }
         else if ( $debt_id = $request->get('debt_id') ) {
             $debt = Debt::query()
                         ->where('id' , $debt_id)
@@ -144,6 +161,40 @@ class TransactionController extends Controller {
                                                    'subject' => 'پرداخت هزینه مالکیتی' ,
                                                ]);
         }
+        else if ( $bedehi_omrani_id = $request->get('bedehi_omrani_id') ) {
+            $bedehi_omrani = BedehiOmrani::query()
+                                           ->where('id' , $bedehi_omrani_id)
+                                           ->whereNull('paid_at')
+                                           ->firstOrFail();
+            $request->validate([
+                                   'bedehi_omrani_amount' => [
+                                       'required' ,
+                                   ] ,
+                               ] , [
+                                   'bedehi_omrani_amount.required' => 'مبلغ الزامی است' ,
+                               ]);
+            $removed_comma = str_replace(',' , '' , $request->get('bedehi_omrani_amount'));
+            $bedehi_omrani_amount_to_pay = Tenant::englishNumber($removed_comma);
+            if ( $bedehi_omrani_amount_to_pay > $bedehi_omrani->amount ) {
+                flash()
+                    ->options([
+                                  'timeout' => 3000 ,
+                                  'position' => 'top-left' ,
+                              ])
+                    ->addError('مبلغ بیش از حد مجاز' , 'خطا');
+
+                return redirect()->back();
+            }
+            $transaction = Transaction::query()
+                                      ->create([
+                                                   'tenant_name' => $bedehi_omrani->tenant->full_name ,
+                                                   'tenant_id' => $bedehi_omrani->tenant_id ,
+                                                   'bedehi_omrani_id' => $bedehi_omrani->id ,
+                                                   'original_amount' => $bedehi_omrani_amount_to_pay ,
+                                                   'amount' => $bedehi_omrani_amount_to_pay ,
+                                                   'subject' => 'پرداخت بدهی عمرانی' ,
+                                               ]);
+        }
         else {
             dd("ERROR");
         }
@@ -159,7 +210,7 @@ class TransactionController extends Controller {
     }
 
     public function verify ( Request $request ) {
-        $tx_id = $request->get('RefId') ?? $request->get('Authority');
+        $tx_id = $request->get('RefId') ?? $request->get('Authority') ?? $request->get('trackId');
         $transaction = Transaction::query()
                                   ->where('tx_id' , $tx_id)
                                   ->firstOrFail();
@@ -172,6 +223,7 @@ class TransactionController extends Controller {
             $receipt = Payment::amount($transaction->amount / 10)
                               ->transactionId($tx_id)
                               ->verify();
+
             $transaction->paid_at = now();
             $transaction->ref_id = $request->get('RefId');
             $transaction->save();
@@ -181,6 +233,18 @@ class TransactionController extends Controller {
                 $monthly_charge->paid_at = now();
                 $monthly_charge->paid_amount = $transaction->amount;
                 $monthly_charge->save();
+
+                return view('payment.redirect' , [
+                    'success' => true ,
+                    'code' => $tx_id ,
+                ]);
+            }
+            if ( $transaction->hazine_omrani_id ) {
+                $hazine_omrani = HazineOmrani::query()
+                                               ->find($transaction->hazine_omrani_id);
+                $hazine_omrani->paid_at = now();
+                $hazine_omrani->paid_amount = $transaction->amount;
+                $hazine_omrani->save();
 
                 return view('payment.redirect' , [
                     'success' => true ,
@@ -213,6 +277,22 @@ class TransactionController extends Controller {
                     $ownership_debt_id->paid_at = now();
                 }
                 $ownership_debt_id->save();
+
+                return view('payment.redirect' , [
+                    'success' => true ,
+                    'code' => $tx_id ,
+                ]);
+            }
+            if ( $transaction->bedehi_omrani_id ) {
+                $bedehi_omrani = BedehiOmrani::query()
+                                                  ->find($transaction->bedehi_omrani_id);
+                if ( $transaction->amount < $bedehi_omrani->amount ) {
+                    $bedehi_omrani->amount = $bedehi_omrani->amount - $transaction->amount;
+                }
+                else {
+                    $bedehi_omrani->paid_at = now();
+                }
+                $bedehi_omrani->save();
 
                 return view('payment.redirect' , [
                     'success' => true ,

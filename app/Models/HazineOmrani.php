@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class HazineOmrani extends Model {
     public function getFinalAmountAttribute () {
@@ -31,4 +32,9 @@ class HazineOmrani extends Model {
     public function getSubjectAndMonthAttribute () {
         return "هزینه عمرانی " . verta($this->started_at)->format('Q Y');
     }
+
+    public function tenant (): BelongsTo {
+        return $this->belongsTo(Tenant::class);
+    }
+
 }

@@ -263,10 +263,34 @@ class Tenant extends Authenticatable implements HasMedia {
         return false;
     }
 
+    public function oneMonthPassedFromFirstUnpaidHazineOmrani () {
+        $first_unpaid_monthly_Charge = $this->getFirstUnpaidHazineOmrani();
+        if ( Carbon::parse($first_unpaid_monthly_Charge->ended_at)
+                   ->diffInDays(now()) > 31 ) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function getCanPayMonthlyChargesAttribute () {
         return $this->debts()
                     ->notPaid()
                     ->sum('amount') < Setting::getMinDebtAmount();
+    }
+
+    public function getCanPayHazineOmranisAttribute () {
+        return $this->bedehiOmranis()
+                    ->notPaid()
+                    ->sum('amount') < 1;
+    }
+
+    public function hazineOmranis (): HasMany {
+        return $this->hasMany(HazineOmrani::class , 'tenant_id');
+    }
+
+    public function bedehiOmranis (): HasMany {
+        return $this->hasMany(BedehiOmrani::class , 'tenant_id');
     }
 
     public function canSeeMenu () {

@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('transactions', function (Blueprint $table) {
+            $table->unsignedBigInteger('bedehi_omrani_id')->nullable();
             $table->unsignedBigInteger('hazine_omrani_id')->nullable();
         });
     }

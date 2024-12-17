@@ -77,12 +77,6 @@ class MonthlyCharge extends Model {
             if ( $this->tenant->other && $this->tenant->other_has_monthly_charge_due_date_passed_and_not_paid ) {
                 return $this->original_amount;
             }
-            if ( $this->tenant->ownershipDebts()
-                              ->notPaid()
-                              ->dueDatePassed()
-                              ->count() > 0 ) {
-                return $this->original_amount;
-            }
             if ( $this->tenant->warnings()
                               ->count() >= Setting::getMaxWarningThreshold() ) {
                 $penalty = 100 + Setting::getPenaltyPercent();
