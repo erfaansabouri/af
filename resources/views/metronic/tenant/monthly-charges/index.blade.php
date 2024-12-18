@@ -107,7 +107,7 @@
                                     <tbody>
                                     @foreach($hazine_omranis as $h)
                                         <tr>
-                                            <td class="iransans-web">ماه {{ $h->subject_and_month }}</td>
+                                            <td class="iransans-web"> {{ $h->subject_and_month }}</td>
                                             <td class="iransans-web">
                                                 پایه: {{ number_format($h->original_amount) }} ریال
                                                 @if(!$h->paid_at && $h->original_amount > $h->final_amount)
