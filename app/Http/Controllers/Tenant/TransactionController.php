@@ -78,7 +78,7 @@ class TransactionController extends Controller {
                                                    'subject' => $monthly_charge->subject_and_month ,
                                                ]);
         }
-        if ( $hazine_omrani_id = $request->get('hazine_omrani_id') ) {
+        else if ( $hazine_omrani_id = $request->get('hazine_omrani_id') ) {
             $hazine_omrani = HazineOmrani::query()
                                            ->where('id' , $hazine_omrani_id)
                                            ->whereNull('paid_at')
