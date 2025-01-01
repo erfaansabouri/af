@@ -341,7 +341,14 @@
                             </span>
                         </li>
                         <li class="menu-item @if(Route::is('admin.exports.*')) menu-item-active @endif" aria-haspopup="true">
-                            <a href="{{ route('admin.exports.debt') }}" class="menu-link">
+                            <a href="{{ route('admin.exports.hazine-omrani') }}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-line">
+                                    <span></span></i>
+                                <span class="menu-text">خروجی هزینه های عمرانی</span>
+                            </a>
+                        </li>
+                        <li class="menu-item @if(Route::is('admin.exports.*')) menu-item-active @endif" aria-haspopup="true">
+                            <a href="{{ route('admin.exports.hazine-omrani') }}" class="menu-link">
                                 <i class="menu-bullet menu-bullet-line">
                                     <span></span></i>
                                 <span class="menu-text">خروجی بدهی ها</span>
