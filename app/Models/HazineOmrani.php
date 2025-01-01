@@ -37,4 +37,8 @@ class HazineOmrani extends Model {
         return $this->belongsTo(Tenant::class);
     }
 
+    public function scopeDueDatePassed ( Builder $query ): Builder {
+        return $query->where('ended_at', '<', now());
+    }
+
 }
