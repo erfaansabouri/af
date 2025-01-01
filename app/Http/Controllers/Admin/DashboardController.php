@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function dashboard(){
-        return view('metronic.admin.dashboard.dashboard');
-    }
+ public function dashboard(){
+    $view = \Cache::remember('dashboard_view', 60, function() {
+        return view('metronic.admin.dashboard.dashboard')->render();
+    });
+    return $view;
+}
 }
