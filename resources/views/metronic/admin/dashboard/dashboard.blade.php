@@ -144,7 +144,7 @@
                             </div>
                             <div class="card-body">
                                 <h1>
-                                    {{ number_format( MonthlyCharge::query()->whereBetween('paid_at', [verta()->startMonth()->toCarbon(), verta()->endMonth()->toCarbon()])->where('paid_amount', '!=', 'original_amount')->count()) }} واحد
+                                    {{ number_format( MonthlyCharge::query()->paid()->whereBetween('paid_at', [verta()->startMonth()->toCarbon(), verta()->endMonth()->toCarbon()])->where('paid_amount', '!=', 'original_amount')->count()) }} واحد
                                 </h1>
                             </div>
                         </div>
