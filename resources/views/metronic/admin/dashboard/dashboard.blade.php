@@ -47,7 +47,7 @@
                             </div>
                             <div class="card-body">
                                 <h1>
-                                    {{ number_format( HazineOmrani::query()->notPaid()->sum('original_amount')) }} ریال
+                                    {{ number_format( HazineOmrani::query()->notPaid()->where('started_at', '<' , now())->where('ended_at' , '>' , now())->sum('original_amount')) }} ریال
                                 </h1>
                             </div>
                         </div>
