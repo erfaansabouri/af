@@ -33,7 +33,9 @@
                             </div>
                             <div class="card-body">
                                 <h1>
-                                    {{ number_format( OtherDebt::query()->notPaid()->sum('amount')) }} ریال
+                                    {{ number_format( OtherDebt::query()->notPaid()->sum('amount') + \App\Models\OtherMonthlyCharge::query()
+                                ->notPaid()
+                                ->dueDatePassed()->sum('amount')) }} ریال
                                 </h1>
                             </div>
                         </div>
