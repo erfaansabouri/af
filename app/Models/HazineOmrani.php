@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class HazineOmrani extends Model {
     public function getFinalAmountAttribute () {
         if ( now() <= Carbon::parse($this->started_at)
-                            ->addDays(10) ) {
+                            ->addDays(30) ) {
             // 10 percent discount
             return $this->original_amount - ( $this->original_amount * 0.1 );
         }
