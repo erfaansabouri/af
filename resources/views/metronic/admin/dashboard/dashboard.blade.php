@@ -63,7 +63,7 @@
                             </div>
                             <div class="card-body">
                                 <h1>
-                                    {{ number_format( HazineOmrani::query()->notPaid()->where('started_at', '<' , now())->where('ended_at' , '>' , now())->get()->pluck('tenant_id')->unique()->count()) }} واحد
+                                    {{ number_format( HazineOmrani::query()->notPaid()->dueDatePassed()->get()->pluck('tenant_id')->unique()->count()) }} واحد
                                 </h1>
                             </div>
                         </div>
