@@ -12,162 +12,6 @@
                     <div class="card card-custom">
                         <div class="card-header flex-wrap border-0 pt-6 pb-0">
                             <div class="card-title">
-                                <h3 class="card-label">بدهی های هزینه عمرانی پلاک {{ $tenant->plaque }}
-                                    <span class="text-muted pt-2 font-size-sm d-block"></span>
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table
-                                    class="table table-bordered table-striped">
-                                    <thead class="thead-light iransans-web">
-                                    <tr>
-                                        <th class="iransans-web">مبلغ</th>
-                                        <th class="iransans-web">وضعیت</th>
-                                        <th class="iransans-web">عملیات</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($bedehi_omranis as $b)
-                                        <tr>
-                                            <td class="iransans-web">{{ number_format($b->amount) }} ریال</td>
-                                            <td class="iransans-web">
-                                                @if($b->paid_at)
-                                                    <span class="label label-inline label-light-success">پرداخت موفق</span>
-                                                @else
-                                                    <span class="label label-inline label-light-danger">پرداخت نشده</span>
-                                                @endif
-                                            </td>
-                                            <td class="iransans-web">
-                                                @if(!$b->paid_at)
-                                                    <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#bedehi-omrani-modal-{{ $b->id }}">
-                                                        پرداخت بدهی
-                                                    </button>
-
-
-
-
-                                                    {{--{{ route('tenant.transaction.generate-url', ['debt_id' => $debt->id]) }}--}}
-                                                @endif
-                                            </td>
-
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!--end: Datatable-->
-                        </div>
-                    </div>
-                    <!--end::Card-->
-                </div>
-                <!--end::Container-->
-            </div>
-            <hr>
-            <br>
-            <div class="d-flex flex-column-fluid">
-                <!--begin::Container-->
-                <div class="container-fluid">
-                    <div class="card card-custom">
-                        <div class="card-header flex-wrap border-0 pt-6 pb-0">
-                            <div class="card-title">
-                                <h3 class="card-label">هزینه های عمرانی فصلی پلاک {{ $tenant->plaque }}
-                                    <span class="text-muted pt-2 font-size-sm d-block"></span>
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="card-body">
-
-
-                            @if(!$tenant->can_pay_hazine_omranis)
-                                <div class="m-alert m-alert--icon alert alert-danger" role="alert">
-                                    <div class="m-alert__icon">
-                                        <i class="flaticon-danger"></i>
-                                    </div>
-                                    <div class="m-alert__text">
-                                        <strong>اخطار بدهی</strong>
-                                        کاربر گرامی شما مبلغ {{ number_format($tenant->bedehiOmranis()->notPaid()->sum('amount')) }} ریال بدهکار هستید.
-                                        <br>
-                                        لطفا جهت پرداخت هزینه عمرانی، ابتدا بدهی عمرانی خود را تسویه نمایید
-                                    </div>
-                                </div>
-                            @endif
-                            <div class="table-responsive">
-                                <table
-                                    class="table table-bordered table-striped">
-                                    <thead class="thead-light iransans-web">
-                                    <tr>
-                                        <th class="iransans-web">عنوان</th>
-                                        <th class="iransans-web">هزینه</th>
-                                        <th class="iransans-web">وضعیت</th>
-                                        <th class="iransans-web">عملیات</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($hazine_omranis as $h)
-                                        <tr>
-                                            <td class="iransans-web"> {{ $h->subject_and_month }}</td>
-                                            <td class="iransans-web">
-                                                پایه: {{ number_format($h->original_amount) }} ریال
-                                                @if(!$h->paid_at && $h->original_amount > $h->final_amount)
-                                                    <hr>
-                                                    <span class="text-success"> پس از تخفیف: {{ number_format($h->final_amount) }} ریال</span>
-                                                @endif
-                                                @if(!$h->paid_at && $h->original_amount < $h->final_amount)
-                                                    <hr>
-                                                    <span class="text-danger"> با جریمه: {{ number_format($h->final_amount) }} ریال</span>
-                                                @endif
-                                                @if($h->paid_amount)
-                                                    <hr>
-                                                پرداختی شما: {{ number_format($h->paid_amount) }} ریال
-                                                @endif
-                                            </td>
-                                            <td class="iransans-web">
-                                                @if($h->paid_at)
-                                                    <span class="label label-inline label-light-success">پرداخت موفق</span>
-                                                @else
-                                                    <span class="label label-inline label-light-danger">پرداخت نشده</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if(!$tenant->can_pay_hazine_omranis)
-                                                    ابتدا بدهی خود را تسویه نمایید
-                                                @elseif($h->id != @$tenant->getFirstUnpaidHazineOmrani()->id)
-                                                    --
-                                                @elseif($h->id != @$tenant->getFirstUnpaidHazineOmrani()->id && @$tenant->oneMonthPassedFromFirstUnpaidMonthlyCharge())
-                                                    ابتدا هزینه فصل قبل را تسویه نمایید
-                                                @else
-                                                    @if(!$h->paid_at)
-                                                        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-                                                            <a href="{{ route('tenant.transaction.generate-url', ['hazine_omrani_id' => $h->id]) }}" class="btn btn-sm btn-success">پرداخت</a>
-                                                        </div>
-                                                    @else
-                                                    @endif
-                                                @endif
-                                            </td>
-
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!--end: Datatable-->
-                        </div>
-                    </div>
-                    <!--end::Card-->
-                </div>
-                <!--end::Container-->
-            </div>
-
-        </div>
-        <div class="col-xl-6">
-            <div class="d-flex flex-column-fluid">
-                <!--begin::Container-->
-                <div class="container-fluid">
-                    <div class="card card-custom">
-                        <div class="card-header flex-wrap border-0 pt-6 pb-0">
-                            <div class="card-title">
                                 <h3 class="card-label">بدهی های پلاک {{ $tenant->plaque }}
                                     <span class="text-muted pt-2 font-size-sm d-block"></span>
                                 </h3>
@@ -342,6 +186,162 @@
                 </div>
                 <!--end::Container-->
             </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="d-flex flex-column-fluid">
+                <!--begin::Container-->
+                <div class="container-fluid">
+                    <div class="card card-custom">
+                        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                            <div class="card-title">
+                                <h3 class="card-label">بدهی های هزینه عمرانی پلاک {{ $tenant->plaque }}
+                                    <span class="text-muted pt-2 font-size-sm d-block"></span>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table
+                                    class="table table-bordered table-striped">
+                                    <thead class="thead-light iransans-web">
+                                    <tr>
+                                        <th class="iransans-web">مبلغ</th>
+                                        <th class="iransans-web">وضعیت</th>
+                                        <th class="iransans-web">عملیات</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($bedehi_omranis as $b)
+                                        <tr>
+                                            <td class="iransans-web">{{ number_format($b->amount) }} ریال</td>
+                                            <td class="iransans-web">
+                                                @if($b->paid_at)
+                                                    <span class="label label-inline label-light-success">پرداخت موفق</span>
+                                                @else
+                                                    <span class="label label-inline label-light-danger">پرداخت نشده</span>
+                                                @endif
+                                            </td>
+                                            <td class="iransans-web">
+                                                @if(!$b->paid_at)
+                                                    <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#bedehi-omrani-modal-{{ $b->id }}">
+                                                        پرداخت بدهی
+                                                    </button>
+
+
+
+
+                                                    {{--{{ route('tenant.transaction.generate-url', ['debt_id' => $debt->id]) }}--}}
+                                                @endif
+                                            </td>
+
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--end: Datatable-->
+                        </div>
+                    </div>
+                    <!--end::Card-->
+                </div>
+                <!--end::Container-->
+            </div>
+            <hr>
+            <br>
+            <div class="d-flex flex-column-fluid">
+                <!--begin::Container-->
+                <div class="container-fluid">
+                    <div class="card card-custom">
+                        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                            <div class="card-title">
+                                <h3 class="card-label">هزینه های عمرانی فصلی پلاک {{ $tenant->plaque }}
+                                    <span class="text-muted pt-2 font-size-sm d-block"></span>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+
+
+                            @if(!$tenant->can_pay_hazine_omranis)
+                                <div class="m-alert m-alert--icon alert alert-danger" role="alert">
+                                    <div class="m-alert__icon">
+                                        <i class="flaticon-danger"></i>
+                                    </div>
+                                    <div class="m-alert__text">
+                                        <strong>اخطار بدهی</strong>
+                                        کاربر گرامی شما مبلغ {{ number_format($tenant->bedehiOmranis()->notPaid()->sum('amount')) }} ریال بدهکار هستید.
+                                        <br>
+                                        لطفا جهت پرداخت هزینه عمرانی، ابتدا بدهی عمرانی خود را تسویه نمایید
+                                    </div>
+                                </div>
+                            @endif
+                            <div class="table-responsive">
+                                <table
+                                    class="table table-bordered table-striped">
+                                    <thead class="thead-light iransans-web">
+                                    <tr>
+                                        <th class="iransans-web">عنوان</th>
+                                        <th class="iransans-web">هزینه</th>
+                                        <th class="iransans-web">وضعیت</th>
+                                        <th class="iransans-web">عملیات</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($hazine_omranis as $h)
+                                        <tr>
+                                            <td class="iransans-web"> {{ $h->subject_and_month }}</td>
+                                            <td class="iransans-web">
+                                                پایه: {{ number_format($h->original_amount) }} ریال
+                                                @if(!$h->paid_at && $h->original_amount > $h->final_amount)
+                                                    <hr>
+                                                    <span class="text-success"> پس از تخفیف: {{ number_format($h->final_amount) }} ریال</span>
+                                                @endif
+                                                @if(!$h->paid_at && $h->original_amount < $h->final_amount)
+                                                    <hr>
+                                                    <span class="text-danger"> با جریمه: {{ number_format($h->final_amount) }} ریال</span>
+                                                @endif
+                                                @if($h->paid_amount)
+                                                    <hr>
+                                                پرداختی شما: {{ number_format($h->paid_amount) }} ریال
+                                                @endif
+                                            </td>
+                                            <td class="iransans-web">
+                                                @if($h->paid_at)
+                                                    <span class="label label-inline label-light-success">پرداخت موفق</span>
+                                                @else
+                                                    <span class="label label-inline label-light-danger">پرداخت نشده</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if(!$tenant->can_pay_hazine_omranis)
+                                                    ابتدا بدهی خود را تسویه نمایید
+                                                @elseif($h->id != @$tenant->getFirstUnpaidHazineOmrani()->id)
+                                                    --
+                                                @elseif($h->id != @$tenant->getFirstUnpaidHazineOmrani()->id && @$tenant->oneMonthPassedFromFirstUnpaidMonthlyCharge())
+                                                    ابتدا هزینه فصل قبل را تسویه نمایید
+                                                @else
+                                                    @if(!$h->paid_at)
+                                                        <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+                                                            <a href="{{ route('tenant.transaction.generate-url', ['hazine_omrani_id' => $h->id]) }}" class="btn btn-sm btn-success">پرداخت</a>
+                                                        </div>
+                                                    @else
+                                                    @endif
+                                                @endif
+                                            </td>
+
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--end: Datatable-->
+                        </div>
+                    </div>
+                    <!--end::Card-->
+                </div>
+                <!--end::Container-->
+            </div>
+
         </div>
     </div>
     @foreach($debts as $debt)
