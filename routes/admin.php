@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\DailyLogController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\FiscalYearController;
@@ -72,6 +73,16 @@ Route::middleware(['auth:admin'])->prefix('others')->group(function (){
 
 });
 #
+
+Route::middleware(['auth:admin'])->prefix('daily-logs')->group(function (){
+    Route::get('/', [DailyLogController::class, 'index'])->name('admin.daily-logs.index');
+    Route::post('/submit', [DailyLogController::class, 'submit'])->name('admin.daily-logs.submit');
+    Route::get('/export-by-plaque', [DailyLogController::class, 'exportByPlaque'])->name('admin.export-by-plaque');
+    Route::get('/export-by-date', [DailyLogController::class, 'exportByDate'])->name('admin.export-by-date');
+});
+
+#
+
 Route::middleware(['auth:admin'])->prefix('complex-settings')->group(function (){
     Route::middleware([])->prefix('floors')->group(function (){
         Route::get('/', [FloorController::class, 'index'])->name('admin.complex-settings.floors.index');
