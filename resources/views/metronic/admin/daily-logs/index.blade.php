@@ -24,6 +24,17 @@
                                 <input type="text" id="textInput" name="plaque" class="form-control" placeholder="شماره پلاک" required>
                             </div>
 
+                            <div class="mb-4">
+                                <label for="textInput" class="form-label">تاریخ</label>
+                                <div class="input-icon">
+                                    <input value="" type="text" class="form-control submit-datepicker" />
+                                    <input  name="date" type="hidden" class="alt-submit-datepicker" />
+                                    <span>
+                                        <i class="flaticon-calendar text-muted"></i>
+                                    </span>
+                                </div>
+                            </div>
+
                             <!-- Radio Buttons -->
                             <div class="mb-4">
                                 <label class="form-label">وضعیت</label>
@@ -130,6 +141,16 @@
 
             $(".ended-at-datepicker").pDatepicker({
                 altField: '.alt-ended-at-datepicker',
+                minDate: new persianDate().unix(),
+                autoClose: true,
+                format: 'YYYY/MM/DD',
+                altFormat: 'X',
+                initialValueType: 'persian' ,
+                observer: true,
+            });
+
+            $(".submit-datepicker").pDatepicker({
+                altField: '.alt-submit-datepicker',
                 minDate: new persianDate().unix(),
                 autoClose: true,
                 format: 'YYYY/MM/DD',
