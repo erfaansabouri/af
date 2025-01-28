@@ -27,7 +27,7 @@
                             <div class="mb-4">
                                 <label for="textInput" class="form-label">تاریخ</label>
                                 <div class="input-icon">
-                                    <input value="" type="text" class="form-control submit-datepicker" />
+                                    <input value="{{ Cache::get('request_date') }}" type="text" class="form-control submit-datepicker" />
                                     <input  name="date" type="hidden" class="alt-submit-datepicker" />
                                     <span>
                                         <i class="flaticon-calendar text-muted"></i>
