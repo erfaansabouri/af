@@ -52,6 +52,18 @@
                                 </div>
                             </div>
 
+                            <div class="mb-4">
+                                <label class="form-label">زمان</label>
+                                <div class="form-check">
+                                    <input type="radio" id="option1" name="time" value="صبح" class="form-check-input" required>
+                                    <label for="option1" class="form-check-label">صبح</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" id="option1" name="time" value="عصر" class="form-check-input" required>
+                                    <label for="option1" class="form-check-label">عصر</label>
+                                </div>
+                            </div>
+
                             <!-- Submit Button -->
                             <div>
                                 <button type="submit" class="btn btn-primary">ذخیره</button>

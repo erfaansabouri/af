@@ -22,7 +22,8 @@ class DailyLogController extends Controller {
         $request->validate([
                                'plaque' => [ 'required' ] ,
                                'status' => [ 'required' ] ,
-                               'date' => ['required']
+                               'date' => ['required'],
+                               'time' => ['required'],
                            ]);
         $date = Carbon::createFromTimestamp($request->get('date'))->format("Y-m-d");
         $plaque = Convert::convertToEnNumbers($request->get('plaque'));
@@ -31,6 +32,7 @@ class DailyLogController extends Controller {
                 ->updateOrCreate([
                                      'tenant_id' => $tenant->id ,
                                      'date' => $date ,
+                                     'time' => $request->get('time'),
                                  ] , [
                                      'status' => $request->get('status'),
                                  ]);

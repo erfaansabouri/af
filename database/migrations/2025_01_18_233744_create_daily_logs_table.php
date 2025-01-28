@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tenant_id')->nullable()->index();
             $table->string('status')->nullable();
             $table->date('date')->nullable()->nullable();
+            $table->string('time')->nullable()->default('صبح');
             $table->timestamps();
         });
     }
