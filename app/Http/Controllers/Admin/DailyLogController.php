@@ -25,7 +25,7 @@ class DailyLogController extends Controller {
                                'date' => ['required'],
                                'time' => ['required'],
                            ]);
-        $request_date = $request->get('date');
+        $request_date = verta(Carbon::createFromTimestamp($request->get('date'))->format("Y-m-d"))->format('Y/m/d');
 
         \Illuminate\Support\Facades\Cache::put('request_date', $request_date, 60);
 
