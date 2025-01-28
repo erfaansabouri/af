@@ -25,6 +25,13 @@ class DailyLogController extends Controller {
                                'date' => ['required'],
                                'time' => ['required'],
                            ]);
+        $request_date = $request->get('date');
+
+        \Illuminate\Support\Facades\Cache::put('request_date', $request_date, 60);
+
+        // Optionally, you can retrieve the cached value later like this:
+        // $cachedDate = \Illuminate\Support\Facades\Cache::get('request_date')
+        //save it in cache
         $date = Carbon::createFromTimestamp($request->get('date'))->format("Y-m-d");
         $plaque = Convert::convertToEnNumbers($request->get('plaque'));
         $tenant = Tenant::query()->findOrFail($plaque);

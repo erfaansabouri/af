@@ -134,6 +134,7 @@
             <!--end::Container-->
         </div>
     </div>
+    <input type="hidden" id="cached-date" value="{{ Cache::get('request_date') }}">
 
 @endsection
 
@@ -161,6 +162,8 @@
                 observer: true,
             });
 
+            let cachedDate = $('#cached-date').val();
+
             $(".submit-datepicker").pDatepicker({
                 altField: '.alt-submit-datepicker',
                 minDate: new persianDate().unix(),
@@ -169,6 +172,7 @@
                 altFormat: 'X',
                 initialValueType: 'persian' ,
                 observer: true,
+                initialValue: cachedDate ? new persianDate(parseInt(cachedDate)).toString('YYYY/MM/DD') : null, // Set initial value from cache
             });
         });
     </script>
