@@ -12,6 +12,7 @@
         <th>تاریخ و ساعت</th>
         <th>مبلغ اصلی</th>
         <th>مبلغ پرداختی</th>
+        <th>مبلغ زودتر از موعد</th>
         <th>مبلغ تخفیف</th>
         <th>مبلغ جریمه</th>
         <th>درصد تخیف</th>
@@ -32,6 +33,7 @@
             <td>{{ verta($transaction->paid_at)->format('Y-m-d H:i:s') }}</td>
             <td>{{ number_format($transaction->original_amount) }}</td>
             <td>{{ number_format($transaction->amount) }}</td>
+            <td>{{ number_format($transaction->zoodtarAmount()) }}</td>
             <td>{{ number_format($transaction->discountAmount()) }}</td>
             <td>{{ number_format($transaction->penaltyAmount()) }}</td>
             <td>{{ number_format($transaction->discountPercent()) }}</td>

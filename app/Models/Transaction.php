@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,6 +25,10 @@ class Transaction extends Model {
 
     public function monthlyCharge (): BelongsTo {
         return $this->belongsTo(MonthlyCharge::class);
+    }
+
+    public function hazineOmrani (): BelongsTo {
+        return $this->belongsTo(HazineOmrani::class, 'hazine_omrani_id');
     }
 
     public function otherMonthlyCharge (): BelongsTo {
@@ -71,6 +76,19 @@ class Transaction extends Model {
             return $this->original_amount - $this->amount;
         }
 
+        return 0;
+    }
+
+    public function zoodtarAmount () {
+        if ($monthly_charge = $this->monthlyCharge){
+            if(Carbon::parse($monthly_charge->due_date)->greaterThan(Carbon::parse($this->created_at))){
+                return $this->amount;
+            }
+        }elseif ($hazine_omrani = $this->hazineOmrani){
+            if(Carbon::parse($hazine_omrani->ended_at)->greaterThan(Carbon::parse($this->created_at))){
+                return $this->amount;
+            }
+        }
         return 0;
     }
 
