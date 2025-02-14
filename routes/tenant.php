@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Tenant\AuthController;
+use App\Http\Controllers\Tenant\BedehiOmraniController;
 use App\Http\Controllers\Tenant\DashboardController;
 use App\Http\Controllers\Tenant\MessageController;
 use App\Http\Controllers\Tenant\MonthlyChargeController;
@@ -32,6 +33,9 @@ Route::middleware(['auth:tenant'])->prefix('messages')->group(function (){
 #
 Route::middleware(['auth:tenant'])->prefix('monthly-charges')->group(function (){
     Route::get('/index', [MonthlyChargeController::class, 'index'])->name('tenant.monthly-charges.index');
+});
+Route::middleware(['auth:tenant'])->prefix('bedehi-omranis')->group(function (){
+    Route::get('/index', [BedehiOmraniController::class, 'index'])->name('tenant.bedehi-omranis.index');
 });
 #
 Route::middleware(['auth:tenant'])->prefix('transactions')->group(function (){
