@@ -72,7 +72,7 @@
                     </a>
                 </li>
                 <li class="menu-item @if(Route::is('tenant.bedehi-omranis.*')) menu-item-active menu-item-open @endif" aria-haspopup="true">
-                    <a href="{{ route('tenant.monthly-charges.index') }}" class="menu-link ">
+                    <a href="{{ route('tenant.bedehi-omranis.index') }}" class="menu-link ">
                         <span class="svg-icon menu-icon"><!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Design/Layers.svg-->
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <title>Stockholm-icons / Design / Layers</title>
