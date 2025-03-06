@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\FiscalYearController;
 use App\Http\Controllers\Admin\FloorController;
 use App\Http\Controllers\Admin\MessageGroupController;
 use App\Http\Controllers\Admin\OtherController;
+use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\Admin\TransactionController;
@@ -79,6 +80,13 @@ Route::middleware(['auth:admin'])->prefix('daily-logs')->group(function (){
     Route::post('/submit', [DailyLogController::class, 'submit'])->name('admin.daily-logs.submit');
     Route::get('/export-by-plaque', [DailyLogController::class, 'exportByPlaque'])->name('admin.export-by-plaque');
     Route::get('/export-by-date', [DailyLogController::class, 'exportByDate'])->name('admin.export-by-date');
+});
+
+#
+
+Route::middleware(['auth:admin'])->prefix('properties')->group(function (){
+    Route::get('/', [PropertyController::class, 'index'])->name('admin.properties.index');
+    Route::post('/submit', [PropertyController::class, 'submit'])->name('admin.properties.submit');
 });
 
 #
