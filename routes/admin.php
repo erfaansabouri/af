@@ -87,6 +87,9 @@ Route::middleware(['auth:admin'])->prefix('daily-logs')->group(function (){
 Route::middleware(['auth:admin'])->prefix('properties')->group(function (){
     Route::get('/', [PropertyController::class, 'index'])->name('admin.properties.index');
     Route::post('/submit', [PropertyController::class, 'submit'])->name('admin.properties.submit');
+    Route::post('/export-by-plaque', [PropertyController::class, 'exportByPlaque'])->name('admin.properties.export-by-plaque');
+    Route::post('/export-ended-at', [PropertyController::class, 'exportEndedAt'])->name('admin.properties.export-ended-at');
+    Route::post('/export-all', [PropertyController::class, 'exportAll'])->name('admin.properties.export-all');
 });
 
 #

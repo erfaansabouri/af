@@ -82,9 +82,74 @@
                     </div>
 
                 </div>
+
+                <hr>
+                {{-- a form with input and button for export excel --}}
+                <div class="card card-custom">
+                    <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                        <div class="card-title mb-0">
+                            <h3 class="card-label text-right">خروجی پلاک خاص</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('admin.properties.export-by-plaque') }}" method="post">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="plaque" placeholder="پلاک">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-primary">خروجی اکسل</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="card card-custom mb-3">
+                    <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                        <div class="card-title mb-0">
+                            <h3 class="card-label text-right">گزارش اتمام قرار داد مستاجرین</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('admin.properties.export-ended-at') }}" method="post">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-primary">خروجی اکسل</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <hr>
+                <div class="card card-custom mb-3">
+                    <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                        <div class="card-title mb-0">
+                            <h3 class="card-label text-right">گزارش جامع</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('admin.properties.export-all') }}" method="post">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-primary">خروجی اکسل</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <!--end::Card-->
             </div>
             <!--end::Container-->
+
+
         </div>
     </div>
 

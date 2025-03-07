@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\DailyLogByDateExport;
 use App\Exports\DailyLogByPlaqueExport;
+use App\Exports\PropertyExport;
 use App\Http\Controllers\Controller;
 use App\Models\DailyLog;
 use App\Models\Property;
@@ -22,35 +23,36 @@ class PropertyController extends Controller {
         $request->validate([
                                'plaque' => [ 'required' ] ,
                                'full_name' => [ 'required' ] ,
-                               'phone' => ['required'],
-                               'type' => ['required'],
-                               'started_at' => ['required'],
-                               'ended_at' => ['nullable'],
+                               'phone' => [ 'required' ] ,
+                               'type' => [ 'required' ] ,
+                               'started_at' => [ 'required' ] ,
+                               'ended_at' => [ 'nullable' ] ,
                            ]);
-
         $plaque = Convert::convertToEnNumbers($request->get('plaque'));
         $full_name = $request->get('full_name');
         $phone = $request->get('phone');
         $type = $request->get('type');
-        $started_at = Carbon::createFromTimestamp($request->get('started_at'))->format("Y-m-d");
-        if ($request->get('ended_at')) {
-            $ended_at = Carbon::createFromTimestamp($request->get('ended_at'))->format("Y-m-d");
-        } else {
+        $started_at = Carbon::createFromTimestamp($request->get('started_at'))
+                            ->format("Y-m-d");
+        if ( $request->get('ended_at') ) {
+            $ended_at = Carbon::createFromTimestamp($request->get('ended_at'))
+                              ->format("Y-m-d");
+        }
+        else {
             $ended_at = null;
         }
-        $tenant = Tenant::query()->findOrFail($plaque);
-
+        $tenant = Tenant::query()
+                        ->findOrFail($plaque);
         Property::query()
-            ->create([
-                         'tenant_id' => $tenant->id ,
-                         'plaque' => $plaque ,
-                         'full_name' => $full_name ,
-                         'phone' => $phone ,
-                         'type' => $type ,
-                         'started_at' => $started_at ,
-                         'ended_at' => $ended_at ,
-                     ]);
-
+                ->create([
+                             'tenant_id' => $tenant->id ,
+                             'plaque' => $plaque ,
+                             'full_name' => $full_name ,
+                             'phone' => $phone ,
+                             'type' => $type ,
+                             'started_at' => $started_at ,
+                             'ended_at' => $ended_at ,
+                         ]);
         flash()
             ->options([
                           'timeout' => 3000 ,
@@ -61,26 +63,36 @@ class PropertyController extends Controller {
         return redirect()->back();
     }
 
-    public function exportByPlaque (Request $request) {
+    public function exportByPlaque ( Request $request ) {
         $request->validate([
                                'plaque' => [ 'required' ] ,
                            ]);
-
         $plaque = Convert::convertToEnNumbers($request->get('plaque'));
-        $tenant = Tenant::query()->findOrFail($plaque);
+        $tenant = Tenant::query()
+                        ->findOrFail($plaque);
+        $properties = Property::query()
+                              ->where('tenant_id' , $tenant->id)
+                              ->get();
 
-        return Excel::download(new DailyLogByPlaqueExport($tenant->id) , $tenant->id.'-by-plaque.xlsx');
-
+        return Excel::download(new PropertyExport($properties) , $tenant->id . '-properties-by-plaque.xlsx');
     }
 
-    public function exportByDate (Request $request) {
-        $request->validate([
-                               'started_at' => [ 'required' ] ,
-                               'ended_at' => [ 'required' ] ,
-                           ]);
+    public function exportEndedAt ( Request $request ) {
 
+        $properties = Property::query()
+                              ->whereNotNull('ended_at')
+                              ->orderBy('ended_at' , 'asc')
+                              ->get();
 
-        return Excel::download(new DailyLogByDateExport($request->get('started_at'), $request->get('ended_at')) , 'by-date.xlsx');
+        return Excel::download(new PropertyExport($properties) , 'properties-ended-at.xlsx');
+    }
 
+    public function exportAll ( Request $request ) {
+
+        $properties = Property::query()
+                              ->orderBy('started_at' , 'asc')
+                              ->get();
+
+        return Excel::download(new PropertyExport($properties) , 'properties-all.xlsx');
     }
 }
