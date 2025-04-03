@@ -25,8 +25,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-lg-12 col-xl-12 my-2 my-md-0">
                                                 <div class="input-icon">
-                                                    <input value="" type="text" class="form-control started-at-datepicker" />
-                                                    <input  name="started_at" type="hidden" class="alt-started-at-datepicker" />
+                                                    <input data-jdp name="started_at"  value="" type="text" class="form-control started-at-datepicker" />
                                                     <span>
                                                         <i class="flaticon-calendar text-muted"></i>
                                                     </span>
@@ -39,8 +38,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-lg-12 col-xl-12 my-2 my-md-0">
                                                 <div class="input-icon">
-                                                    <input value="" type="text" class="form-control ended-at-datepicker" />
-                                                    <input  name="ended_at" type="hidden" class="alt-ended-at-datepicker" />
+                                                    <input data-jdp name="ended_at" value="" type="text" class="form-control ended-at-datepicker" />
                                                     <span>
                                                         <i class="flaticon-calendar text-muted"></i>
                                                     </span>
@@ -78,8 +76,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-lg-12 col-xl-12 my-2 my-md-0">
                                                 <div class="input-icon">
-                                                    <input value="" type="text" class="form-control started-at-datepicker" />
-                                                    <input  name="started_at" type="hidden" class="alt-started-at-datepicker" />
+                                                    <input data-jdp value="" name="started_at" type="text" class="form-control started-at-datepicker" />
                                                     <span>
                                                         <i class="flaticon-calendar text-muted"></i>
                                                     </span>
@@ -92,8 +89,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-lg-12 col-xl-12 my-2 my-md-0">
                                                 <div class="input-icon">
-                                                    <input value="" type="text" class="form-control ended-at-datepicker" />
-                                                    <input  name="ended_at" type="hidden" class="alt-ended-at-datepicker" />
+                                                    <input data-jdp value="" name="ended_at" type="text" class="form-control ended-at-datepicker" />
                                                     <span>
                                                         <i class="flaticon-calendar text-muted"></i>
                                                     </span>
@@ -225,27 +221,5 @@
 
 @endsection
 @push('scripts')
-    <script>
-        $(document).ready(function() {
-            $(".started-at-datepicker").pDatepicker({
-                altField: '.alt-started-at-datepicker',
-                minDate: new persianDate().unix(),
-                autoClose: true,
-                format: 'YYYY/MM/DD',
-                altFormat: 'X',
-                initialValueType: 'persian',
-                observer: true,
-            });
 
-            $(".ended-at-datepicker").pDatepicker({
-                altField: '.alt-ended-at-datepicker',
-                minDate: new persianDate().unix(),
-                autoClose: true,
-                format: 'YYYY/MM/DD',
-                altFormat: 'X',
-                initialValueType: 'persian' ,
-                observer: true,
-            });
-        });
-    </script>
 @endpush

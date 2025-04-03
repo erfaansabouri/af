@@ -28,10 +28,12 @@
 
     <link href="{{ asset('metronic-assets/css/custom_style.css') }}" rel="stylesheet" type="text/css" />
 
-    <link type="text/css" rel="stylesheet" href="{{ asset('metronic-assets/css/jalalipicker.css') }}" />
+  {{--  <link type="text/css" rel="stylesheet" href="{{ asset('metronic-assets/css/jalalipicker.css') }}" />
     <script type="text/javascript" src="{{ asset('metronic-assets/js/jalalipicker.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('frontend/css/persian-datepicker.min.css') }}"/>
-
+--}}
+    <script type="text/javascript" src="{{ asset('metronic-assets/jalali-datepicker/jdp.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('metronic-assets/jalali-datepicker/jdp.css') }}"/>
     @stack('head')
 
 </head>

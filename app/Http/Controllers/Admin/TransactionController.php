@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Exports\TransactionExport;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
+use App\Services\Convert;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -13,10 +14,11 @@ use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
 class TransactionController extends Controller {
     public function index ( Request $request ) {
-        $started_at = Carbon::createFromTimestamp($request->get('started_at'))
+        $started_at = Carbon::createFromTimestamp(Convert::jalaliToTimestamp($request->get('started_at')))
                             ->startOfDay();
-        $ended_at = Carbon::createFromTimestamp($request->get('ended_at'))
+        $ended_at = Carbon::createFromTimestamp(Convert::jalaliToTimestamp($request->get('ended_at')))
                           ->endOfDay();
+
         $tenant_type_id = $request->get('tenant_type_id');
         $transaction_type = $request->get('transaction_type');
         $records = Transaction::query()
@@ -66,9 +68,9 @@ class TransactionController extends Controller {
                                'started_at' => [ 'required' ] ,
                                'ended_at' => [ 'required' ] ,
                            ]);
-        $started_at = Carbon::createFromTimestamp($request->get('started_at'))
+        $started_at = Carbon::createFromTimestamp(Convert::jalaliToTimestamp($request->get('started_at')))
                             ->startOfDay();
-        $ended_at = Carbon::createFromTimestamp($request->get('ended_at'))
+        $ended_at = Carbon::createFromTimestamp(Convert::jalaliToTimestamp($request->get('ended_at')))
                           ->endOfDay();
         $tenant_type_id = $request->get('tenant_type_id');
         $paid_via = $request->get('paid_via');

@@ -6,4 +6,7 @@
 
 <script src="{{ asset('frontend/js/persian-date.min.js') }}"></script>
 <script src="{{ asset('frontend/js/persian-datepicker.min.js') }}"></script>
+<script>
+    jalaliDatepicker.startWatch();
+</script>
 @include('metronic.partials.toastr')
