@@ -31,26 +31,6 @@
                             </div>
                         </div>
 
-                        <div class="col-xl-6">
-                            <div class="form-group">
-                                <label class="col-form-label">تاریخ شروع
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input value="@if(@$record->started_at) {{ verta($record->started_at)->format('Y-m-d') }} @endif" type="text" class="form-control started-at-datepicker" />
-                                <input  name="started_at" type="hidden" class="alt-started-at-datepicker" />
-                            </div>
-                        </div>
-
-                        <div class="col-xl-6">
-                            <div class="form-group">
-                                <label class="col-form-label">تاریخ پایان
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input value="@if(@$record->ended_at) {{ verta($record->ended_at)->format('Y-m-d') }} @endif" type="text" class="form-control ended-at-datepicker" />
-                                <input  name="ended_at" type="hidden" class="alt-ended-at-datepicker" />
-                            </div>
-                        </div>
-
                     </div>
 
                     <div class="card-footer">
@@ -64,27 +44,5 @@
 @endsection
 
 @push('scripts')
-    <script>
-        $(document).ready(function() {
-            $(".started-at-datepicker").pDatepicker({
-                altField: '.alt-started-at-datepicker',
-                minDate: new persianDate().unix(),
-                autoClose: true,
-                format: 'YYYY/MM/DD',
-                altFormat: 'X',
-                initialValueType: 'persian',
-                observer: true,
-            });
 
-            $(".ended-at-datepicker").pDatepicker({
-                altField: '.alt-ended-at-datepicker',
-                minDate: new persianDate().unix(),
-                autoClose: true,
-                format: 'YYYY/MM/DD',
-                altFormat: 'X',
-                initialValueType: 'persian' ,
-                observer: true,
-            });
-        });
-    </script>
 @endpush

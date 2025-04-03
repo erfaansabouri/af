@@ -21,8 +21,7 @@
                                     <label class="col-form-label">تاریخ شروع
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <input value="" type="text" class="form-control started-at-datepicker"/>
-                                    <input name="started_at" type="hidden" class="alt-started-at-datepicker"/>
+                                    <input data-jdp name="started_at" value="" type="text" class="form-control started-at-datepicker" />
                                 </div>
                             </div>
 
@@ -31,8 +30,7 @@
                                     <label class="col-form-label">تاریخ پایان
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <input value="" type="text" class="form-control ended-at-datepicker"/>
-                                    <input name="ended_at" type="hidden" class="alt-ended-at-datepicker"/>
+                                    <input data-jdp name="ended_at" value="" type="text" class="form-control ended-at-datepicker" />
                                 </div>
                             </div>
                         </div>
@@ -266,64 +264,3 @@
 
 @endsection
 
-@push('scripts')
-    <script>
-        $(document).ready(function () {
-            $(".started-at-datepicker").pDatepicker({
-                altField: '.alt-started-at-datepicker',
-                minDate: new persianDate().unix(),
-                autoClose: true,
-                format: 'YYYY/MM/DD',
-                altFormat: 'X',
-                initialValueType: 'persian',
-                observer: true,
-            });
-
-            $(".ended-at-datepicker").pDatepicker({
-                altField: '.alt-ended-at-datepicker',
-                minDate: new persianDate().unix(),
-                autoClose: true,
-                format: 'YYYY/MM/DD',
-                altFormat: 'X',
-                initialValueType: 'persian',
-                observer: true,
-            });
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const numberInput = document.getElementById('numberInput');
-            const numberInput2 = document.getElementById('numberInput2');
-
-            const persianToEnglish = (str) => {
-                const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-                const englishNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-                return str.replace(/[\u06F0-\u06F9]/g, (match) => {
-                    return englishNumbers[persianNumbers.indexOf(match)];
-                }).replace(/[\u0660-\u0669]/g, (match) => {
-                    return englishNumbers[match.charCodeAt(0) - 0x0660];
-                });
-            };
-
-            numberInput.addEventListener('input', (event) => {
-                let value = event.target.value;
-                value = persianToEnglish(value);
-                value = value.replace(/,/g, '');
-                if (!isNaN(value)) {
-                    event.target.value = Number(value).toLocaleString();
-                }
-            });
-
-            numberInput2.addEventListener('input', (event) => {
-                let value = event.target.value;
-                value = persianToEnglish(value);
-                value = value.replace(/,/g, '');
-                if (!isNaN(value)) {
-                    event.target.value = Number(value).toLocaleString();
-                }
-            });
-        });
-
-    </script>
-@endpush

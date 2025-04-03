@@ -53,8 +53,7 @@
                             <div class="mb-4">
                                 <label for="textInput" class="form-label">تاریخ شروع قرار داد</label>
                                 <div class="input-icon">
-                                    <input value="" type="text" class="form-control started-at-datepicker" />
-                                    <input  name="started_at" type="hidden" class="alt-started-at-datepicker" />
+                                    <input data-jdp name="started_at" value="" type="text" class="form-control started-at-datepicker" />
                                     <span>
                                         <i class="flaticon-calendar text-muted"></i>
                                     </span>
@@ -64,8 +63,7 @@
                             <div class="mb-4">
                                 <label for="textInput" class="form-label">تاریخ پایان قرار داد (فقط برای مستاجر)</label>
                                 <div class="input-icon">
-                                    <input value="" type="text" class="form-control ended-at-datepicker" />
-                                    <input  name="ended_at" type="hidden" class="alt-ended-at-datepicker" />
+                                    <input data-jdp name="ended_at" value="" type="text" class="form-control ended-at-datepicker" />
                                     <span>
                                         <i class="flaticon-calendar text-muted"></i>
                                     </span>
@@ -155,29 +153,3 @@
 
 @endsection
 
-
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            $(".started-at-datepicker").pDatepicker({
-                altField: '.alt-started-at-datepicker',
-                autoClose: true,
-                format: 'YYYY/MM/DD',
-                altFormat: 'X',
-                initialValueType: 'persian',
-                observer: true,
-                initialValue : false,
-            });
-
-            $(".ended-at-datepicker").pDatepicker({
-                altField: '.alt-ended-at-datepicker',
-                autoClose: true,
-                format: 'YYYY/MM/DD',
-                altFormat: 'X',
-                initialValueType: 'persian' ,
-                observer: true,
-                initialValue : false,
-            });
-        });
-    </script>
-@endpush

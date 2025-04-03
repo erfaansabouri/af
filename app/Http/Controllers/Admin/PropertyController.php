@@ -32,10 +32,10 @@ class PropertyController extends Controller {
         $full_name = $request->get('full_name');
         $phone = $request->get('phone');
         $type = $request->get('type');
-        $started_at = Carbon::createFromTimestamp($request->get('started_at'))
+        $started_at = Carbon::createFromTimestamp(Convert::jalaliToTimestamp($request->get('started_at')))
                             ->format("Y-m-d");
         if ( $request->get('ended_at') ) {
-            $ended_at = Carbon::createFromTimestamp($request->get('ended_at'))
+            $ended_at = Carbon::createFromTimestamp(Convert::jalaliToTimestamp($request->get('ended_at')))
                               ->format("Y-m-d");
         }
         else {

@@ -65,13 +65,8 @@ class FiscalYearController extends Controller {
     public function save ( FiscalYear $record , Request $request ) {
         $request->validate([
                                'year' => [ 'required', 'unique:fiscal_years,year' ] ,
-                               'started_at' => [ 'required' ] ,
-                               'ended_at' => [ 'required' ] ,
+
                            ]);
-        $record->year = $request->get('year');
-        $record->started_at = Carbon::createFromTimestamp($request->get('started_at'));
-        $record->ended_at = Carbon::createFromTimestamp($request->get('ended_at'));
-        $record->save();
     }
 
     public function destroy ( $id ) {

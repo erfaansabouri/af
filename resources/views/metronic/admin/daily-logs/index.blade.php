@@ -27,8 +27,7 @@
                             <div class="mb-4">
                                 <label for="textInput" class="form-label">تاریخ</label>
                                 <div class="input-icon">
-                                    <input value="{{ Cache::get('request_date') }}" type="text" class="form-control submit-datepicker" />
-                                    <input  name="date" type="hidden" class="alt-submit-datepicker" />
+                                    <input data-jdp name="date" value="{{ Cache::get('request_date') }}" type="text" class="form-control submit-datepicker" />
                                     <span>
                                         <i class="flaticon-calendar text-muted"></i>
                                     </span>
@@ -96,8 +95,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-lg-12 col-xl-12 my-2 my-md-0">
                                             <div class="input-icon">
-                                                <input value="" type="text" class="form-control started-at-datepicker" />
-                                                <input  name="started_at" type="hidden" class="alt-started-at-datepicker" />
+                                                <input data-jdp name="started_at"  value="" type="text" class="form-control started-at-datepicker" />
                                                 <span>
                                                     <i class="flaticon-calendar text-muted"></i>
                                                 </span>
@@ -110,8 +108,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-lg-12 col-xl-12 my-2 my-md-0">
                                             <div class="input-icon">
-                                                <input value="" type="text" class="form-control ended-at-datepicker" />
-                                                <input  name="ended_at" type="hidden" class="alt-ended-at-datepicker" />
+                                                <input data-jdp name="ended_at" value="" type="text" class="form-control ended-at-datepicker" />
                                                 <span>
                                                     <i class="flaticon-calendar text-muted"></i>
                                                 </span>
@@ -142,38 +139,34 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            $(".started-at-datepicker").pDatepicker({
-                altField: '.alt-started-at-datepicker',
-                minDate: new persianDate().unix(),
-                autoClose: true,
-                format: 'YYYY/MM/DD',
-                altFormat: 'X',
-                initialValueType: 'persian',
-                observer: true,
-            });
-
-            $(".ended-at-datepicker").pDatepicker({
-                altField: '.alt-ended-at-datepicker',
-                minDate: new persianDate().unix(),
-                autoClose: true,
-                format: 'YYYY/MM/DD',
-                altFormat: 'X',
-                initialValueType: 'persian' ,
-                observer: true,
-            });
 
             let cachedDate = $('#cached-date').val();
 
-            $(".submit-datepicker").pDatepicker({
-                altField: '.alt-submit-datepicker',
-                minDate: new persianDate().unix(),
-                autoClose: true,
-                format: 'YYYY/MM/DD',
-                altFormat: 'X',
-                initialValueType: 'persian' ,
-                observer: true,
-                initialValue: cachedDate ? new persianDate(parseInt(cachedDate)).toString('YYYY/MM/DD') : null, // Set initial value from cache
-            });
+            // explode the date string into an array
+            let dateParts = cachedDate.split('/');
+            // create a new Date object using the parts of the date
+            // year
+            let year = parseInt(dateParts[0]);
+            // month (subtract 1 because months are zero-based in JavaScript)
+            let month = parseInt(dateParts[1]);
+
+            // day
+            let day = parseInt(dateParts[2]);
+
+            console.log(year, month, day);
+
+            if(year && month  && day) {
+                jalaliDatepicker.updateOptions({
+                    initDate: {
+                        year: year,
+                        month: month,
+                        day: day
+                    }
+                });
+            }
+
+
+
         });
     </script>
 @endpush

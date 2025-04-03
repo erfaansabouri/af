@@ -121,27 +121,5 @@
 
 @endsection
 @push('scripts')
-    <script>
-        $(document).ready(function() {
-            $(".started-at-datepicker").pDatepicker({
-                altField: '.alt-started-at-datepicker',
-                minDate: new persianDate().unix(),
-                autoClose: true,
-                format: 'YYYY/MM/DD',
-                altFormat: 'X',
-                initialValueType: 'persian',
-                observer: true,
-            });
 
-            $(".ended-at-datepicker").pDatepicker({
-                altField: '.alt-ended-at-datepicker',
-                minDate: new persianDate().unix(),
-                autoClose: true,
-                format: 'YYYY/MM/DD',
-                altFormat: 'X',
-                initialValueType: 'persian' ,
-                observer: true,
-            });
-        });
-    </script>
 @endpush
