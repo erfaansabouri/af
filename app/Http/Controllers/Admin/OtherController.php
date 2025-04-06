@@ -127,10 +127,21 @@ class OtherController extends Controller {
 					   ->findOrFail($id);
 		$request->validate([
 							   'started_at' => [ 'required' ] ,
-							   'ended_at' => [ 'required' , 'gt:started_at'] ,
+							   'ended_at' => [ 'required'] ,
 						   ]);
-		$started_at = Carbon::createFromTimestamp($request->get('started_at'));
-		$ended_at = Carbon::createFromTimestamp($request->get('ended_at'));
+		$started_at = Carbon::createFromTimestamp(Convert::jalaliToTimestamp($request->get('started_at')));
+		$ended_at = Carbon::createFromTimestamp(Convert::jalaliToTimestamp($request->get('ended_at')));
+
+        if ($started_at->greaterThan($ended_at)){
+            flash()
+                ->options([
+                              'timeout' => 3000 ,
+                              'position' => 'top-left' ,
+                          ])
+                ->addError('تاریخ شروع نمی تواند از تاریخ پایان بزرگتر باشد.' , 'خطا');
+
+            return redirect()->back();
+        }
 
         OtherFinancialPeriodLog::query()
             ->create([
