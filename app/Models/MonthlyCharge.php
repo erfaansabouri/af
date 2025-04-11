@@ -71,6 +71,9 @@ class MonthlyCharge extends Model {
 
     public function getFinalAmountAttribute () {
         if ( $this->tenant->tenant_type_id == 1 || $this->tenant->tenant_type_id == 2 ) {
+            if ( $this->tenant->has_passed_due_date_hazine_omrani ) {
+                return $this->original_amount;
+            }
             if ( $this->tenant->other && $this->tenant->other_has_debt ) {
                 return $this->original_amount;
             }

@@ -417,4 +417,8 @@ class Tenant extends Authenticatable implements HasMedia {
                                            ->dueDatePassed()
                                            ->count() > 0;
     }
+
+    public function getHasPassedDueDateHazineOmraniAttribute () {
+        return $this->hazineOmranis()->notPaid()->dueDatePassed()->count() > 0;
+    }
 }
