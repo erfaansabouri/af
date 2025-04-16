@@ -58,6 +58,7 @@ class TransactionController extends Controller {
                                   $query->whereNotNull('other_id');
                               })
                               ->orderByDesc('id')
+                              ->take(1000)
                               ->get();
 
         return view('metronic.admin.transactions.index' , compact('records'));
