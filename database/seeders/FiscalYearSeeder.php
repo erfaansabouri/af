@@ -14,10 +14,9 @@ class FiscalYearSeeder extends Seeder {
     public function run (): void {
         $fiscal_year = FiscalYear::query()
                                  ->create([
-                                              'year' => 1403 ,
-                                              'started_at' => Carbon::parse('2024-06-21 00:00:00') ,
-                                              'ended_at' => Carbon::parse('2024-06-21 00:00:00')
-                                                                  ->addYear() ,
+                                              'year' => 1404 ,
+                                              'started_at' => Carbon::parse('2025-06-22 00:00:00') ,
+                                              'ended_at' => Carbon::parse('2026-04-20 00:00:00') ,
                                           ]);
     }
 }

@@ -108,7 +108,7 @@
                     </div>
                 </div>
 
-                <hr>
+                {{--<hr>
                 <div class="row">
                     <div class="col-xl-12">
                         @foreach($warnings as $warning)
@@ -135,7 +135,7 @@
 
 
                     </div>
-                </div>
+                </div>--}}
                 <hr>
                 @if(!Auth::guard('tenant')->user()->canSeeMenu())
                     <div class="row">

@@ -10,12 +10,12 @@ class Kernel extends ConsoleKernel {
      * Define the application's command schedule.
      */
     protected function schedule ( Schedule $schedule ): void {
-        $schedule->command('warning-cmd')
+        /*$schedule->command('warning-cmd')
                  ->everyMinute()
                  ->withoutOverlapping();
         $schedule->command('app:remove-warning-command')
                  ->everyMinute()
-                 ->withoutOverlapping();
+                 ->withoutOverlapping();*/
         $schedule->command('app:debt-reminder-sms-command')
                  ->daily()
                  ->withoutOverlapping();
