@@ -88,7 +88,7 @@ class MonthlyCharge extends Model {
             // check if 10 days passed from $this->due_date
             if ( Carbon::parse($this->due_date)
                        ->isPast() && Carbon::parse($this->due_date)
-                                           ->diffInDays(Carbon::now()) >= 6 ) {
+                                           ->diffInDays(Carbon::now()) >= 5 ) {
                 return $this->original_amount;
             }
             else {
