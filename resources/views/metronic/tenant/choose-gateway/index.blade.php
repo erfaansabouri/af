@@ -21,7 +21,7 @@
                             </div>
                             <div class="col-md-6">
                                 <a href="{{ $generate_url }}&gateway=pasargad"
-                                   class="btn btn-disabled btn-block mb-3">درگاه بانک پاسارگاد - غیر فعال</a>
+                                   class="btn btn-primary btn-block mb-3">درگاه بانک پاسارگاد</a>
                             </div>
                         </div>
                     </div>
