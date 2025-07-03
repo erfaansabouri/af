@@ -228,6 +228,7 @@ class TransactionController extends Controller {
         $global_exception = null;
         /* PASARGAD */
         if ( $invoice_id = $request->get('invoiceId') ) {
+            $tx_id = $invoice_id;
             $transaction = Transaction::query()
                                       ->find($invoice_id);
             $verify_log = VerifyLog::query()
