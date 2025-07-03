@@ -192,6 +192,22 @@
                                 <span class="text-primary">حداکثر مبلغ قابل پرداخت {{ number_format($b->amount) }} ریال میباشد</span>
                             </div>
 
+                            {{-- radio button for gatway ( pasargard or behpardakht ) --}}
+                            <div class="form-group mt-3">
+                                <label class="col-form-label">انتخاب درگاه پرداخت</label>
+                                <div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gateway" id="pasargad" value="pasargad" checked>
+                                        <label class="form-check-label" for="pasargad">پاسارگاد</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gateway" id="mellat" value="mellat">
+                                        <label class="form-check-label" for="mellat">ملت</label>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
 
                         <!-- Modal footer -->
