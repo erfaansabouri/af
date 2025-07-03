@@ -129,7 +129,8 @@
                                                 @else
                                                     @if(!$record->paid_at)
                                                         <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-                                                            <a href="{{ route('other.transaction.generate-url', ['other_monthly_charge_id' => $record->id]) }}" class="btn btn-sm btn-success">پرداخت</a>
+                                                            <a href="{{ route('tenant.transaction.choose-gateway', ['generate_url' => route('tenant.transaction.generate-url', ['other_monthly_charge_id' => $record->id])]) }}" class="btn btn-sm btn-success">پرداخت</a>
+
                                                         </div>
                                                     @else
                                                     @endif
@@ -178,6 +179,20 @@
                                     <input type="hidden" name="other_debt_id" value="{{ $debt->id }}">
                                 </div>
                                 <span class="text-primary">حداکثر مبلغ قابل پرداخت {{ number_format($debt->amount) }} ریال میباشد</span>
+                            </div>
+                            {{-- radio button for gatway ( pasargard or behpardakht ) --}}
+                            <div class="form-group mt-3">
+                                <label class="col-form-label">انتخاب درگاه پرداخت</label>
+                                <div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gateway" id="pasargad" value="pasargad" checked>
+                                        <label class="form-check-label" for="pasargad">پاسارگاد</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gateway" id="mellat" value="mellat">
+                                        <label class="form-check-label" for="mellat">ملت</label>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
