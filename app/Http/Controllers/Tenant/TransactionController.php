@@ -237,6 +237,7 @@ class TransactionController extends Controller {
                                             ]);
             try {
                 $confirm = ( new Dorsa() )->confirmTransaction($invoice_id , $transaction->tx_id);
+                $ok = true;
             }
             catch ( Exception  $exception) {
                 $global_exception = $exception;
