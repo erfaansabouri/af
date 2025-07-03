@@ -16,6 +16,7 @@ use App\Models\Transaction;
 use App\Models\VerifyLog;
 use App\Services\Dorsa;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -200,14 +201,16 @@ class TransactionController extends Controller {
         else {
             dd("ERROR");
         }
-        if ($request->get('gateway') == 'pasargad'){
+        if ( $request->get('gateway') == 'pasargad' ) {
             $dorsa = new Dorsa();
-            $result = $dorsa->makePurchaseTransaction($transaction->amount,$transaction->id);
-            $transaction->tx_id = $result['urlId'];
-            $transaction->paid_via = Transaction::PAID_VIA['PASARGAD'];
+            $result = $dorsa->makePurchaseTransaction($transaction->amount , $transaction->id);
+            $transaction->tx_id = $result[ 'urlId' ];
+            $transaction->paid_via = Transaction::PAID_VIA[ 'PASARGAD' ];
             $transaction->save();
-            return redirect($result['url']);
-        }else{
+
+            return redirect($result[ 'url' ]);
+        }
+        else {
             $invoice = ( new Invoice )->amount($transaction->amount / 10);
 
             return Payment::callbackUrl(route('web.verify'))
@@ -218,10 +221,10 @@ class TransactionController extends Controller {
                           ->pay()
                           ->render();
         }
-
     }
 
     public function verify ( Request $request ) {
+        $ok = false;
         /* PASARGAD */
         if ( $invoice_id = $request->get('invoiceId') ) {
             $transaction = Transaction::query()
@@ -231,25 +234,38 @@ class TransactionController extends Controller {
                                                 'transaction_id' => $transaction->id ,
                                                 'request' => json_encode($request->all()) ,
                                             ]);
-            $confirm = ( new Dorsa() )->confirmTransaction($invoice_id , $transaction->tx_id);
-            dd($confirm);
+            try {
+                $confirm = ( new Dorsa() )->confirmTransaction($invoice_id , $transaction->tx_id);
+            }
+            catch ( Exception ) {
+
+            }
         }
         /* END PASARGAD */
-        $tx_id = $request->get('RefId') ?? $request->get('Authority') ?? $request->get('trackId');
-        $transaction = Transaction::query()
-                                  ->where('tx_id' , $tx_id)
-                                  ->firstOrFail();
-        $verify_log = VerifyLog::query()
-                               ->create([
-                                            'transaction_id' => $transaction->id ,
-                                            'request' => json_encode($request->all()) ,
-                                        ]);
-        try {
-            $receipt = Payment::amount($transaction->amount / 10)
-                              ->transactionId($tx_id)
-                              ->verify();
+        else {
+            $tx_id = $request->get('RefId') ?? $request->get('Authority') ?? $request->get('trackId');
+            $transaction = Transaction::query()
+                                      ->where('tx_id' , $tx_id)
+                                      ->firstOrFail();
+            $verify_log = VerifyLog::query()
+                                   ->create([
+                                                'transaction_id' => $transaction->id ,
+                                                'request' => json_encode($request->all()) ,
+                                            ]);
+            try {
+                $receipt = Payment::amount($transaction->amount / 10)
+                                  ->transactionId($tx_id)
+                                  ->verify();
+                $ok = true;
+            }
+            catch ( Exception $exception ) {
+
+            }
+        }
+        if ( $ok ) {
+
             $transaction->paid_at = now();
-            $transaction->ref_id = $request->get('RefId');
+            $transaction->ref_id = $request->get('RefId') ?? $request->get('referenceNumber');
             $transaction->save();
             if ( $transaction->monthly_charge_id ) {
                 $monthly_charge = MonthlyCharge::query()
@@ -352,7 +368,7 @@ class TransactionController extends Controller {
                 ]);
             }
         }
-        catch ( InvalidPaymentException $exception ) {
+        else {
             $transaction->failed_at = now();
             $transaction->save();
             $verify_log->exception_message = $exception->getMessage();
@@ -382,9 +398,8 @@ class TransactionController extends Controller {
 
     public function chooseGateway ( Request $request ) {
         $request->validate([
-                               'generate_url' => [ 'required' ],
+                               'generate_url' => [ 'required' ] ,
                            ]);
-
         $generate_url = $request->get('generate_url');
 
         return view('metronic.tenant.choose-gateway.index' , compact('generate_url'));
