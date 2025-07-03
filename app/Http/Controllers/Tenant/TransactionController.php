@@ -225,6 +225,7 @@ class TransactionController extends Controller {
 
     public function verify ( Request $request ) {
         $ok = false;
+        $global_exception = null;
         /* PASARGAD */
         if ( $invoice_id = $request->get('invoiceId') ) {
             $transaction = Transaction::query()
@@ -237,8 +238,8 @@ class TransactionController extends Controller {
             try {
                 $confirm = ( new Dorsa() )->confirmTransaction($invoice_id , $transaction->tx_id);
             }
-            catch ( Exception ) {
-
+            catch ( Exception  $exception) {
+                $global_exception = $exception;
             }
         }
         /* END PASARGAD */
@@ -259,7 +260,7 @@ class TransactionController extends Controller {
                 $ok = true;
             }
             catch ( Exception $exception ) {
-
+                $global_exception = $exception;
             }
         }
         if ( $ok ) {
@@ -371,14 +372,14 @@ class TransactionController extends Controller {
         else {
             $transaction->failed_at = now();
             $transaction->save();
-            $verify_log->exception_message = $exception->getMessage();
-            $verify_log->exception_code = $exception->getCode();
+            $verify_log->exception_message = $global_exception->getMessage();
+            $verify_log->exception_code = $global_exception->getCode();
             $verify_log->save();
 
             return view('payment.redirect' , [
                 'failed' => true ,
-                'failed_message' => $exception->getMessage() ,
-                'failed_code' => $exception->getCode() ,
+                'failed_message' => $global_exception->getMessage() ,
+                'failed_code' => $global_exception->getCode() ,
             ]);
         }
     }
