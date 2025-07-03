@@ -39,6 +39,7 @@ Route::middleware(['auth:tenant'])->prefix('bedehi-omranis')->group(function (){
 });
 #
 Route::middleware(['auth:tenant'])->prefix('transactions')->group(function (){
+    Route::any('/choose-gateway', [TransactionController::class, 'chooseGateway'])->name('tenant.transaction.choose-gateway');
     Route::any('/generate-url', [TransactionController::class, 'generateUrl'])->name('tenant.transaction.generate-url');
 });
 #

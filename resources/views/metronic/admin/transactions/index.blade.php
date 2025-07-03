@@ -118,6 +118,7 @@
                                             <div class="col-lg-12 col-xl-12 my-2 my-md-0">
                                                 <select name="paid_via" class="form-control selectpicker">
                                                     <option value="">نوع پرداخت</option>
+                                                    <option value="{{ \App\Models\Transaction::PAID_VIA['PASARGAD'] }}">پاسارگاد</option>
                                                     <option value="{{ \App\Models\Transaction::PAID_VIA['BEHPARDAKHT'] }}">به پرداخت</option>
                                                     <option value="{{ \App\Models\Transaction::PAID_VIA['ADMIN'] }}">مدیریت</option>
                                                 </select>

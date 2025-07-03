@@ -13,6 +13,7 @@ class Transaction extends Model {
     const PAID_VIA = [
         'ADMIN' => 'ADMIN' ,
         'BEHPARDAKHT' => 'BEHPARDAKHT' ,
+        'PASARGAD' => 'PASARGAD' ,
     ];
 
     public function tenant (): BelongsTo {

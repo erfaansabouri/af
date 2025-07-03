@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'dorsa' => [
+        'username' => env('DORSA_USERNAME'),
+        'password' => env('DORSA_PASSWORD'),
+        'terminal_id' => env('DORSA_TERMINAL_ID'),
+    ]
 ];

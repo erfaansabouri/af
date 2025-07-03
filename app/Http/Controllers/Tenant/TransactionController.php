@@ -14,6 +14,7 @@ use App\Models\OwnershipDebt;
 use App\Models\Tenant;
 use App\Models\Transaction;
 use App\Models\VerifyLog;
+use App\Services\Dorsa;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -62,6 +63,7 @@ class TransactionController extends Controller {
     }
 
     public function generateUrl ( Request $request ) {
+
         $transaction = null;
         if ( $monthly_charge_id = $request->get('monthly_charge_id') ) {
             $monthly_charge = MonthlyCharge::query()
@@ -80,9 +82,9 @@ class TransactionController extends Controller {
         }
         else if ( $hazine_omrani_id = $request->get('hazine_omrani_id') ) {
             $hazine_omrani = HazineOmrani::query()
-                                           ->where('id' , $hazine_omrani_id)
-                                           ->whereNull('paid_at')
-                                           ->firstOrFail();
+                                         ->where('id' , $hazine_omrani_id)
+                                         ->whereNull('paid_at')
+                                         ->firstOrFail();
             $transaction = Transaction::query()
                                       ->create([
                                                    'tenant_name' => $hazine_omrani->tenant->full_name ,
@@ -163,9 +165,9 @@ class TransactionController extends Controller {
         }
         else if ( $bedehi_omrani_id = $request->get('bedehi_omrani_id') ) {
             $bedehi_omrani = BedehiOmrani::query()
-                                           ->where('id' , $bedehi_omrani_id)
-                                           ->whereNull('paid_at')
-                                           ->firstOrFail();
+                                         ->where('id' , $bedehi_omrani_id)
+                                         ->whereNull('paid_at')
+                                         ->firstOrFail();
             $request->validate([
                                    'bedehi_omrani_amount' => [
                                        'required' ,
@@ -198,15 +200,25 @@ class TransactionController extends Controller {
         else {
             dd("ERROR");
         }
-        $invoice = ( new Invoice )->amount($transaction->amount / 10);
+        if ($request->get('gateway') == 'pasargad'){
+            $dorsa = new Dorsa();
+            $result = $dorsa->makePurchaseTransaction($transaction->amount,$transaction->id);
+            $transaction->tx_id = $result['urlId'];
+            $transaction->paid_via = Transaction::PAID_VIA['PASARGAD'];
+            $transaction->save();
+            return redirect($result['url']);
+        }else{
+            $invoice = ( new Invoice )->amount($transaction->amount / 10);
 
-        return Payment::callbackUrl(route('web.verify'))
-                      ->purchase($invoice , function ( $driver , $transactionId ) use ( $transaction ) {
-                          $transaction->tx_id = $transactionId;
-                          $transaction->save();
-                      })
-                      ->pay()
-                      ->render();
+            return Payment::callbackUrl(route('web.verify'))
+                          ->purchase($invoice , function ( $driver , $transactionId ) use ( $transaction ) {
+                              $transaction->tx_id = $transactionId;
+                              $transaction->save();
+                          })
+                          ->pay()
+                          ->render();
+        }
+
     }
 
     public function verify ( Request $request ) {
@@ -223,7 +235,6 @@ class TransactionController extends Controller {
             $receipt = Payment::amount($transaction->amount / 10)
                               ->transactionId($tx_id)
                               ->verify();
-
             $transaction->paid_at = now();
             $transaction->ref_id = $request->get('RefId');
             $transaction->save();
@@ -241,7 +252,7 @@ class TransactionController extends Controller {
             }
             if ( $transaction->hazine_omrani_id ) {
                 $hazine_omrani = HazineOmrani::query()
-                                               ->find($transaction->hazine_omrani_id);
+                                             ->find($transaction->hazine_omrani_id);
                 $hazine_omrani->paid_at = now();
                 $hazine_omrani->paid_amount = $transaction->amount;
                 $hazine_omrani->save();
@@ -285,7 +296,7 @@ class TransactionController extends Controller {
             }
             if ( $transaction->bedehi_omrani_id ) {
                 $bedehi_omrani = BedehiOmrani::query()
-                                                  ->find($transaction->bedehi_omrani_id);
+                                             ->find($transaction->bedehi_omrani_id);
                 if ( $transaction->amount < $bedehi_omrani->amount ) {
                     $bedehi_omrani->amount = $bedehi_omrani->amount - $transaction->amount;
                 }
@@ -354,5 +365,15 @@ class TransactionController extends Controller {
                           ->endOfDay();
 
         return Excel::download(new TransactionExport($started_at , $ended_at , $request->get('tenant_type_id') , null) , 'transactions.xlsx');
+    }
+
+    public function chooseGateway ( Request $request ) {
+        $request->validate([
+                               'generate_url' => [ 'required' ],
+                           ]);
+
+        $generate_url = $request->get('generate_url');
+
+        return view('metronic.tenant.choose-gateway.index' , compact('generate_url'));
     }
 }
