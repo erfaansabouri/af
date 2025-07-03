@@ -222,6 +222,19 @@ class TransactionController extends Controller {
     }
 
     public function verify ( Request $request ) {
+        /* PASARGAD */
+        if ( $invoice_id = $request->get('invoiceId') ) {
+            $transaction = Transaction::query()
+                                      ->find($invoice_id);
+            $verify_log = VerifyLog::query()
+                                   ->create([
+                                                'transaction_id' => $transaction->id ,
+                                                'request' => json_encode($request->all()) ,
+                                            ]);
+            $confirm = ( new Dorsa() )->confirmTransaction($invoice_id , $transaction->tx_id);
+            dd($confirm);
+        }
+        /* END PASARGAD */
         $tx_id = $request->get('RefId') ?? $request->get('Authority') ?? $request->get('trackId');
         $transaction = Transaction::query()
                                   ->where('tx_id' , $tx_id)
