@@ -140,7 +140,7 @@
                                                 @else
                                                     @if(!$h->paid_at)
                                                         <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-                                                            <a href="{{ route('tenant.transaction.generate-url', ['hazine_omrani_id' => $h->id]) }}" class="btn btn-sm btn-success">پرداخت</a>
+                                                            <a href="{{ route('tenant.transaction.choose-gateway', ['generate_url' => route('tenant.transaction.generate-url', ['hazine_omrani_id' => $h->id])]) }}" class="btn btn-sm btn-success">پرداخت</a>
                                                         </div>
                                                     @else
                                                     @endif
