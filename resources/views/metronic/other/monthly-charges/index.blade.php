@@ -184,13 +184,19 @@
                             <div class="form-group mt-3">
                                 <label class="col-form-label">انتخاب درگاه پرداخت</label>
                                 <div>
-                                    <div class="form-check form-check-inline">
+                                    <div class="form-check form-check-inline align-items-center d-flex">
                                         <input class="form-check-input" type="radio" name="gateway" id="pasargad" value="pasargad" checked>
-                                        <label class="form-check-label" for="pasargad">پاسارگاد</label>
+                                        <label class="form-check-label d-flex align-items-center ms-2" for="pasargad">
+                                            <img src="{{ asset('seeds/icons/pasargad.jpg') }}" alt="پاسارگاد" style="height: 55px; margin-left: 6px;">
+                                            پاسارگاد
+                                        </label>
                                     </div>
-                                    <div class="form-check form-check-inline">
+                                    <div class="form-check form-check-inline align-items-center d-flex">
                                         <input class="form-check-input" type="radio" name="gateway" id="mellat" value="mellat">
-                                        <label class="form-check-label" for="mellat">ملت</label>
+                                        <label class="form-check-label d-flex align-items-center ms-2" for="mellat">
+                                            <img src="{{ asset('seeds/icons/mellat.png') }}" alt="ملت" style="height: 55px; margin-left: 6px;">
+                                            ملت
+                                        </label>
                                     </div>
                                 </div>
                             </div>

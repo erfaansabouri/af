@@ -15,13 +15,20 @@
                     <div class="card-body">
                         {{-- درگاه بانک ملت و پاسارگاد قابل انتخاب باشد --}}
                         <div class="row">
-                            <div class="col-md-6">
-                                <a href="{{ $generate_url }}&gateway=mellat"
-                                   class="btn btn-primary btn-block mb-3">درگاه بانک ملت</a>
+                            <div class="col-md-2">
+                                <a href="{{ $generate_url }}&gateway=pasargad">
+                                    <img src="{{ asset('seeds/icons/pasargad.jpg') }}" class="w-100 mb-2" alt="">
+                                </a>
+                                <a href="{{ $generate_url }}&gateway=pasargad" class="btn btn-primary btn-block mb-3">درگاه بانک پاسارگاد</a>
+
                             </div>
-                            <div class="col-md-6">
-                                <a href="{{ $generate_url }}&gateway=pasargad"
-                                   class="btn btn-primary btn-block mb-3">درگاه بانک پاسارگاد</a>
+                            <div class="col-md-2">
+                                {{--image--}}
+                                <a href="{{ $generate_url }}&gateway=mellat">
+                                    <img src="{{ asset('seeds/icons/mellat.png') }}" class="w-100 mb-2" alt="">
+                                </a>
+                                <a href="{{ $generate_url }}&gateway=mellat" class="btn btn-primary btn-block mb-3">درگاه بانک ملت</a>
+
                             </div>
                         </div>
                     </div>
