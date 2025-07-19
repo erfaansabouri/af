@@ -24,6 +24,7 @@ Route::middleware(['auth:other'])->prefix('monthly-charges')->group(function (){
 });
 #
 Route::middleware(['auth:other'])->prefix('transactions')->group(function (){
+    Route::any('/choose-gateway', [TransactionController::class, 'chooseGateway'])->name('other.transaction.choose-gateway');
     Route::any('/generate-url', [TransactionController::class, 'generateUrl'])->name('other.transaction.generate-url');
 });
 #

@@ -123,4 +123,13 @@ class TransactionController extends Controller {
 
         return Excel::download(new TransactionExport($started_at , $ended_at , $request->get('other_type_id') , null) , 'transactions.xlsx');
     }
+
+    public function chooseGateway ( Request $request ) {
+        $request->validate([
+                               'generate_url' => [ 'required' ] ,
+                           ]);
+        $generate_url = $request->get('generate_url');
+
+        return view('metronic.tenant.choose-gateway.index' , compact('generate_url'));
+    }
 }
