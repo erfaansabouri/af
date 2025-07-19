@@ -9,6 +9,7 @@ use App\Models\OtherMonthlyCharge;
 use App\Models\Transaction;
 use App\Models\VerifyLog;
 use App\Services\Convert;
+use App\Services\Dorsa;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -99,15 +100,27 @@ class TransactionController extends Controller {
         else {
             dd("ERROR");
         }
-        $invoice = ( new Invoice )->amount($transaction->amount / 10);
 
-        return Payment::callbackUrl(route('web.verify'))
-                      ->purchase($invoice , function ( $driver , $transactionId ) use ( $transaction ) {
-                          $transaction->tx_id = $transactionId;
-                          $transaction->save();
-                      })
-                      ->pay()
-                      ->render();
+        if ( $request->get('gateway') == 'pasargad' ) {
+            $dorsa = new Dorsa();
+            $result = $dorsa->makePurchaseTransaction($transaction->amount , $transaction->id);
+            $transaction->tx_id = $result[ 'urlId' ];
+            $transaction->paid_via = Transaction::PAID_VIA[ 'PASARGAD' ];
+            $transaction->save();
+
+            return redirect($result[ 'url' ]);
+        }
+        else {
+            $invoice = ( new Invoice )->amount($transaction->amount / 10);
+
+            return Payment::callbackUrl(route('web.verify'))
+                          ->purchase($invoice , function ( $driver , $transactionId ) use ( $transaction ) {
+                              $transaction->tx_id = $transactionId;
+                              $transaction->save();
+                          })
+                          ->pay()
+                          ->render();
+        }
     }
 
 
