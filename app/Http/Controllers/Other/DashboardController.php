@@ -13,7 +13,6 @@ class DashboardController extends Controller
     public function dashboard(){
         $other = \auth('other')->user();
         $ended_financials = OtherFinancialPeriodLog::query()
-            ->whereHas('other')
             ->where('ended_at', '<', now())
             ->where('other_id', $other->id)
             ->get();
